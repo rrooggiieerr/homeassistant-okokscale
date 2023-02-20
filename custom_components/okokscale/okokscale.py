@@ -40,6 +40,7 @@ class OKOKScaleSensor(StrEnum):
 
 class OKOKScaleBluetoothDeviceData(BluetoothData):
     """Data for OKOK Scale sensors."""
+    _client = None
 
     def __init__(self) -> None:
         super().__init__()
@@ -61,7 +62,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         self.set_title(name)
 
         weight = 0
-        #ToDo reading the scale goes here
         
         self.update_sensor(
             str(OKOKScaleSensor.WEIGHT), None, weight, None, "Weight"
@@ -82,25 +82,31 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         """
         Poll the device to retrieve any values we can't get from passive listening.
         """
-        client: BleakClient = await establish_connection(
-            BleakClientWithServiceCache, ble_device, ble_device.address
-        )
-        try:
-            # Printing the characteristics for debugging purposes
-            for n in client.services.characteristics:
-                characteristic: BleakGATTCharacteristicCoreBluetooth = client.services.characteristics[n]
-                gatt_char = client.services.get_characteristic(characteristic.uuid)
-                try:
-                    payload = await client.read_gatt_char(gatt_char)
-                    _LOGGER.debug("client.services %s: %s", gatt_char, payload)
-                except Exception:
-                    pass
-            
-            # Battery percentage always returns 0 on my device
-            battery_char = client.services.get_characteristic("00002a19-0000-1000-8000-00805f9b34fb")
-            battery_payload = await client.read_gatt_char(battery_char)
-        finally:
-            await client.disconnect()
+        client = None
+        if self._client and self._client.is_connected:
+            _LOGGER.debug("Already connected to OKOK Scale %s", short_address(ble_device.address))
+            client = self._client
+        else:
+            # Connecting with the scale
+            _LOGGER.info("Connecting to OKOK Scale %s", short_address(ble_device.address))
+            client: BleakClient = await establish_connection(
+                BleakClientWithServiceCache, ble_device, ble_device.address
+            )
+            self._client = client
+
+        for n in client.services.characteristics:
+            characteristic: BleakGATTCharacteristicCoreBluetooth = client.services.characteristics[n]
+            gatt_char = client.services.get_characteristic(characteristic.uuid)
+            try:
+                payload = await client.read_gatt_char(gatt_char)
+                _LOGGER.debug("client.services %s: %s", gatt_char, payload)
+            except Exception:
+                pass
+        
+        # Battery percentage always returns 0 on my device
+        battery_char = client.services.get_characteristic("00002a19-0000-1000-8000-00805f9b34fb")
+        battery_payload = await client.read_gatt_char(battery_char)
+
         self.update_sensor(
             str(OKOKScaleSensor.BATTERY_PERCENT),
             Units.PERCENTAGE,
@@ -108,4 +114,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             SensorDeviceClass.BATTERY,
             "Battery",
         )
+
+        #ToDo reading the scale goes here
+
         return self._finish_update()
