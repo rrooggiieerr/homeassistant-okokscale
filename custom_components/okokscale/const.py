@@ -1,3 +1,3 @@
-DOMAIN = "okokscale"
+"""Constants for the OKOK Scale integration."""
 
-LOCAL_NAMES = {"Chipsea-BLE"}
+DOMAIN = "okokscale"
