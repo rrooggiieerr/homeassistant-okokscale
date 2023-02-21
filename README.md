@@ -1,7 +1,5 @@
 # Home Assistant OKOK Scale integration
 
-# **This integration is under development and not yet working**
-
 Home Assistant integration for OKOK Bluetooth Scales.
 
 ## Hardware
