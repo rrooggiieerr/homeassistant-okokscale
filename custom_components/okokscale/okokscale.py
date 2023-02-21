@@ -6,13 +6,12 @@ import logging
 
 from bleak import BLEDevice, BleakClient
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
-from bluetooth_data_tools import short_address, newest_manufacturer_data,\
-    human_readable_name
+from bluetooth_data_tools import short_address, human_readable_name
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
 from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
 from sensor_state_data.enum import StrEnum
-from bleak.backends.corebluetooth.characteristic import BleakGATTCharacteristicCoreBluetooth
+from homeassistant.const import UnitOfMass
 
 UPDATE_INTERVAL_SECONDS = 1
 
@@ -35,17 +34,21 @@ BATTERY_LEVEL = "00002a19-0000-1000-8000-00805f9b34fb" #(Handle: 35): Battery Le
 
 MANUFACTURER_DATA_ID_V20 = 0x20ca # 16-bit little endian "header" 0xca 0x20
 MANUFACTURER_DATA_ID_V11 = 0x11ca # 16-bit little endian "header" 0xca 0x11
+MANUFACTURER_DATA_ID_VF0 = 0xF0FF # 16-bit little endian "header" 0xca 0x11
 IDX_V20_FINAL = 6
 IDX_V20_WEIGHT_MSB = 8
-IDX_V20_WEIGHT_LSB = 7
+IDX_V20_WEIGHT_LSB = 9
 IDX_V20_IMPEDANCE_MSB = 10
-IDX_V20_IMPEDANCE_LSB = 9
+IDX_V20_IMPEDANCE_LSB = 11
 IDX_V20_CHECKSUM = 12
 
-IDX_V11_WEIGHT_MSB = 3
-IDX_V11_WEIGHT_LSB = 2
-IDX_V11_BODY_PROPERTIES = 7
-IDX_V11_CHECKSUM = 16
+IDX_V11_WEIGHT_MSB = 3;
+IDX_V11_WEIGHT_LSB = 4;
+IDX_V11_BODY_PROPERTIES = 9;
+IDX_V11_CHECKSUM = 16;
+
+IDX_VF0_WEIGHT_MSB = 3
+IDX_VF0_WEIGHT_LSB = 2
 
 
 class OKOKScaleSensor(StrEnum):
@@ -76,15 +79,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         self.set_device_name(name)
         self.set_title(name)
 
-        manufacturer_data = newest_manufacturer_data(service_info.manufacturer_data)
-
-        # Reading the weight
-        weight = self.read_weight(manufacturer_data)
-        _LOGGER.debug("weight: %s", weight)
-
-        self.update_sensor(
-            str(OKOKScaleSensor.WEIGHT), None, weight, None, "Weight"
-        )
+        self.process_manufacturer_data(service_info.manufacturer_data)
 
     def poll_needed(
         self, service_info: BluetoothServiceInfo, last_poll: float | None
@@ -148,7 +143,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             # Log characteristics for debugging
             for n in client.services.characteristics:
                 try:
-                    characteristic: BleakGATTCharacteristicCoreBluetooth = client.services.characteristics[n]
+                    characteristic = client.services.characteristics[n]
                     gatt_char = client.services.get_characteristic(characteristic.uuid)
                     payload = await client.read_gatt_char(gatt_char)
                     _LOGGER.debug("client.services %s: %s", gatt_char, payload.decode())
@@ -168,23 +163,29 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 "Battery",
             )
     
-            manufacturer_data = newest_manufacturer_data(ble_device.metadata["manufacturer_data"])
-
-            # Reading the weight
-            weight = self.read_weight(manufacturer_data)
-            _LOGGER.debug("weight: %s", weight)
-    
-            self.update_sensor(
-                str(OKOKScaleSensor.WEIGHT), None, weight, None, "Weight"
-            )
+            if "manufacturer_data" in ble_device.metadata:
+                manufacturer_data = ble_device.metadata["manufacturer_data"]
+                self.process_manufacturer_data(manufacturer_data)
         finally:
             await self.disconnect()
 
         return self._finish_update()
 
-    def read_weight(self, manufacturer_data):
-        _LOGGER.debug("manufacturer_data: %s", manufacturer_data.hex())
-        weight = ((manufacturer_data[IDX_V11_WEIGHT_MSB] << 8) + manufacturer_data[IDX_V11_WEIGHT_LSB]) / 10
-        _LOGGER.debug("weight: %s", weight)
+    def process_manufacturer_data(self, manufacturer_data):
+        if MANUFACTURER_DATA_ID_V20 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
+            _LOGGER.debug("manufacturer_data: %s", data.hex())
+        elif MANUFACTURER_DATA_ID_V11 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
+            _LOGGER.debug("manufacturer_data: %s", data.hex())
+        elif MANUFACTURER_DATA_ID_VF0 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
+            _LOGGER.debug("Manufacturer Data: %s", data.hex())
 
-        return weight
+            # Reading the weight
+            weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10
+            _LOGGER.debug("weight: %s", weight)
+
+            self.update_sensor(
+                str(OKOKScaleSensor.WEIGHT), UnitOfMass.KILOGRAMS, weight, None, "Weight"
+            )
