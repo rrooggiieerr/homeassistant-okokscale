@@ -1,18 +1,22 @@
 {
   "domain": "okokscale",
   "name": "OKOK Scale",
-  "version": "0.0.1",
-  "config_flow": true,
-  "documentation": "https://github.com/rrooggiieerr/homeassistant-okokscale",
-  "issue_tracker": "https://github.com/rrooggiieerr/homeassistant-okokscale/issues",
-  "requirements": [
-  ],
-  "dependencies": ["bluetooth_adapters"],
-  "codeowners": [
-    "@rrooggiieerr"
-  ],
   "bluetooth": [
   	{ "local_name": "Chipsea-BLE" }
   ],
-  "iot_class": "local_push"
+  "codeowners": [
+    "@rrooggiieerr"
+  ],
+  "config_flow": true,
+  "dependencies": ["bluetooth_adapters"],
+  "documentation": "https://github.com/rrooggiieerr/homeassistant-okokscale",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/rrooggiieerr/homeassistant-okokscale/issues",
+  "loggers": [
+  	"okokscale"
+  ],
+  "requirements": [
+  ],
+  "version": "0.0.1"
 }
