@@ -12,6 +12,9 @@ Home Assistant integration for OKOK Bluetooth Scales.
 - Add this repository URL to the **Custom repositories** and select
 **Integration** as the **Category**
 - Click **Add**
+- Close the **Custom repositories** menu
+- Select **+ Explore & download repositories** and search for *OKOK Scale*
+- Select **Download**
 - Restart Home Assistant
 
 ### Manually
