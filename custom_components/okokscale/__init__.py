@@ -3,8 +3,6 @@ from __future__ import annotations
 
 import logging
 
-from .okokscale import OKOKScaleBluetoothDeviceData
-
 from homeassistant.components.bluetooth import (
     BluetoothScanningMode,
     BluetoothServiceInfoBleak,
@@ -18,6 +16,7 @@ from homeassistant.const import Platform
 from homeassistant.core import CoreState, HomeAssistant
 
 from .const import DOMAIN
+from .okokscale import OKOKScaleBluetoothDeviceData
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
