@@ -4,9 +4,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from .okokscale import OKOKScaleBluetoothDeviceData as DeviceData
 import voluptuous as vol
-
 from homeassistant.components.bluetooth import (
     BluetoothServiceInfoBleak,
     async_discovered_service_info,
@@ -16,6 +14,7 @@ from homeassistant.const import CONF_ADDRESS
 from homeassistant.data_entry_flow import FlowResult
 
 from .const import DOMAIN
+from .okokscale import OKOKScaleBluetoothDeviceData as DeviceData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -58,19 +57,16 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         assert self._discovery_info is not None
         discovery_info = self._discovery_info
         title = device.title or device.get_device_name() or discovery_info.name
-        
+
         if user_input is not None:
-            return self.async_create_entry(
-                title=title,
-                data={}
-            )
+            return self.async_create_entry(title=title, data={})
 
         self._set_confirm_only()
         placeholders = {"name": title}
         self.context["title_placeholders"] = placeholders
         return self.async_show_form(
             step_id="bluetooth_confirm",
-            description_placeholders=self.context["title_placeholders"]
+            description_placeholders=self.context["title_placeholders"],
         )
 
     async def async_step_user(

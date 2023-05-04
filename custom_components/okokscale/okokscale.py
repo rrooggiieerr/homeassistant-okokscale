@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import logging
 
-from bleak import BLEDevice, BleakClient
+from bleak import BleakClient, BLEDevice
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
 from bluetooth_data_tools import human_readable_name
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
+from homeassistant.const import UnitOfMass
 from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
 from sensor_state_data.enum import StrEnum
-from homeassistant.const import UnitOfMass
 
 UPDATE_INTERVAL_SECONDS = 1
 
@@ -19,7 +19,9 @@ _LOGGER = logging.getLogger(__name__)
 
 
 # "00002a29-0000-1000-8000-00805f9b34fb" #(Handle: 11): Manufacturer Name String
-CHARACTERISTIC_MODEL_NUMBER = "00002a24-0000-1000-8000-00805f9b34fb" #(Handle: 13): Model Number String
+CHARACTERISTIC_MODEL_NUMBER = (
+    "00002a24-0000-1000-8000-00805f9b34fb"  # (Handle: 13): Model Number String
+)
 # "00002a25-0000-1000-8000-00805f9b34fb" #(Handle: 15): Serial Number String
 # "00002a26-0000-1000-8000-00805f9b34fb" #(Handle: 17): Firmware Revision String
 # "00002a27-0000-1000-8000-00805f9b34fb" #(Handle: 19): Hardware Revision String
@@ -27,14 +29,16 @@ CHARACTERISTIC_MODEL_NUMBER = "00002a24-0000-1000-8000-00805f9b34fb" #(Handle: 1
 # "0000fff2-0000-1000-8000-00805f9b34fb" #(Handle: 25): Vendor specific
 # "00002a9c-0000-1000-8000-00805f9b34fb" #(Handle: 28): Body Composition Measurement
 # "0000fa9c-0000-1000-8000-00805f9b34fb" #(Handle: 31): Vendor specific
-CHARACTERISTIC_BATTERY_LEVEL = "00002a19-0000-1000-8000-00805f9b34fb" #(Handle: 35): Battery Level
+CHARACTERISTIC_BATTERY_LEVEL = (
+    "00002a19-0000-1000-8000-00805f9b34fb"  # (Handle: 35): Battery Level
+)
 # "00002a08-0000-1000-8000-00805f9b34fb" #(Handle: 39): Date Time
 # "0000faa1-0000-1000-8000-00805f9b34fb" #(Handle: 43): Vendor specific
 # "0000faa2-0000-1000-8000-00805f9b34fb" #(Handle: 45): Vendor specific
 
-MANUFACTURER_DATA_ID_V20 = 0x20ca # 16-bit little endian "header" 0xca 0x20
-MANUFACTURER_DATA_ID_V11 = 0x11ca # 16-bit little endian "header" 0xca 0x11
-MANUFACTURER_DATA_ID_VF0 = 0xF0FF # 16-bit little endian "header" 0xca 0x11
+MANUFACTURER_DATA_ID_V20 = 0x20CA  # 16-bit little endian "header" 0xca 0x20
+MANUFACTURER_DATA_ID_V11 = 0x11CA  # 16-bit little endian "header" 0xca 0x11
+MANUFACTURER_DATA_ID_VF0 = 0xF0FF  # 16-bit little endian "header" 0xca 0x11
 IDX_V20_FINAL = 6
 IDX_V20_WEIGHT_MSB = 8
 IDX_V20_WEIGHT_LSB = 9
@@ -57,8 +61,10 @@ class OKOKScaleSensor(StrEnum):
     SIGNAL_STRENGTH = "signal_strength"
     BATTERY_PERCENT = "battery_percent"
 
+
 class OKOKScaleBluetoothDeviceData(BluetoothData):
     """Data for OKOK Scale sensors."""
+
     name = None
 
     _client = None
@@ -126,16 +132,10 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
     def _disconnected(self, client: BleakClientWithServiceCache) -> None:
         """Disconnected callback."""
         if self._expected_disconnect:
-            _LOGGER.debug(
-                "%s: Disconnected from device",
-                self.get_device_name()
-            )
+            _LOGGER.debug("%s: Disconnected from device", self.get_device_name())
             return
-        
-        _LOGGER.warning(
-            "%s: Device unexpectedly disconnected",
-            self.get_device_name()
-        )
+
+        _LOGGER.warning("%s: Device unexpectedly disconnected", self.get_device_name())
 
     async def async_poll(self, ble_device: BLEDevice) -> SensorUpdate:
         """
@@ -144,15 +144,27 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         try:
             client = await self.connect(ble_device)
             # await self.log_client(client)
-    
+
             # Trying to figure out how this body composition payload works
-            body_composition_char = client.services.get_characteristic("00002a9c-0000-1000-8000-00805f9b34fb")
-            body_composition_payload = await client.read_gatt_char(body_composition_char)
-            _LOGGER.debug("body_composition_payload: 0x%s", body_composition_payload.hex())
-            _LOGGER.debug("body_composition_payload: %s %s", hex(body_composition_payload[11]), body_composition_payload[11])
+            body_composition_char = client.services.get_characteristic(
+                "00002a9c-0000-1000-8000-00805f9b34fb"
+            )
+            body_composition_payload = await client.read_gatt_char(
+                body_composition_char
+            )
+            _LOGGER.debug(
+                "body_composition_payload: 0x%s", body_composition_payload.hex()
+            )
+            _LOGGER.debug(
+                "body_composition_payload: %s %s",
+                hex(body_composition_payload[11]),
+                body_composition_payload[11],
+            )
 
             # Battery percentage always returns 0 on my device
-            battery_char = client.services.get_characteristic(CHARACTERISTIC_BATTERY_LEVEL)
+            battery_char = client.services.get_characteristic(
+                CHARACTERISTIC_BATTERY_LEVEL
+            )
             battery_payload = await client.read_gatt_char(battery_char)
 
             self.update_sensor(
@@ -162,7 +174,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 SensorDeviceClass.BATTERY,
                 "Battery",
             )
-    
+
             if "manufacturer_data" in ble_device.metadata:
                 manufacturer_data = ble_device.metadata["manufacturer_data"]
                 self.process_manufacturer_data(manufacturer_data)
@@ -181,21 +193,29 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             if (data[IDX_V20_FINAL] & 1) == 0:
                 return
 
-            checksum = 0x20 # Version field is part of the checksum, but not in array
+            checksum = 0x20  # Version field is part of the checksum, but not in array
             for i in range(0, IDX_V20_CHECKSUM - 1):
                 checksum ^= data[i]
             if data[IDX_V20_CHECKSUM] != checksum:
-                _LOGGER.error("Checksum error, got %s, expected %s", hex(data[IDX_V20_CHECKSUM] & 0xff), hex(checksum & 0xff))
+                _LOGGER.error(
+                    "Checksum error, got %s, expected %s",
+                    hex(data[IDX_V20_CHECKSUM] & 0xFF),
+                    hex(checksum & 0xFF),
+                )
                 return
-            
+
             # Reading the weight
             divider = 10.0
             if (data[IDX_V20_FINAL] & 4) == 4:
                 divider = 100.0
-            weight = ((data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]) / divider
+            weight = (
+                (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
+            ) / divider
 
             # Reading the impedance
-            impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[IDX_V20_IMPEDANCE_LSB] / 10.0
+            impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
+                IDX_V20_IMPEDANCE_LSB
+            ] / 10.0
 
             self.update_sensor(
                 OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
@@ -210,17 +230,23 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             if data is None or len(data) != IDX_V11_CHECKSUM + 6 + 1:
                 return
 
-            checksum = 0xca ^ 0x11 # Version and magic fields are part of the checksum, but not in array
+            checksum = (
+                0xCA ^ 0x11
+            )  # Version and magic fields are part of the checksum, but not in array
             for i in range(0, IDX_V11_CHECKSUM - 1):
                 checksum ^= data[i]
             if data[IDX_V11_CHECKSUM] != checksum:
-                _LOGGER.error("Checksum error, got %s, expected %s", hex(data[IDX_V11_CHECKSUM] & 0xff), hex(checksum & 0xff))
+                _LOGGER.error(
+                    "Checksum error, got %s, expected %s",
+                    hex(data[IDX_V11_CHECKSUM] & 0xFF),
+                    hex(checksum & 0xFF),
+                )
                 return
 
             # Reading the weight
             divider = 10.0
-            weight = data[IDX_V11_WEIGHT_MSB] & 0xff
-            weight = weight << 8 | (data[IDX_V11_WEIGHT_LSB] & 0xff)
+            weight = data[IDX_V11_WEIGHT_MSB] & 0xFF
+            weight = weight << 8 | (data[IDX_V11_WEIGHT_LSB] & 0xFF)
 
             match (data[IDX_V11_BODY_PROPERTIES] >> 1) & 3:
                 case 0:
@@ -233,23 +259,26 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                     _LOGGER.warn("Invalid weight scale received, assuming 1 decimal")
                     divider = 10.0
 
-            
             extraWeight = 0
             match (data[IDX_V11_BODY_PROPERTIES] >> 3) & 3:
-                case 0: # kg
+                case 0:  # kg
                     pass
-                case 1: # Jin
+                case 1:  # Jin
                     divider *= 2.0
-                case 3: # st & lb
+                case 3:  # st & lb
                     extraWeight = (weight >> 8) * 6.350293
-                    weight &= 0xff
+                    weight &= 0xFF
                     divider *= 2.204623
-                case 2: # lb
+                case 2:  # lb
                     divider *= 2.204623
 
             _LOGGER.debug("Got weight: %f", weight / divider)
             self.update_sensor(
-                OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, extraWeight + weight / divider, None, "Weight"
+                OKOKScaleSensor.WEIGHT,
+                UnitOfMass.KILOGRAMS,
+                extraWeight + weight / divider,
+                None,
+                "Weight",
             )
         elif MANUFACTURER_DATA_ID_VF0 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
@@ -259,7 +288,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             _LOGGER.debug("Manufacturer Data: %s", data.hex())
 
             # Reading the weight
-            #ToDo use unpack
+            # ToDo use unpack
             weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
             _LOGGER.debug("weight: %s", weight)
 

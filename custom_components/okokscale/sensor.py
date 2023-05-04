@@ -1,8 +1,6 @@
 """Support for OKOK Scale sensors."""
 from __future__ import annotations
 
-from .okokscale import OKOKScaleSensor, SensorUpdate
-
 from homeassistant import config_entries
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
@@ -19,7 +17,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     PERCENTAGE,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
-    UnitOfMass
+    UnitOfMass,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -27,13 +25,14 @@ from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
 from .const import DOMAIN
 from .device import device_key_to_bluetooth_entity_key
+from .okokscale import OKOKScaleSensor, SensorUpdate
 
 SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     OKOKScaleSensor.WEIGHT: SensorEntityDescription(
         key=OKOKScaleSensor.WEIGHT,
         device_class=SensorDeviceClass.WEIGHT,
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-        state_class=SensorStateClass.MEASUREMENT
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     OKOKScaleSensor.SIGNAL_STRENGTH: SensorEntityDescription(
         key=OKOKScaleSensor.SIGNAL_STRENGTH,

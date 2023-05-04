@@ -1,11 +1,10 @@
 """Support for OKOK Scale devices."""
 from __future__ import annotations
 
-from sensor_state_data import DeviceKey
-
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothEntityKey,
 )
+from sensor_state_data import DeviceKey
 
 
 def device_key_to_bluetooth_entity_key(
