@@ -70,9 +70,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
     _client = None
     _expected_disconnect = False
 
-    def __init__(self) -> None:
-        super().__init__()
-
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
         if service_info.name not in ["Chipsea-BLE"]:
@@ -100,29 +97,29 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         """
         _LOGGER.debug("poll_needed")
         return True
-        if last_poll is None:
-            return True
-        return last_poll > UPDATE_INTERVAL_SECONDS
+        # if last_poll is None:
+        #     return True
+        # return last_poll > UPDATE_INTERVAL_SECONDS
 
     async def connect(self, ble_device: BLEDevice):
         if self._client and self._client.is_connected:
             _LOGGER.debug("Already connected to %s", self.name)
             return self._client
-        else:
-            # Connecting with the scale
-            self._device = ble_device
-            _LOGGER.info("Connecting to %s", self.name)
-            client: BleakClient = await establish_connection(
-                BleakClientWithServiceCache,
-                ble_device,
-                self.name,
-                self._disconnected,
-                use_services_cache=True,
-                ble_device_callback=lambda: self._device,
-            )
-            self._client = client
 
-            return client
+        # Connecting with the scale
+        self._device = ble_device
+        _LOGGER.info("Connecting to %s", self.name)
+        client: BleakClient = await establish_connection(
+            BleakClientWithServiceCache,
+            ble_device,
+            self.name,
+            self._disconnected,
+            use_services_cache=True,
+            ble_device_callback=lambda: self._device,
+        )
+        self._client = client
+
+        return client
 
     async def disconnect(self):
         if self._client and self._client.is_connected:
@@ -259,14 +256,14 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                     _LOGGER.warn("Invalid weight scale received, assuming 1 decimal")
                     divider = 10.0
 
-            extraWeight = 0
+            extra_weight = 0
             match (data[IDX_V11_BODY_PROPERTIES] >> 3) & 3:
                 case 0:  # kg
                     pass
                 case 1:  # Jin
                     divider *= 2.0
                 case 3:  # st & lb
-                    extraWeight = (weight >> 8) * 6.350293
+                    extra_weight = (weight >> 8) * 6.350293
                     weight &= 0xFF
                     divider *= 2.204623
                 case 2:  # lb
@@ -276,7 +273,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             self.update_sensor(
                 OKOKScaleSensor.WEIGHT,
                 UnitOfMass.KILOGRAMS,
-                extraWeight + weight / divider,
+                extra_weight + weight / divider,
                 None,
                 "Weight",
             )
@@ -328,9 +325,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     async def log_client(self, client):
         # Log characteristics for debugging
-        for n in client.services.characteristics:
+        for i in client.services.characteristics:
             try:
-                characteristic = client.services.characteristics[n]
+                characteristic = client.services.characteristics[i]
                 gatt_char = client.services.get_characteristic(characteristic.uuid)
                 payload = await client.read_gatt_char(gatt_char)
                 _LOGGER.debug("client.services %s: %s", gatt_char, payload.decode())
