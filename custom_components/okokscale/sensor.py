@@ -33,7 +33,7 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         key=OKOKScaleSensor.WEIGHT,
         device_class=SensorDeviceClass.WEIGHT,
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-        state_class=SensorStateClass.TOTAL
+        state_class=SensorStateClass.MEASUREMENT
     ),
     OKOKScaleSensor.SIGNAL_STRENGTH: SensorEntityDescription(
         key=OKOKScaleSensor.SIGNAL_STRENGTH,
