@@ -1,4 +1,4 @@
-"""Support for OKOK Sccale sensors."""
+"""Support for OKOK Scale sensors."""
 from __future__ import annotations
 
 from .okokscale import OKOKScaleSensor, SensorUpdate
