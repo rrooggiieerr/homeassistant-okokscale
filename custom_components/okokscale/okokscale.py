@@ -12,6 +12,7 @@ from home_assistant_bluetooth import BluetoothServiceInfo
 from homeassistant.const import UnitOfMass
 from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
 from sensor_state_data.enum import StrEnum
+from bleak.backends.corebluetooth.characteristic import BleakGATTCharacteristicCoreBluetooth
 
 UPDATE_INTERVAL_SECONDS = 1
 
@@ -38,7 +39,7 @@ CHARACTERISTIC_BATTERY_LEVEL = (
 
 MANUFACTURER_DATA_ID_V20 = 0x20CA  # 16-bit little endian "header" 0xca 0x20
 MANUFACTURER_DATA_ID_V11 = 0x11CA  # 16-bit little endian "header" 0xca 0x11
-MANUFACTURER_DATA_ID_VF0 = 0xF0FF  # 16-bit little endian "header" 0xca 0x11
+MANUFACTURER_DATA_ID_VF0 = 0xF0FF  # 16-bit little endian "header" 0xff 0xf0
 IDX_V20_FINAL = 6
 IDX_V20_WEIGHT_MSB = 8
 IDX_V20_WEIGHT_LSB = 9
@@ -75,7 +76,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         if service_info.name not in ["Chipsea-BLE"]:
             return None
 
-        # self.log_service_info(service_info)
+        self.log_service_info(service_info)
 
         self.set_device_manufacturer("OKOK")
         self.set_device_type("OKOK Scale")
@@ -140,7 +141,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         """
         try:
             client = await self.connect(ble_device)
-            # await self.log_client(client)
+            await self.log_client(client)
 
             # Trying to figure out how this body composition payload works
             body_composition_char = client.services.get_characteristic(
@@ -294,6 +295,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             )
 
     def log_service_info(self, service_info: BluetoothServiceInfo):
+        if not _LOGGER.isEnabledFor(logging.DEBUG):
+            return
+
         _LOGGER.debug("device name: %s", service_info.name)
         _LOGGER.debug("device address: %s", service_info.address)
         _LOGGER.debug("device rssi: %s", service_info.rssi)
@@ -301,7 +305,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         manufacturer_data = service_info.manufacturer_data
         for id in manufacturer_data:
             data = manufacturer_data[id]
-            _LOGGER.debug("company identifier: %s", id)
+            _LOGGER.debug("company identifier: %s", hex(id))
             _LOGGER.debug("manufacturer data length: %s", len(data))
             try:
                 _LOGGER.debug("manufacturer data: %s", data.decode())
@@ -324,6 +328,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         _LOGGER.debug("device source: %s", service_info.source)
 
     async def log_client(self, client):
+        if not _LOGGER.isEnabledFor(logging.DEBUG):
+            return
+
         # Log characteristics for debugging
         for i in client.services.characteristics:
             try:
