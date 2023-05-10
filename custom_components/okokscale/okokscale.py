@@ -12,7 +12,6 @@ from home_assistant_bluetooth import BluetoothServiceInfo
 from homeassistant.const import UnitOfMass
 from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
 from sensor_state_data.enum import StrEnum
-from bleak.backends.corebluetooth.characteristic import BleakGATTCharacteristicCoreBluetooth
 
 UPDATE_INTERVAL_SECONDS = 1
 
