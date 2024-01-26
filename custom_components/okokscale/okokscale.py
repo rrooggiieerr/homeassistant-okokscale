@@ -81,7 +81,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         self.set_device_type("OKOK Scale")
         address = service_info.address
         _LOGGER.debug("Address: %s: ", address)
-        name = human_readable_name("OKOK Scale", None, address)
+        name = human_readable_name("OKOK Scale", service_info.name, service_info.address)
         self.set_device_name(name)
         self.set_title(name)
 
