@@ -32,33 +32,6 @@ The following scale is known to work:
 Please let me know if your scale works with this Home Assistant integration so I can
 improve the overview of supported scales.
 
-## Installation
-
-### HACS
-
-The recommended way to install this Home Assistant integration is using by [HACS][hacs].
-Click the following button to open the integration directly on the HACS integration page.
-
-[![Install OKOK Scale from HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=rrooggiieerr&repository=homeassistant-okokscale&category=integration)
-
-Or follow these instructions:
-
-- Go to your **HACS** view in Home Assistant and then to **Integrations**
-- Open the **Custom repositories** menu
-- Add this repository URL to the **Custom repositories** and select
-**Integration** as the **Category**
-- Click **Add**
-- Close the **Custom repositories** menu
-- Select **+ Explore & download repositories** and search for *OKOK Scale*
-- Select **Download**
-- Restart Home Assistant
-
-### Manually
-
-- Copy the `custom_components/okokscale` directory of this repository into the
-`config/custom_components/` directory of your Home Assistant installation
-- Restart Home Assistant
-
 ## Adding a new OKOK Scale
 
 New OKOK Scale devices will automatically be detected after the integration has been installed and
