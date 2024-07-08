@@ -1,4 +1,8 @@
-# This file needs to become a library once we have everything working
+"""
+Talks to the OKOK Scale.
+
+This file needs to become a library once we have everything working
+"""
 
 from __future__ import annotations
 
@@ -56,6 +60,9 @@ IDX_VF0_WEIGHT_LSB = 2
 
 
 class OKOKScaleSensor(StrEnum):
+    # pylint: disable=too-few-public-methods
+    """The different sensors de OKOK Scale provides."""
+
     WEIGHT = "weight"
     IMPEDANCE = "impedance"
     SIGNAL_STRENGTH = "signal_strength"
@@ -67,13 +74,14 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     name = None
 
+    _device = None
     _client = None
     _expected_disconnect = False
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
         if service_info.name not in ["Chipsea-BLE"]:
-            return None
+            return
 
         self.log_service_info(service_info)
 
@@ -81,11 +89,12 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         self.set_device_type("OKOK Scale")
         address = service_info.address
         _LOGGER.debug("Address: %s: ", address)
-        name = human_readable_name("OKOK Scale", service_info.name, service_info.address)
+        name = human_readable_name(
+            "OKOK Scale", service_info.name, service_info.address
+        )
         self.set_device_name(name)
         self.set_title(name)
 
-        service_info.rssi
         self.process_manufacturer_data(service_info.manufacturer_data)
 
     def poll_needed(
@@ -134,7 +143,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         _LOGGER.warning("%s: Device unexpectedly disconnected", self.get_device_name())
 
-    async def async_poll(self, ble_device: BLEDevice) -> SensorUpdate:
+    async def async_poll(
+        self, ble_device: BLEDevice, advertisement_data: AdvertisementData
+    ) -> SensorUpdate:
         """
         Poll the device to retrieve any values we can't get from passive listening.
         """
@@ -172,9 +183,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 "Battery",
             )
 
-            if "manufacturer_data" in ble_device.metadata:
-                manufacturer_data = ble_device.metadata["manufacturer_data"]
-                self.process_manufacturer_data(manufacturer_data)
+            self.process_manufacturer_data(advertisement_data.manufacturer_data)
         finally:
             await self.disconnect()
 
@@ -302,26 +311,28 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         _LOGGER.debug("device rssi: %s", service_info.rssi)
 
         manufacturer_data = service_info.manufacturer_data
-        for id in manufacturer_data:
-            data = manufacturer_data[id]
-            _LOGGER.debug("company identifier: %s", hex(id))
+        for manufacturer_id in manufacturer_data:
+            data = manufacturer_data[manufacturer_id]
+            _LOGGER.debug("manufacturer identifier: %s", hex(manufacturer_id))
             _LOGGER.debug("manufacturer data length: %s", len(data))
             try:
                 _LOGGER.debug("manufacturer data: %s", data.decode())
                 _LOGGER.debug("manufacturer data: 0x%s", data.hex())
-            except Exception as ex:
-                if isinstance(ex, (UnicodeDecodeError)):
-                    _LOGGER.debug("manufacturer data: 0x%s", data.hex())
+            except UnicodeDecodeError:
+                _LOGGER.debug("manufacturer data: 0x%s", data.hex())
+            except Exception:
+                pass
 
         service_data = service_info.service_data
-        for id in service_data:
+        for service_id in service_data:
             try:
-                data = service_data[id]
-                _LOGGER.debug("service data %s: %s", id, data.decode())
-                _LOGGER.debug("service data %s: 0x%s", id, data.hex())
-            except Exception as ex:
-                if isinstance(ex, (UnicodeDecodeError)):
-                    _LOGGER.debug("service data %s: 0x%s", id, data.hex())
+                data = service_data[service_id]
+                _LOGGER.debug("service data %s: %s", service_id, data.decode())
+                _LOGGER.debug("service data %s: 0x%s", service_id, data.hex())
+            except UnicodeDecodeError:
+                _LOGGER.debug("service data %s: 0x%s", service_id, data.hex())
+            except Exception:
+                pass
 
         _LOGGER.debug("service uuids: %s", service_info.service_uuids)
         _LOGGER.debug("device source: %s", service_info.source)

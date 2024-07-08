@@ -1,4 +1,5 @@
 """Support for OKOK Scale sensors."""
+
 from __future__ import annotations
 
 from homeassistant import config_entries
@@ -95,7 +96,9 @@ async def async_setup_entry(
 
 
 class OKOKScaleBluetoothSensorEntity(
-    PassiveBluetoothProcessorEntity[PassiveBluetoothDataProcessor[str | int | None]],
+    PassiveBluetoothProcessorEntity[
+        PassiveBluetoothDataProcessor[str | int | None, SensorUpdate]
+    ],
     SensorEntity,
 ):
     """Representation of a OKOK Scale sensor."""
