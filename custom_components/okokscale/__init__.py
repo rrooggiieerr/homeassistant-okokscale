@@ -1,4 +1,5 @@
 """The OKOK Scale integration."""
+
 from __future__ import annotations
 
 import logging
@@ -61,19 +62,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             raise RuntimeError(
                 f"No connectable device found for {service_info.device.address}"
             )
-        return await data.async_poll(connectable_device)
 
-    coordinator = hass.data.setdefault(DOMAIN, {})[
-        entry.entry_id
-    ] = ActiveBluetoothProcessorCoordinator(
-        hass,
-        _LOGGER,
-        address=address,
-        mode=BluetoothScanningMode.PASSIVE,
-        update_method=data.update,
-        needs_poll_method=_needs_poll,
-        poll_method=_async_poll,
-        connectable=True,
+        advertisement_data = service_info.advertisement
+        return await data.async_poll(connectable_device, advertisement_data)
+
+    coordinator = hass.data.setdefault(DOMAIN, {})[entry.entry_id] = (
+        ActiveBluetoothProcessorCoordinator(
+            hass,
+            _LOGGER,
+            address=address,
+            mode=BluetoothScanningMode.PASSIVE,
+            update_method=data.update,
+            needs_poll_method=_needs_poll,
+            poll_method=_async_poll,
+            connectable=True,
+        )
     )
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(

@@ -1,4 +1,5 @@
 """Support for OKOK Scale devices."""
+
 from __future__ import annotations
 
 from homeassistant.components.bluetooth.passive_update_processor import (
