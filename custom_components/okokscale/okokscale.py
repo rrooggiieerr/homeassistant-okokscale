@@ -253,7 +253,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 case 2:
                     divider = 100.0
                 case _:
-                    _LOGGER.warn("Invalid weight scale received, assuming 1 decimal")
+                    _LOGGER.warning("Invalid weight scale received, assuming 1 decimal")
                     divider = 10.0
 
             extra_weight = 0

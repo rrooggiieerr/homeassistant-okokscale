@@ -1,4 +1,5 @@
 """Config flow for OKOK Scale integration."""
+
 from __future__ import annotations
 
 import logging
@@ -34,7 +35,7 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         self, discovery_info: BluetoothServiceInfoBleak
     ) -> FlowResult:
         """Handle the bluetooth discovery step."""
-        _LOGGER.debug("async_step_bluetooth")
+        _LOGGER.debug("async_step_bluetooth(%s)", discovery_info.address)
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
 
