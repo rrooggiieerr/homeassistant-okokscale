@@ -17,6 +17,7 @@
   	"okokscale"
   ],
   "requirements": [
+  	"bluetooth_sensor_state_data==1.7.1"
   ],
   "version": "0.0.3"
 }
