@@ -1,0 +1,35 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured",
+            "already_in_progress": "Configuration flow is already in progress",
+            "no_devices_found": "No devices found",
+            "not_supported": "Device not supported"
+        },
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Do you want to set up {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Device"
+                },
+                "description": "Choose a device to set up"
+            }
+        }
+    },
+	"entity": {
+		"sensor": {
+			"weight" : {
+				"name": "Gewicht"
+			},
+			"signal_strength" : {
+				"name": "Signal Strength"
+			},
+			"battery_percent" : {
+				"name": "Battery Percent"
+			}
+		}
+    }
+}
