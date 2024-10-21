@@ -18,5 +18,18 @@
                 "description": "Choose a device to set up"
             }
         }
+    },
+	"entity": {
+		"sensor": {
+			"weight" : {
+				"name": "Weight"
+			},
+			"signal_strength" : {
+				"name": "Signal Strength"
+			},
+			"battery_percent" : {
+				"name": "Battery Percentage"
+			}
+		}
     }
 }
