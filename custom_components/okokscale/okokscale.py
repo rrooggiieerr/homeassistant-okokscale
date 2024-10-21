@@ -176,7 +176,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             battery_payload = await client.read_gatt_char(battery_char)
 
             self.update_sensor(
-                str(OKOKScaleSensor.BATTERY_PERCENT),
+                OKOKScaleSensor.BATTERY_PERCENT,
                 Units.PERCENTAGE,
                 battery_payload[0],
                 SensorDeviceClass.BATTERY,
