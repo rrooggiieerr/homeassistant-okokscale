@@ -64,7 +64,11 @@ Or follow these instructions:
 New OKOK Scale devices will automatically be detected after the integration has been installed and
 Home Assistant is restarted. If your scale is not detected it's not supported by this integration.
 
-## Contribute your language
+## Contribution and appreciation
+
+You can contribute to this integration, or show your appreciation, in the following ways.
+
+### Contribute your language
 
 If you would like to use this Home Assistant integration in your own language you can provide a
 translation file as found in the `custom_components/okokscale/translations` directory. Create a
@@ -73,20 +77,36 @@ pull request (preferred) or issue with the file attached.
 More on translating custom integrations can be found
 [here](https://developers.home-assistant.io/docs/internationalization/custom_integration/).
 
-## Star this repository
+### Star this integration
 
-Help other Home Assistant users find this integration by starring this repository. Click **⭐ Star**
-on the top right of the GitHub page.
+Help other Home Assistant and NAD users find this integration by starring this GitHub page. Click
+**⭐ Star** on the top right of the GitHub page.
 
 ## Support my work
 
 Do you enjoy using this Home Assistant integration? Then consider supporting my work using one of
 the following platforms, your donation is greatly appreciated and keeps me motivated:
 
-[![Github Sponsors][github-shield]][github]
+[![GitHub Sponsors][github-shield]][github]
 [![PayPal][paypal-shield]][paypal]
 [![BuyMeCoffee][buymecoffee-shield]][buymecoffee]
 [![Patreon][patreon-shield]][patreon]
+
+### Home Assistant support
+
+[Let me answer your Home Assistant questions](https://buymeacoffee.com/rrooggiieerr/e/447353). During
+a 1 hour Q&A session I help you solve your Home Assistant related issues with.
+
+What can be done in one hour:
+- Home Assistant walktrough, I explain you where is what in the Home Assistant UI
+- Install and configure a Home Assistant integration
+- Explain and create scenes
+- Explain and create a simple automations
+- Install a ZHA quirk, to make your unsupported Zigbee device work in Home Assistant
+
+What takes more time:
+- Depending on the severity I might be able to help you with recovering your crashed Home Assistant
+- Support for Home Assistant Integration developers
 
 ## Hire me
 
