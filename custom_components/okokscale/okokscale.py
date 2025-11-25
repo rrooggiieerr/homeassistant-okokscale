@@ -40,9 +40,20 @@ CHARACTERISTIC_BATTERY_LEVEL = (
 # "0000faa1-0000-1000-8000-00805f9b34fb" #(Handle: 43): Vendor specific
 # "0000faa2-0000-1000-8000-00805f9b34fb" #(Handle: 45): Vendor specific
 
-MANUFACTURER_DATA_ID_V20 = 0x20CA  # 16-bit little endian "header" 0xca 0x20
+MANUFACTURER_DATA_ID_V10 = 0x10FF  # 16-bit little endian "header" 0xff 0x10
 MANUFACTURER_DATA_ID_V11 = 0x11CA  # 16-bit little endian "header" 0xca 0x11
+MANUFACTURER_DATA_ID_V20 = 0x20CA  # 16-bit little endian "header" 0xca 0x20
+MANUFACTURER_DATA_ID_V26 = 0x26C0  # 16-bit little endian "header" 0xc0 0x26
 MANUFACTURER_DATA_ID_VF0 = 0xF0FF  # 16-bit little endian "header" 0xff 0xf0
+
+IDX_V10_WEIGHT_MSB = 3
+IDX_V10_WEIGHT_LSB = 2
+
+IDX_V11_WEIGHT_MSB = 3
+IDX_V11_WEIGHT_LSB = 4
+IDX_V11_BODY_PROPERTIES = 9
+IDX_V11_CHECKSUM = 16
+
 IDX_V20_FINAL = 6
 IDX_V20_WEIGHT_MSB = 8
 IDX_V20_WEIGHT_LSB = 9
@@ -50,10 +61,8 @@ IDX_V20_IMPEDANCE_MSB = 10
 IDX_V20_IMPEDANCE_LSB = 11
 IDX_V20_CHECKSUM = 12
 
-IDX_V11_WEIGHT_MSB = 3
-IDX_V11_WEIGHT_LSB = 4
-IDX_V11_BODY_PROPERTIES = 9
-IDX_V11_CHECKSUM = 16
+IDX_V26_WEIGHT_MSB = 3
+IDX_V26_WEIGHT_LSB = 2
 
 IDX_VF0_WEIGHT_MSB = 3
 IDX_VF0_WEIGHT_LSB = 2
@@ -190,46 +199,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         return self._finish_update()
 
     def process_manufacturer_data(self, manufacturer_data):
-        if MANUFACTURER_DATA_ID_V20 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
+        if MANUFACTURER_DATA_ID_V10 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_V10]
             _LOGGER.debug("manufacturer_data: %s", data.hex())
-            if data is None or len(data) != 19:
-                return
-
-            if (data[IDX_V20_FINAL] & 1) == 0:
-                return
-
-            checksum = 0x20  # Version field is part of the checksum, but not in array
-            for i in range(0, IDX_V20_CHECKSUM - 1):
-                checksum ^= data[i]
-            if data[IDX_V20_CHECKSUM] != checksum:
-                _LOGGER.error(
-                    "Checksum error, got %s, expected %s",
-                    hex(data[IDX_V20_CHECKSUM] & 0xFF),
-                    hex(checksum & 0xFF),
-                )
-                return
-
-            # Reading the weight
-            divider = 10.0
-            if (data[IDX_V20_FINAL] & 4) == 4:
-                divider = 100.0
-            weight = (
-                (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
-            ) / divider
-
-            # Reading the impedance
-            impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
-                IDX_V20_IMPEDANCE_LSB
-            ] / 10.0
-
-            self.update_sensor(
-                OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
-            )
-
-            self.update_sensor(
-                OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance"
-            )
         elif MANUFACTURER_DATA_ID_V11 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
             _LOGGER.debug("manufacturer_data: %s", data.hex())
@@ -286,6 +258,49 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 None,
                 "Weight",
             )
+        elif MANUFACTURER_DATA_ID_V20 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
+            _LOGGER.debug("manufacturer_data: %s", data.hex())
+            if data is None or len(data) != 19:
+                return
+
+            if (data[IDX_V20_FINAL] & 1) == 0:
+                return
+
+            checksum = 0x20  # Version field is part of the checksum, but not in array
+            for i in range(0, IDX_V20_CHECKSUM - 1):
+                checksum ^= data[i]
+            if data[IDX_V20_CHECKSUM] != checksum:
+                _LOGGER.error(
+                    "Checksum error, got %s, expected %s",
+                    hex(data[IDX_V20_CHECKSUM] & 0xFF),
+                    hex(checksum & 0xFF),
+                )
+                return
+
+            # Reading the weight
+            divider = 10.0
+            if (data[IDX_V20_FINAL] & 4) == 4:
+                divider = 100.0
+            weight = (
+                (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
+            ) / divider
+
+            # Reading the impedance
+            impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
+                IDX_V20_IMPEDANCE_LSB
+            ] / 10.0
+
+            self.update_sensor(
+                OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
+            )
+
+            self.update_sensor(
+                OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance"
+            )
+        elif MANUFACTURER_DATA_ID_V26 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_V26]
+            _LOGGER.debug("manufacturer_data: %s", data.hex())
         elif MANUFACTURER_DATA_ID_VF0 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
             if len(data) != 18:
