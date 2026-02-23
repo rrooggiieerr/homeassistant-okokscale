@@ -21,7 +21,7 @@ from homeassistant.const import (
     UnitOfMass,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
 from .device import device_key_to_bluetooth_entity_key
@@ -83,7 +83,7 @@ def sensor_update_to_bluetooth_data_update(
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: config_entries.ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the OKOK Scale sensors."""
     coordinator: PassiveBluetoothProcessorCoordinator = entry.runtime_data
