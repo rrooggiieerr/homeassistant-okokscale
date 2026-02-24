@@ -51,6 +51,12 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         state_class=SensorStateClass.MEASUREMENT,
         translation_key=OKOKScaleSensor.BATTERY_PERCENT,
     ),
+    OKOKScaleSensor.IMPEDANCE: SensorEntityDescription(
+        key=OKOKScaleSensor.IMPEDANCE,
+        native_unit_of_measurement="Ω",
+        state_class=SensorStateClass.MEASUREMENT,
+        translation_key=OKOKScaleSensor.IMPEDANCE,
+    ),
 }
 
 
@@ -58,17 +64,18 @@ def sensor_update_to_bluetooth_data_update(
     sensor_update: SensorUpdate,
 ) -> PassiveBluetoothDataUpdate:
     """Convert a sensor update to a bluetooth data update."""
+    entity_descriptions = {}
+    for device_key in sensor_update.entity_descriptions:
+        description = SENSOR_DESCRIPTIONS.get(device_key.key)
+        if description is None:
+            continue
+        entity_descriptions[device_key_to_bluetooth_entity_key(device_key)] = description
     return PassiveBluetoothDataUpdate(
         devices={
             device_id: sensor_device_info_to_hass_device_info(device_info)
             for device_id, device_info in sensor_update.devices.items()
         },
-        entity_descriptions={
-            device_key_to_bluetooth_entity_key(device_key): SENSOR_DESCRIPTIONS[
-                device_key.key
-            ]
-            for device_key in sensor_update.entity_descriptions
-        },
+        entity_descriptions=entity_descriptions,
         entity_data={
             device_key_to_bluetooth_entity_key(device_key): sensor_values.native_value
             for device_key, sensor_values in sensor_update.entity_values.items()

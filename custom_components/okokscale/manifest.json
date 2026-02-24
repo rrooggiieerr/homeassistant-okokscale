@@ -2,7 +2,8 @@
   "domain": "okokscale",
   "name": "OKOK Scale",
   "bluetooth": [
-  	{ "local_name": "Chipsea-BLE" }
+    { "local_name": "Chipsea-BLE" },
+    { "local_name": "ADV", "manufacturer_id": 8394 }
   ],
   "codeowners": [
     "@rrooggiieerr"

@@ -82,6 +82,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
     """Data for OKOK Scale sensors."""
 
     name = None
+    _is_adv = False
 
     _device = None
     _client = None
@@ -89,7 +90,15 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
-        if service_info.name not in ["Chipsea-BLE"]:
+        if service_info.name not in ["Chipsea-BLE", "ADV"]:
+            return
+        self._is_adv = service_info.name == "ADV"
+        if 8394 not in service_info.manufacturer_data:
+            _LOGGER.debug(
+                "Manufacturer id 0x20CA (8394) not found for %s; ids=%s",
+                service_info.address,
+                list(service_info.manufacturer_data.keys()),
+            )
             return
 
         self.log_service_info(service_info)
@@ -263,20 +272,33 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             _LOGGER.debug("manufacturer_data: %s", data.hex())
             if data is None or len(data) != 19:
                 return
+            _LOGGER.debug(
+                "v20 bytes: %s",
+                " ".join(f"{b:02x}" for b in data),
+            )
+            _LOGGER.debug("v20 flags: final=0x%02x", data[IDX_V20_FINAL])
+            if not self._is_adv:
+                if (data[IDX_V20_FINAL] & 1) == 0:
+                    _LOGGER.debug(
+                        "v20 not final; skipping weight/impedance. "
+                        "If this is your scale, capture a few samples with a known weight."
+                    )
+                    return
 
-            if (data[IDX_V20_FINAL] & 1) == 0:
-                return
-
-            checksum = 0x20  # Version field is part of the checksum, but not in array
-            for i in range(0, IDX_V20_CHECKSUM - 1):
-                checksum ^= data[i]
-            if data[IDX_V20_CHECKSUM] != checksum:
-                _LOGGER.error(
-                    "Checksum error, got %s, expected %s",
-                    hex(data[IDX_V20_CHECKSUM] & 0xFF),
-                    hex(checksum & 0xFF),
+                checksum = 0x20  # Version field is part of the checksum, but not in array
+                for i in range(0, IDX_V20_CHECKSUM - 1):
+                    checksum ^= data[i]
+                if data[IDX_V20_CHECKSUM] != checksum:
+                    _LOGGER.error(
+                        "Checksum error, got %s, expected %s",
+                        hex(data[IDX_V20_CHECKSUM] & 0xFF),
+                        hex(checksum & 0xFF),
+                    )
+                    return
+            else:
+                _LOGGER.debug(
+                    "ADV device: skipping v20 final/checksum gating for weight parsing."
                 )
-                return
 
             # Reading the weight
             divider = 10.0
@@ -286,18 +308,29 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
             ) / divider
 
+            if self._is_adv and (data[IDX_V20_FINAL] & 1) == 0 and weight < 2.0:
+                _LOGGER.debug(
+                    "ADV unstable/off-scale reading (weight=%s, flags=0x%02x); skipping",
+                    weight,
+                    data[IDX_V20_FINAL],
+                )
+                return
+
             # Reading the impedance
-            impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
-                IDX_V20_IMPEDANCE_LSB
-            ] / 10.0
+            impedance = None
+            if not self._is_adv:
+                impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
+                    IDX_V20_IMPEDANCE_LSB
+                ] / 10.0
 
             self.update_sensor(
                 OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
             )
 
-            self.update_sensor(
-                OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance"
-            )
+            if impedance is not None:
+                self.update_sensor(
+                    OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance"
+                )
         elif MANUFACTURER_DATA_ID_V26 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_V26]
             _LOGGER.debug("manufacturer_data: %s", data.hex())

@@ -14,7 +14,7 @@
 ## Introduction
 
 Home Assistant integration to read Bluetooth scales which can be used with the *OKOK international*
-app and identify themselves on Bluetooth as *Chipsea-BLE*.
+app and identify themselves on Bluetooth as *Chipsea-BLE* or *ADV*.
 
 ## Features
 
@@ -28,6 +28,7 @@ app and identify themselves on Bluetooth as *Chipsea-BLE*.
 The following scale is known to work:
 
 * Tristar WG-2440
+* Taffware SH-Y01-U1
 
 Please let me know if your scale works with this Home Assistant integration so I can
 improve the overview of supported scales.
