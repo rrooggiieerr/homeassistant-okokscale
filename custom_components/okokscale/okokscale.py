@@ -237,24 +237,29 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                     _LOGGER.warning("Invalid weight scale received, assuming 1 decimal")
                     divider = 10.0
 
-            extra_weight = 0
+            unit_of_measurement = None
             match (data[IDX_V11_BODY_PROPERTIES] >> 3) & 3:
                 case 0:  # kg
-                    pass
+                    weight = weight / divider
+                    unit_of_measurement = UnitOfMass.KILOGRAMS
                 case 1:  # Jin
                     divider *= 2.0
+                    weight = weight / divider
+                    unit_of_measurement = UnitOfMass.KILOGRAMS
                 case 3:  # st & lb
-                    extra_weight = (weight >> 8) * 6.350293
-                    weight &= 0xFF
-                    divider *= 2.204623
+                    stones = weight >> 8
+                    pounds = (weight & 0xFF) / divider
+                    weight = pounds + (stones * 14)
+                    unit_of_measurement = UnitOfMass.POUNDS
                 case 2:  # lb
-                    divider *= 2.204623
+                    weight = weight / divider
+                    unit_of_measurement = UnitOfMass.POUNDS
+            _LOGGER.debug("weight: %f", weight)
 
-            _LOGGER.debug("Got weight: %f", weight / divider)
             self.update_sensor(
                 OKOKScaleSensor.WEIGHT,
-                UnitOfMass.KILOGRAMS,
-                extra_weight + weight / divider,
+                unit_of_measurement,
+                weight,
                 None,
                 "Weight",
             )
