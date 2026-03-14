@@ -16,7 +16,6 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import CoreState, HomeAssistant
 
-from .const import DOMAIN
 from .okokscale import OKOKScaleBluetoothDeviceData
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
