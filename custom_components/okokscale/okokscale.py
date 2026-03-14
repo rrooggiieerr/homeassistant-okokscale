@@ -202,7 +202,13 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         if MANUFACTURER_DATA_ID_V10 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_V10]
             _LOGGER.debug("manufacturer_data: %s", data.hex())
-        elif MANUFACTURER_DATA_ID_V11 in manufacturer_data:
+            return
+        if MANUFACTURER_DATA_ID_V26 in manufacturer_data:
+            data = manufacturer_data[MANUFACTURER_DATA_ID_V26]
+            _LOGGER.debug("manufacturer_data: %s", data.hex())
+            return
+
+        if MANUFACTURER_DATA_ID_V11 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
             _LOGGER.debug("manufacturer_data: %s", data.hex())
             if data is None or len(data) != IDX_V11_CHECKSUM + 6 + 1:
@@ -290,6 +296,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             weight = (
                 (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
             ) / divider
+            _LOGGER.debug("weight: %s", weight)
 
             # Reading the impedance
             impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
@@ -303,9 +310,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             self.update_sensor(
                 OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance"
             )
-        elif MANUFACTURER_DATA_ID_V26 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_V26]
-            _LOGGER.debug("manufacturer_data: %s", data.hex())
         elif MANUFACTURER_DATA_ID_VF0 in manufacturer_data:
             data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
             if len(data) != 18:
