@@ -51,6 +51,12 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         state_class=SensorStateClass.MEASUREMENT,
         translation_key=OKOKScaleSensor.BATTERY_PERCENT,
     ),
+    OKOKScaleSensor.IMPEDANCE: SensorEntityDescription(
+        key=OKOKScaleSensor.IMPEDANCE,
+        native_unit_of_measurement="Ω",
+        state_class=SensorStateClass.MEASUREMENT,
+        translation_key=OKOKScaleSensor.IMPEDANCE,
+    ),
 }
 
 
