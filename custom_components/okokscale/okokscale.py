@@ -350,18 +350,29 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _process_manufacturer_data_vc0(self, manufacturer_data):
         data = None
+        stable_data = None
         for key in manufacturer_data:
+            # Run through the whole list of values so we get the final reading
             if (key & 0xFF) != MANUFACTURER_DATA_ID_VC0:
                 continue
-            data_ = manufacturer_data[key]
-            if (data_[IDX_VC0_FINAL] & 1) != 1:
+            # Discard 0 readings - we seem to get a lot of them
+            _data = manufacturer_data[key]
+            if _data[IDX_VC0_WEIGHT_MSB] == 0 and _data[IDX_VC0_WEIGHT_LSB] == 0:
                 continue
-            data = data_
+            data = _data
+            if (data[IDX_VC0_FINAL] & 1) == 1:
+                stable_data = data
+
         if data is None:
             return False
-        _LOGGER.debug("manufacturer_data: %s", data.hex())
+
+        # Prefer readings marked as final, but settle for the latest non-zero
+        if stable_data is not None:
+            data = stable_data
+
         msb = data[IDX_VC0_WEIGHT_MSB]
         lsb = data[IDX_VC0_WEIGHT_LSB]
+        _LOGGER.debug("manufacturer_data: %s", data.hex())
         match data[IDX_VC0_BODY_PROPERTIES] >> 3 & 0x3:
             case 0:  # kg
                 weight = weight_kg = (msb << 8 | lsb) / 100.0
