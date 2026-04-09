@@ -44,6 +44,7 @@ MANUFACTURER_DATA_ID_V10 = 0x10FF  # 16-bit little endian "header" 0xff 0x10
 MANUFACTURER_DATA_ID_V11 = 0x11CA  # 16-bit little endian "header" 0xca 0x11
 MANUFACTURER_DATA_ID_V20 = 0x20CA  # 16-bit little endian "header" 0xca 0x20
 MANUFACTURER_DATA_ID_V26 = 0x26C0  # 16-bit little endian "header" 0xc0 0x26
+MANUFACTURER_DATA_ID_VC0 = 0xC0  # 8-bit little endian "header" 0xc0
 MANUFACTURER_DATA_ID_VF0 = 0xF0FF  # 16-bit little endian "header" 0xff 0xf0
 
 IDX_V10_WEIGHT_MSB = 3
@@ -64,8 +65,15 @@ IDX_V20_CHECKSUM = 12
 IDX_V26_WEIGHT_MSB = 3
 IDX_V26_WEIGHT_LSB = 2
 
+IDX_VC0_FINAL = 6
+IDX_VC0_WEIGHT_MSB = 0
+IDX_VC0_WEIGHT_LSB = 1
+IDX_VC0_BODY_PROPERTIES = 6
+
 IDX_VF0_WEIGHT_MSB = 3
 IDX_VF0_WEIGHT_LSB = 2
+
+LB_TO_KG = 0.45359237
 
 
 class OKOKScaleSensor(StrEnum):
@@ -89,18 +97,15 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
-        if not (
-            service_info.name in ["ADV", "Chipsea-BLE"]
-            or service_info.name.startswith("Yoda0")
-            or service_info.name.startswith("Yoda1")
-        ):
-            return
-
+        manufacturer_data_key_lsbs = [
+            key & 0xFF for key in service_info.manufacturer_data
+        ]
         if not (
             MANUFACTURER_DATA_ID_V10 in service_info.manufacturer_data
             or MANUFACTURER_DATA_ID_V11 in service_info.manufacturer_data
             or MANUFACTURER_DATA_ID_V20 in service_info.manufacturer_data
             or MANUFACTURER_DATA_ID_V26 in service_info.manufacturer_data
+            or MANUFACTURER_DATA_ID_VC0 in manufacturer_data_key_lsbs
             or MANUFACTURER_DATA_ID_VF0 in service_info.manufacturer_data
         ):
             _LOGGER.debug(
@@ -226,123 +231,178 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             _LOGGER.debug("manufacturer_data: %s", data.hex())
             return
 
-        if MANUFACTURER_DATA_ID_V11 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
-            _LOGGER.debug("manufacturer_data: %s", data.hex())
-            if data is None or len(data) != IDX_V11_CHECKSUM + 6 + 1:
-                return
+        (
+            self._process_manufacturer_data_v11(manufacturer_data)
+            or self._process_manufacturer_data_v20(manufacturer_data)
+            or self._process_manufacturer_data_vc0(manufacturer_data)
+            or self._process_manufacturer_data_vf0(manufacturer_data)
+        )
 
-            checksum = (
-                0xCA ^ 0x11
-            )  # Version and magic fields are part of the checksum, but not in array
-            for i in range(0, IDX_V11_CHECKSUM - 1):
-                checksum ^= data[i]
-            if data[IDX_V11_CHECKSUM] != checksum:
-                _LOGGER.error(
-                    "Checksum error, got %s, expected %s",
-                    hex(data[IDX_V11_CHECKSUM] & 0xFF),
-                    hex(checksum & 0xFF),
-                )
-                return
+    def _process_manufacturer_data_v11(self, manufacturer_data):
+        if MANUFACTURER_DATA_ID_V11 not in manufacturer_data:
+            return False
 
-            # Reading the weight
-            divider = 10.0
-            weight = data[IDX_V11_WEIGHT_MSB] & 0xFF
-            weight = weight << 8 | (data[IDX_V11_WEIGHT_LSB] & 0xFF)
+        data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
+        _LOGGER.debug("manufacturer_data: %s", data.hex())
+        if data is None or len(data) != IDX_V11_CHECKSUM + 6 + 1:
+            return False
 
-            match (data[IDX_V11_BODY_PROPERTIES] >> 1) & 3:
-                case 0:
-                    divider = 10.0
-                case 1:
-                    divider = 1.0
-                case 2:
-                    divider = 100.0
-                case _:
-                    _LOGGER.warning("Invalid weight scale received, assuming 1 decimal")
-                    divider = 10.0
-
-            unit_of_measurement = None
-            match (data[IDX_V11_BODY_PROPERTIES] >> 3) & 3:
-                case 0:  # kg
-                    weight = weight / divider
-                    unit_of_measurement = UnitOfMass.KILOGRAMS
-                case 1:  # Jin
-                    divider *= 2.0
-                    weight = weight / divider
-                    unit_of_measurement = UnitOfMass.KILOGRAMS
-                case 3:  # st & lb
-                    stones = weight >> 8
-                    pounds = (weight & 0xFF) / divider
-                    weight = pounds + (stones * 14)
-                    unit_of_measurement = UnitOfMass.POUNDS
-                case 2:  # lb
-                    weight = weight / divider
-                    unit_of_measurement = UnitOfMass.POUNDS
-            _LOGGER.debug("weight: %f", weight)
-
-            self.update_sensor(
-                OKOKScaleSensor.WEIGHT,
-                unit_of_measurement,
-                weight,
-                None,
-                "Weight",
+        checksum = (
+            0xCA ^ 0x11
+        )  # Version and magic fields are part of the checksum, but not in array
+        for i in range(0, IDX_V11_CHECKSUM - 1):
+            checksum ^= data[i]
+        if data[IDX_V11_CHECKSUM] != checksum:
+            _LOGGER.error(
+                "Checksum error, got %s, expected %s",
+                hex(data[IDX_V11_CHECKSUM] & 0xFF),
+                hex(checksum & 0xFF),
             )
-        elif MANUFACTURER_DATA_ID_V20 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
-            _LOGGER.debug("manufacturer_data: %s", data.hex())
-            if data is None or len(data) != 19:
-                return
+            return False
 
-            if (data[IDX_V20_FINAL] & 1) == 0:
-                return
+        # Reading the weight
+        divider = 10.0
+        weight = data[IDX_V11_WEIGHT_MSB] & 0xFF
+        weight = weight << 8 | (data[IDX_V11_WEIGHT_LSB] & 0xFF)
 
-            checksum = 0x20  # Version field is part of the checksum, but not in array
-            for i in range(0, IDX_V20_CHECKSUM - 1):
-                checksum ^= data[i]
-            if data[IDX_V20_CHECKSUM] != checksum:
-                _LOGGER.error(
-                    "Checksum error, got %s, expected %s",
-                    hex(data[IDX_V20_CHECKSUM] & 0xFF),
-                    hex(checksum & 0xFF),
-                )
-                return
-
-            # Reading the weight
-            divider = 10.0
-            if (data[IDX_V20_FINAL] & 4) == 4:
+        match (data[IDX_V11_BODY_PROPERTIES] >> 1) & 3:
+            case 0:
+                divider = 10.0
+            case 1:
+                divider = 1.0
+            case 2:
                 divider = 100.0
-            weight = (
-                (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
-            ) / divider
-            _LOGGER.debug("weight: %s", weight)
+            case _:
+                _LOGGER.warning("Invalid weight scale received, assuming 1 decimal")
+                divider = 10.0
 
-            # Reading the impedance
-            impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
-                IDX_V20_IMPEDANCE_LSB
-            ] / 10.0
+        unit_of_measurement = None
+        match (data[IDX_V11_BODY_PROPERTIES] >> 3) & 3:
+            case 0:  # kg
+                weight = weight / divider
+                unit_of_measurement = UnitOfMass.KILOGRAMS
+            case 1:  # Jin
+                divider *= 2.0
+                weight = weight / divider
+                unit_of_measurement = UnitOfMass.KILOGRAMS
+            case 3:  # st & lb
+                stones = weight >> 8
+                pounds = (weight & 0xFF) / divider
+                weight = pounds + (stones * 14)
+                unit_of_measurement = UnitOfMass.POUNDS
+            case 2:  # lb
+                weight = weight / divider
+                unit_of_measurement = UnitOfMass.POUNDS
+        _LOGGER.debug("weight: %f", weight)
 
-            self.update_sensor(
-                OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
+        self.update_sensor(
+            OKOKScaleSensor.WEIGHT,
+            unit_of_measurement,
+            weight,
+            None,
+            "Weight",
+        )
+
+        return True
+
+    def _process_manufacturer_data_v20(self, manufacturer_data):
+        if MANUFACTURER_DATA_ID_V20 not in manufacturer_data:
+            return False
+
+        data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
+        _LOGGER.debug("manufacturer_data: %s", data.hex())
+        if data is None or len(data) != 19:
+            return False
+
+        if (data[IDX_V20_FINAL] & 1) == 0:
+            return False
+
+        checksum = 0x20  # Version field is part of the checksum, but not in array
+        for i in range(0, IDX_V20_CHECKSUM - 1):
+            checksum ^= data[i]
+        if data[IDX_V20_CHECKSUM] != checksum:
+            _LOGGER.error(
+                "Checksum error, got %s, expected %s",
+                hex(data[IDX_V20_CHECKSUM] & 0xFF),
+                hex(checksum & 0xFF),
             )
+            return False
 
-            self.update_sensor(
-                OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance"
-            )
-        elif MANUFACTURER_DATA_ID_VF0 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
-            if len(data) != 18:
-                return
+        # Reading the weight
+        divider = 10.0
+        if (data[IDX_V20_FINAL] & 4) == 4:
+            divider = 100.0
+        weight = ((data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]) / divider
+        _LOGGER.debug("weight: %s", weight)
 
-            _LOGGER.debug("Manufacturer Data: %s", data.hex())
+        # Reading the impedance
+        impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
+            IDX_V20_IMPEDANCE_LSB
+        ] / 10.0
 
-            # Reading the weight
-            # ToDo use unpack
-            weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
-            _LOGGER.debug("weight: %s", weight)
+        self.update_sensor(
+            OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
+        )
 
-            self.update_sensor(
-                OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
-            )
+        self.update_sensor(OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance")
+
+        return True
+
+    def _process_manufacturer_data_vc0(self, manufacturer_data):
+        data = None
+        for key in manufacturer_data:
+            if (key & 0xFF) != MANUFACTURER_DATA_ID_VC0:
+                continue
+            data_ = manufacturer_data[key]
+            if (data_[IDX_VC0_FINAL] & 1) != 1:
+                continue
+            data = data_
+        if data is None:
+            return False
+        _LOGGER.debug("manufacturer_data: %s", data.hex())
+        msb = data[IDX_VC0_WEIGHT_MSB]
+        lsb = data[IDX_VC0_WEIGHT_LSB]
+        match data[IDX_VC0_BODY_PROPERTIES] >> 3 & 0x3:
+            case 0:  # kg
+                weight = weight_kg = (msb << 8 | lsb) / 100.0
+                # unit_of_measurement = UnitOfMass.KILOGRAMS
+            case 2:  # lb
+                weight = (msb << 8 | lsb) / 10.0
+                weight_kg = weight * LB_TO_KG
+                # unit_of_measurement = UnitOfMass.POUNDS
+            case 3:  # st:lb
+                weight = msb * 14 + lsb / 10.0
+                weight_kg = weight * LB_TO_KG
+                # unit_of_measurement = UnitOfMass.POUNDS
+        _LOGGER.debug("weight: %f", weight)
+        self.update_sensor(
+            OKOKScaleSensor.WEIGHT,
+            UnitOfMass.KILOGRAMS,
+            weight_kg,
+            None,
+            "Weight",
+        )
+        return True
+
+    def _process_manufacturer_data_vf0(self, manufacturer_data):
+        if MANUFACTURER_DATA_ID_VF0 not in manufacturer_data:
+            return False
+
+        data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
+        if len(data) != 18:
+            return False
+
+        _LOGGER.debug("Manufacturer Data: %s", data.hex())
+
+        # Reading the weight
+        # ToDo use unpack
+        weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
+        _LOGGER.debug("weight: %s", weight)
+
+        self.update_sensor(
+            OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
+        )
+        return True
 
     def log_service_info(self, service_info: BluetoothServiceInfo):
         if not _LOGGER.isEnabledFor(logging.DEBUG):
