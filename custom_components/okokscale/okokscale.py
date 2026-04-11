@@ -294,6 +294,10 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 return
 
             if (data[IDX_V20_FINAL] & 1) == 0:
+                _LOGGER.debug(
+                    "Data is not final, got %s, expected 0x00",
+                    hex(data[IDX_V20_FINAL] & 1),
+                )
                 return
 
             checksum = 0x20  # Version field is part of the checksum, but not in array
@@ -314,7 +318,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             weight = (
                 (data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]
             ) / divider
-            _LOGGER.debug("weight: %s", weight)
+            _LOGGER.debug("weight: %f", weight)
 
             # Reading the impedance
             impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
@@ -338,7 +342,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             # Reading the weight
             # ToDo use unpack
             weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
-            _LOGGER.debug("weight: %s", weight)
+            _LOGGER.debug("weight: %f", weight)
 
             self.update_sensor(
                 OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
