@@ -5,14 +5,10 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from bluetooth_data_tools import human_readable_name
 import voluptuous as vol
-
 from homeassistant.components.bluetooth import (
-    BluetoothScanningMode,
     BluetoothServiceInfoBleak,
     async_discovered_service_info,
-    async_process_advertisements,
 )
 from homeassistant.config_entries import ConfigFlow
 from homeassistant.const import CONF_ADDRESS
@@ -80,11 +76,6 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         """Handle the user step to pick discovered device."""
         if user_input is not None:
             address = user_input[CONF_ADDRESS]
-            if address == "--:--:--:--:--:--":
-                return self.async_show_form(
-                    step_id="user_manual",
-                    data_schema=vol.Schema({vol.Required(CONF_ADDRESS): str}),
-                )
             await self.async_set_unique_id(address, raise_on_progress=False)
             self._abort_if_unique_id_configured()
             return self.async_create_entry(
@@ -102,8 +93,8 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
                     device.title or device.get_device_name() or discovery_info.name
                 )
 
-        self._discovered_devices["--:--:--:--:--:--"] = "Manually enter address"
-
+        if not self._discovered_devices:
+            return self.async_abort(reason="no_devices_found")
 
         return self.async_show_form(
             step_id="user",
@@ -111,45 +102,3 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
                 {vol.Required(CONF_ADDRESS): vol.In(self._discovered_devices)}
             ),
         )
-
-    async def async_step_user_manual(
-        self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
-        """Handle manual entry step."""
-        if user_input is not None:
-            address = user_input[CONF_ADDRESS]
-            if address == "--:--:--:--:--:--":
-                return self.async_show_form(
-                    step_id="user_manual",
-                    data_schema=vol.Schema({vol.Required(CONF_ADDRESS): str}),
-                )
-            if address not in self._discovered_devices:
-                discovery_info = await self._scan_for_manual_address(address)
-                name = human_readable_name(
-                    "OKOK Scale", discovery_info.name, discovery_info.address
-                )
-                self._discovered_devices[address] = name
-            await self.async_set_unique_id(address, raise_on_progress=False)
-            self._abort_if_unique_id_configured()
-            return self.async_create_entry(
-                title=self._discovered_devices[address], data={}
-            )
-
-        return self.async_show_form(
-            step_id="user_manual",
-            data_schema=vol.Schema({vol.Required(CONF_ADDRESS): str}),
-        )
-
-    async def _scan_for_manual_address(self, address: str) -> BluetoothServiceInfoBleak:
-        """Scan for the manually entered address."""
-        _LOGGER.debug("Scanning for manually entered address: %s", address)
-        service_info = await async_process_advertisements(
-            self.hass,
-            lambda info: info.address == address,
-            {"address": address, "connectable": False},
-            BluetoothScanningMode.ACTIVE,
-            timeout=10,
-        )
-        if service_info is None:
-            raise RuntimeError(f"Could not find device with address {address}")
-        return service_info

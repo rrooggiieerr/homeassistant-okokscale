@@ -97,6 +97,14 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
+        if not (
+            service_info.name in ["ADV", "Chipsea-BLE"]
+            or service_info.name.startswith("Yoda0")
+            or service_info.name.startswith("Yoda1")
+            or service_info.name.startswith("80:F4:16:")
+        ):
+            return
+
         manufacturer_data_key_lsbs = [
             key & 0xFF for key in service_info.manufacturer_data
         ]
