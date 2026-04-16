@@ -13,7 +13,7 @@ from bleak_retry_connector import BleakClientWithServiceCache, establish_connect
 from bluetooth_data_tools import human_readable_name
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
-from homeassistant.const import UnitOfMass
+from homeassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT, UnitOfMass
 from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
 from sensor_state_data.enum import StrEnum
 
@@ -123,6 +123,14 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         self.set_title(name)
 
         self.process_manufacturer_data(service_info.manufacturer_data)
+
+        self.update_sensor(
+            OKOKScaleSensor.SIGNAL_STRENGTH,
+            SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+            service_info.rssi,
+            None,
+            "Signal Strength",
+        )
 
     def poll_needed(
         self, service_info: BluetoothServiceInfo, last_poll: float | None
