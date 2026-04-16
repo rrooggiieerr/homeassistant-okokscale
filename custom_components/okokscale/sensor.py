@@ -18,6 +18,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     PERCENTAGE,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+    EntityCategory,
     UnitOfMass,
 )
 from homeassistant.core import HomeAssistant
@@ -51,6 +52,7 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         state_class=SensorStateClass.MEASUREMENT,
         entity_registry_enabled_default=False,
         translation_key=OKOKScaleSensor.SIGNAL_STRENGTH,
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     OKOKScaleSensor.BATTERY_PERCENT: SensorEntityDescription(
         key=OKOKScaleSensor.BATTERY_PERCENT,

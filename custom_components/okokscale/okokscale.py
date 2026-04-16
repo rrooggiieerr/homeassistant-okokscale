@@ -128,7 +128,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             OKOKScaleSensor.SIGNAL_STRENGTH,
             SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
             service_info.rssi,
-            None,
+            SensorDeviceClass.SIGNAL_STRENGTH,
             "Signal Strength",
         )
 
