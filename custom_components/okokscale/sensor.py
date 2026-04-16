@@ -76,7 +76,9 @@ def sensor_update_to_bluetooth_data_update(
     for device_key in sensor_update.entity_descriptions:
         sensor_description = sensor_update.entity_descriptions[device_key]
         if isinstance(sensor_description.native_unit_of_measurement, UnitOfMass):
-            description = SENSOR_DESCRIPTIONS.get(f"{device_key.key}_{sensor_description.native_unit_of_measurement}")
+            description = SENSOR_DESCRIPTIONS.get(
+                f"{device_key.key}_{sensor_description.native_unit_of_measurement}"
+            )
         else:
             description = SENSOR_DESCRIPTIONS.get(device_key.key)
         if description:
