@@ -48,14 +48,15 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         device_class=SensorDeviceClass.SIGNAL_STRENGTH,
         native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_registry_enabled_default=False,
         entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
     ),
     OKOKScaleSensor.BATTERY_PERCENT: SensorEntityDescription(
         key=OKOKScaleSensor.BATTERY_PERCENT,
         device_class=SensorDeviceClass.BATTERY,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     OKOKScaleSensor.IMPEDANCE: SensorEntityDescription(
         key=OKOKScaleSensor.IMPEDANCE,
@@ -113,18 +114,37 @@ async def async_setup_entry(
             OKOKScaleBluetoothSensorEntity, async_add_entities
         )
     )
-    entry.async_on_unload(coordinator.async_register_processor(processor))
+    entry.async_on_unload(
+        coordinator.async_register_processor(processor, SensorEntityDescription)
+    )
 
 
 class OKOKScaleBluetoothSensorEntity(
     PassiveBluetoothProcessorEntity[
-        PassiveBluetoothDataProcessor[str | int | None, SensorUpdate]
+        PassiveBluetoothDataProcessor[str | float | None, SensorUpdate]
     ],
     SensorEntity,
 ):
     """Representation of an OKOK Scale sensor."""
 
     @property
-    def native_value(self) -> str | int | None:
+    def native_value(self) -> str | float | None:
         """Return the native value."""
         return self.processor.entity_data.get(self.entity_key)
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available.
+
+        The sensor is only created when the device is seen.
+
+        Since these are sleepy devices which stop broadcasting
+        when not in use, we can't rely on the last update time
+        so once we have seen the device we always return True.
+        """
+        return True
+
+    @property
+    def assumed_state(self) -> bool:
+        """Return True if the device is no longer broadcasting."""
+        return not self.processor.available
