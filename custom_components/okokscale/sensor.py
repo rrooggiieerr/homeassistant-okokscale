@@ -34,7 +34,6 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         device_class=SensorDeviceClass.WEIGHT,
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.WEIGHT,
         suggested_display_precision=1,
     ),
     f"{OKOKScaleSensor.WEIGHT}_{UnitOfMass.POUNDS}": SensorEntityDescription(
@@ -42,7 +41,6 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         device_class=SensorDeviceClass.WEIGHT,
         native_unit_of_measurement=UnitOfMass.POUNDS,
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.WEIGHT,
         suggested_display_precision=1,
     ),
     OKOKScaleSensor.SIGNAL_STRENGTH: SensorEntityDescription(
@@ -51,7 +49,6 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
         state_class=SensorStateClass.MEASUREMENT,
         entity_registry_enabled_default=False,
-        translation_key=OKOKScaleSensor.SIGNAL_STRENGTH,
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
     OKOKScaleSensor.BATTERY_PERCENT: SensorEntityDescription(
@@ -59,7 +56,6 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         device_class=SensorDeviceClass.BATTERY,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.BATTERY_PERCENT,
     ),
     OKOKScaleSensor.IMPEDANCE: SensorEntityDescription(
         key=OKOKScaleSensor.IMPEDANCE,
