@@ -28,10 +28,18 @@ from .device import device_key_to_bluetooth_entity_key
 from .okokscale import OKOKScaleSensor, SensorUpdate
 
 SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
-    OKOKScaleSensor.WEIGHT: SensorEntityDescription(
+    f"{OKOKScaleSensor.WEIGHT}_{UnitOfMass.KILOGRAMS}": SensorEntityDescription(
         key=OKOKScaleSensor.WEIGHT,
         device_class=SensorDeviceClass.WEIGHT,
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
+        state_class=SensorStateClass.MEASUREMENT,
+        translation_key=OKOKScaleSensor.WEIGHT,
+        suggested_display_precision=1,
+    ),
+    f"{OKOKScaleSensor.WEIGHT}_{UnitOfMass.POUNDS}": SensorEntityDescription(
+        key=OKOKScaleSensor.WEIGHT,
+        device_class=SensorDeviceClass.WEIGHT,
+        native_unit_of_measurement=UnitOfMass.POUNDS,
         state_class=SensorStateClass.MEASUREMENT,
         translation_key=OKOKScaleSensor.WEIGHT,
         suggested_display_precision=1,
@@ -66,7 +74,13 @@ def sensor_update_to_bluetooth_data_update(
     """Convert a sensor update to a bluetooth data update."""
     entity_descriptions = {}
     for device_key in sensor_update.entity_descriptions:
-        description = SENSOR_DESCRIPTIONS.get(device_key.key)
+        sensor_description = sensor_update.entity_descriptions[device_key]
+        if isinstance(sensor_description.native_unit_of_measurement, UnitOfMass):
+            description = SENSOR_DESCRIPTIONS.get(
+                f"{device_key.key}_{sensor_description.native_unit_of_measurement}"
+            )
+        else:
+            description = SENSOR_DESCRIPTIONS.get(device_key.key)
         if description:
             entity_key = device_key_to_bluetooth_entity_key(device_key)
             entity_descriptions[entity_key] = description
