@@ -73,8 +73,6 @@ IDX_VC0_BODY_PROPERTIES = 6
 IDX_VF0_WEIGHT_MSB = 3
 IDX_VF0_WEIGHT_LSB = 2
 
-LB_TO_KG = 0.45359237
-
 
 class OKOKScaleSensor(StrEnum):
     # pylint: disable=too-few-public-methods
@@ -387,21 +385,19 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         _LOGGER.debug("manufacturer_data: %s", data.hex())
         match data[IDX_VC0_BODY_PROPERTIES] >> 3 & 0x3:
             case 0:  # kg
-                weight = weight_kg = (msb << 8 | lsb) / 100.0
-                # unit_of_measurement = UnitOfMass.KILOGRAMS
+                weight = (msb << 8 | lsb) / 100.0
+                unit_of_measurement = UnitOfMass.KILOGRAMS
             case 2:  # lb
                 weight = (msb << 8 | lsb) / 10.0
-                weight_kg = weight * LB_TO_KG
-                # unit_of_measurement = UnitOfMass.POUNDS
+                unit_of_measurement = UnitOfMass.POUNDS
             case 3:  # st:lb
                 weight = msb * 14 + lsb / 10.0
-                weight_kg = weight * LB_TO_KG
-                # unit_of_measurement = UnitOfMass.POUNDS
+                unit_of_measurement = UnitOfMass.POUNDS
         _LOGGER.debug("weight: %f", weight)
         self.update_sensor(
             OKOKScaleSensor.WEIGHT,
-            UnitOfMass.KILOGRAMS,
-            weight_kg,
+            unit_of_measurement,
+            weight,
             None,
             "Weight",
         )
