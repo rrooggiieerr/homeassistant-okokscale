@@ -16,6 +16,7 @@ from home_assistant_bluetooth import BluetoothServiceInfo
 from homeassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT, UnitOfMass
 from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
 from sensor_state_data.enum import StrEnum
+from sensor_state_data.library import SensorLibrary
 
 UPDATE_INTERVAL_SECONDS = 1
 
@@ -125,13 +126,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         self.process_manufacturer_data(service_info.manufacturer_data)
 
-        self.update_sensor(
-            OKOKScaleSensor.SIGNAL_STRENGTH,
-            SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
-            service_info.rssi,
-            SensorDeviceClass.SIGNAL_STRENGTH,
-            "Signal Strength",
-        )
+        self.update_signal_strength(service_info.rssi)
 
     def poll_needed(
         self, service_info: BluetoothServiceInfo, last_poll: float | None
@@ -212,12 +207,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             )
             battery_payload = await client.read_gatt_char(battery_char)
 
-            self.update_sensor(
-                OKOKScaleSensor.BATTERY_PERCENT,
-                Units.PERCENTAGE,
+            self.update_predefined_sensor(
+                SensorLibrary.BATTERY__PERCENTAGE,
                 battery_payload[0],
-                SensorDeviceClass.BATTERY,
-                "Battery",
             )
 
             self.process_manufacturer_data(advertisement_data.manufacturer_data)
