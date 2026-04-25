@@ -190,17 +190,18 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             body_composition_char = client.services.get_characteristic(
                 "00002a9c-0000-1000-8000-00805f9b34fb"
             )
-            body_composition_payload = await client.read_gatt_char(
-                body_composition_char
-            )
-            _LOGGER.debug(
-                "body_composition_payload: 0x%s", body_composition_payload.hex()
-            )
-            _LOGGER.debug(
-                "body_composition_payload: %s %s",
-                hex(body_composition_payload[11]),
-                body_composition_payload[11],
-            )
+            if body_composition_char:
+                body_composition_payload = await client.read_gatt_char(
+                    body_composition_char
+                )
+                _LOGGER.debug(
+                    "body_composition_payload: 0x%s", body_composition_payload.hex()
+                )
+                _LOGGER.debug(
+                    "body_composition_payload: %s %s",
+                    hex(body_composition_payload[11]),
+                    body_composition_payload[11],
+                )
 
             # Battery percentage always returns 0 on my device
             battery_char = client.services.get_characteristic(
