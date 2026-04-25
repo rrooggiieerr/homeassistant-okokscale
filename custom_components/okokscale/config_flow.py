@@ -35,13 +35,15 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         self, discovery_info: BluetoothServiceInfoBleak
     ) -> FlowResult:
         """Handle the bluetooth discovery step."""
-        _LOGGER.debug("async_step_bluetooth(%s)", discovery_info.address)
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
 
         device = DeviceData()
         if not device.supported(discovery_info):
             return self.async_abort(reason="not_supported")
+
+        _LOGGER.debug("%s is not yet configured", discovery_info.address)
+
         self._discovery_info = discovery_info
         self._discovered_device = device
 
@@ -51,7 +53,6 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Confirm discovery."""
-        _LOGGER.debug("async_step_bluetooth_confirm")
 
         assert self._discovered_device is not None
         device = self._discovered_device
