@@ -136,7 +136,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         device is working and online.
         """
         _LOGGER.debug("poll_needed")
-        return True
+        return False
         # if last_poll is None:
         #     return True
         # return last_poll > UPDATE_INTERVAL_SECONDS

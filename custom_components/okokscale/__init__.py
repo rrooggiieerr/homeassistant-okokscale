@@ -11,6 +11,7 @@ from homeassistant.components.bluetooth import (
 )
 from homeassistant.components.bluetooth.active_update_processor import (
     ActiveBluetoothProcessorCoordinator,
+    PassiveBluetoothProcessorCoordinator,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -27,6 +28,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up OKOK Scale device from a config entry."""
     address = entry.unique_id
     assert address is not None
+
+    passive = entry.data.get("passive", True)
+
     data = OKOKScaleBluetoothDeviceData()
 
     def _needs_poll(
@@ -65,21 +69,32 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         advertisement_data = service_info.advertisement
         return await data.async_poll(connectable_device, advertisement_data)
 
-    coordinator = ActiveBluetoothProcessorCoordinator(
-        hass,
-        _LOGGER,
-        address=address,
-        mode=BluetoothScanningMode.PASSIVE,
-        update_method=data.update,
-        needs_poll_method=_needs_poll,
-        poll_method=_async_poll,
-        connectable=True,
-    )
+    if passive:
+        coordinator = PassiveBluetoothProcessorCoordinator(
+            hass,
+            _LOGGER,
+            address=address,
+            mode=BluetoothScanningMode.PASSIVE,
+            update_method=data.update,
+        )
+    else:
+        coordinator = ActiveBluetoothProcessorCoordinator(
+            hass,
+            _LOGGER,
+            address=address,
+            mode=BluetoothScanningMode.PASSIVE,
+            update_method=data.update,
+            needs_poll_method=_needs_poll,
+            poll_method=_async_poll,
+            connectable=True,
+        )
+
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(
         coordinator.async_start()
     )  # Only start after all platforms have had a chance to subscribe
+
     return True
 
 
