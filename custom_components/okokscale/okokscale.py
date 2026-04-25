@@ -244,7 +244,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 len(data),
                 IDX_V11_CHECKSUM + 6 + 1,
             )
-            return False
+            return
 
         if (data[IDX_V11_FINAL] & 1) == 0:
             _LOGGER.debug("Data is not final")
@@ -261,7 +261,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 hex(data[IDX_V11_CHECKSUM] & 0xFF),
                 hex(checksum & 0xFF),
             )
-            return False
+            return
 
         # Reading the weight
         divider = 10.0
@@ -308,17 +308,15 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             "Weight",
         )
 
-        return True
-
     def _process_manufacturer_data_v20(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
         if data is None or len(data) != 19:
             _LOGGER.error("Data length error, got %d, expected 19", len(data))
-            return False
+            return
 
         if (data[IDX_V20_FINAL] & 1) == 0:
             _LOGGER.debug("Data is not final")
-            return False
+            return
 
         checksum = 0x20  # Version field is part of the checksum, but not in array
         for i in range(0, IDX_V20_CHECKSUM - 1):
@@ -329,7 +327,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 hex(data[IDX_V20_CHECKSUM] & 0xFF),
                 hex(checksum & 0xFF),
             )
-            return False
+            return
 
         # Reading the weight
         divider = 10.0
@@ -349,8 +347,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         self.update_sensor(OKOKScaleSensor.IMPEDANCE, "Ω", impedance, None, "Impedance")
 
-        return True
-
     def _process_manufacturer_data_vc0(self, manufacturer_data):
         data = None
         stable_data = None
@@ -368,7 +364,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 break
 
         if data is None:
-            return False
+            return
 
         # Prefer readings marked as final, but settle for the latest non-zero
         if stable_data is not None:
@@ -397,13 +393,12 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             None,
             "Weight",
         )
-        return True
 
     def _process_manufacturer_data_vf0(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
         if len(data) != 18:
             _LOGGER.error("Data length error, got %d, expected 18", len(data))
-            return False
+            return
 
         # Reading the weight
         # ToDo use unpack
@@ -413,7 +408,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         self.update_sensor(
             OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
         )
-        return True
 
     def log_service_info(self, service_info: BluetoothServiceInfo):
         _LOGGER.debug("Device Name: %s", service_info.name)
