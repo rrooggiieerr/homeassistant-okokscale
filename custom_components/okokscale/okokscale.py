@@ -358,7 +358,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         if data is None:
             return
 
-        if !final:
+        if not final:
             _LOGGER.debug("Data is not final")
             # return
 
