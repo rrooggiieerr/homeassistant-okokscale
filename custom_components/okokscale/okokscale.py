@@ -110,7 +110,8 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             )
             return
 
-        self.log_service_info(service_info)
+        if _LOGGER.isEnabledFor(logging.DEBUG):
+            self.log_service_info(service_info)
 
         self.set_device_manufacturer("OKOK")
         self.set_device_type("OKOK Scale")
@@ -186,7 +187,8 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         """
         try:
             client = await self.connect(ble_device)
-            await self.log_client(client)
+            if _LOGGER.isEnabledFor(logging.DEBUG):
+                await self.log_client(client)
 
             # Trying to figure out how this body composition payload works
             body_composition_char = client.services.get_characteristic(
@@ -357,23 +359,20 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             )
 
     def log_service_info(self, service_info: BluetoothServiceInfo):
-        if not _LOGGER.isEnabledFor(logging.DEBUG):
-            return
-
-        _LOGGER.debug("device name: %s", service_info.name)
-        _LOGGER.debug("device address: %s", service_info.address)
-        _LOGGER.debug("device rssi: %s", service_info.rssi)
+        _LOGGER.debug("Device Name: %s", service_info.name)
+        _LOGGER.debug("Device Address: %s", service_info.address)
+        _LOGGER.debug("Device RSSI: %s", service_info.rssi)
 
         manufacturer_data = service_info.manufacturer_data
         for manufacturer_id in manufacturer_data:
             data = manufacturer_data[manufacturer_id]
-            _LOGGER.debug("manufacturer identifier: %s", hex(manufacturer_id))
-            _LOGGER.debug("manufacturer data length: %s", len(data))
+            _LOGGER.debug("Manufacturer Identifier: %s", hex(manufacturer_id))
+            _LOGGER.debug("Manufacturer Data Length: %s", len(data))
             try:
-                _LOGGER.debug("manufacturer data: %s", data.decode())
-                _LOGGER.debug("manufacturer data: 0x%s", data.hex())
+                _LOGGER.debug("Manufacturer Data: %s", data.decode())
+                _LOGGER.debug("Manufacturer Data: 0x%s", data.hex())
             except UnicodeDecodeError:
-                _LOGGER.debug("manufacturer data: 0x%s", data.hex())
+                _LOGGER.debug("Manufacturer Data: 0x%s", data.hex())
             except Exception:
                 pass
 
@@ -381,20 +380,16 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         for service_id in service_data:
             try:
                 data = service_data[service_id]
-                _LOGGER.debug("service data %s: %s", service_id, data.decode())
-                _LOGGER.debug("service data %s: 0x%s", service_id, data.hex())
+                _LOGGER.debug("Service Data %s: %s", service_id, data.decode())
+                _LOGGER.debug("Service Data %s: 0x%s", service_id, data.hex())
             except UnicodeDecodeError:
-                _LOGGER.debug("service data %s: 0x%s", service_id, data.hex())
+                _LOGGER.debug("Service Data %s: 0x%s", service_id, data.hex())
             except Exception:
                 pass
 
-        _LOGGER.debug("service uuids: %s", service_info.service_uuids)
-        _LOGGER.debug("device source: %s", service_info.source)
+        _LOGGER.debug("Service UUIDs: %s", service_info.service_uuids)
 
     async def log_client(self, client):
-        if not _LOGGER.isEnabledFor(logging.DEBUG):
-            return
-
         # Log characteristics for debugging
         for i in client.services.characteristics:
             try:
