@@ -2,10 +2,17 @@
   "domain": "okokscale",
   "name": "OKOK Scale",
   "bluetooth": [
-    { "local_name": "ADV" },
-    { "local_name": "Chipsea-BLE" },
-    { "local_name": "Yoda0*" },
-    { "local_name": "Yoda1*" }
+    {
+    	"manufacturer_id": 4554
+    },
+    {
+    	"connectable": false,
+    	"manufacturer_data_start": [2, 4],
+    	"manufacturer_id": 61695
+    },
+    {
+    	"manufacturer_id": 8394
+    }
   ],
   "codeowners": [
     "@rrooggiieerr"
