@@ -29,8 +29,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     address = entry.unique_id
     assert address is not None
 
-    passive = entry.data.get("passive", True)
-
     data = OKOKScaleBluetoothDeviceData()
 
     def _needs_poll(
@@ -69,25 +67,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         advertisement_data = service_info.advertisement
         return await data.async_poll(connectable_device, advertisement_data)
 
-    if passive:
-        coordinator = PassiveBluetoothProcessorCoordinator(
-            hass,
-            _LOGGER,
-            address=address,
-            mode=BluetoothScanningMode.PASSIVE,
-            update_method=data.update,
-        )
-    else:
-        coordinator = ActiveBluetoothProcessorCoordinator(
-            hass,
-            _LOGGER,
-            address=address,
-            mode=BluetoothScanningMode.PASSIVE,
-            update_method=data.update,
-            needs_poll_method=_needs_poll,
-            poll_method=_async_poll,
-            connectable=True,
-        )
+    coordinator = ActiveBluetoothProcessorCoordinator(
+        hass,
+        _LOGGER,
+        address=address,
+        mode=BluetoothScanningMode.PASSIVE,
+        update_method=data.update,
+        needs_poll_method=_needs_poll,
+        poll_method=_async_poll,
+        connectable=True,
+    )
 
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

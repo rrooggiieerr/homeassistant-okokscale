@@ -17,7 +17,7 @@ from sensor_state_data import SensorUpdate
 from sensor_state_data.enum import StrEnum
 from sensor_state_data.library import SensorLibrary
 
-UPDATE_INTERVAL_SECONDS = 1
+UPDATE_INTERVAL_SECONDS = 60 * 60 * 24  # 1 day
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -136,10 +136,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         This is called every time we get a service_info for a device. It means the
         device is working and online.
         """
-        return False
-        # if last_poll is None:
-        #     return True
-        # return last_poll > UPDATE_INTERVAL_SECONDS
+        if last_poll is None:
+            return True
+        return last_poll > UPDATE_INTERVAL_SECONDS
 
     async def connect(self, ble_device: BLEDevice):
         if self._client and self._client.is_connected:
