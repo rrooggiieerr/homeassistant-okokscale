@@ -120,8 +120,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         self.set_device_manufacturer("OKOK")
         self.set_device_type("OKOK Scale")
-        address = service_info.address
-        _LOGGER.debug("Address: %s: ", address)
         name = human_readable_name(
             "OKOK Scale", service_info.name, service_info.address
         )
@@ -139,7 +137,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         This is called every time we get a service_info for a device. It means the
         device is working and online.
         """
-        _LOGGER.debug("poll_needed")
         return False
         # if last_poll is None:
         #     return True
@@ -225,12 +222,8 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def process_manufacturer_data(self, manufacturer_data):
         if MANUFACTURER_DATA_ID_V10 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_V10]
-            _LOGGER.debug("manufacturer_data: %s", data.hex())
             return
         if MANUFACTURER_DATA_ID_V26 in manufacturer_data:
-            data = manufacturer_data[MANUFACTURER_DATA_ID_V26]
-            _LOGGER.debug("manufacturer_data: %s", data.hex())
             return
 
         if MANUFACTURER_DATA_ID_V11 in manufacturer_data:
@@ -244,15 +237,16 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _process_manufacturer_data_v11(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
-        _LOGGER.debug("manufacturer_data: %s", data.hex())
         if data is None or len(data) != IDX_V11_CHECKSUM + 6 + 1:
+            _LOGGER.error(
+                "Data length error, got %d, expected %d",
+                len(data),
+                IDX_V11_CHECKSUM + 6 + 1,
+            )
             return False
 
         if (data[IDX_V11_FINAL] & 1) == 0:
-            _LOGGER.debug(
-                "Data is not final, got %s, expected 0x00",
-                hex(data[IDX_V20_FINAL] & 1),
-            )
+            _LOGGER.debug("Data is not final")
             return
 
         checksum = (
@@ -301,7 +295,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             case 2:  # lb
                 weight = weight / divider
                 unit_of_measurement = UnitOfMass.POUNDS
-        _LOGGER.debug("weight: %f", weight)
+        _LOGGER.debug(
+            "Weight: %.2f %s", weight, unit_of_measurement
+        )
 
         self.update_sensor(
             OKOKScaleSensor.WEIGHT,
@@ -315,15 +311,12 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _process_manufacturer_data_v20(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
-        _LOGGER.debug("manufacturer_data: %s", data.hex())
         if data is None or len(data) != 19:
+            _LOGGER.error("Data length error, got %d, expected 19", len(data))
             return False
 
         if (data[IDX_V20_FINAL] & 1) == 0:
-            _LOGGER.debug(
-                "Data is not final, got %s, expected 0x00",
-                hex(data[IDX_V20_FINAL] & 1),
-            )
+            _LOGGER.debug("Data is not final")
             return False
 
         checksum = 0x20  # Version field is part of the checksum, but not in array
@@ -331,7 +324,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             checksum ^= data[i]
         if data[IDX_V20_CHECKSUM] != checksum:
             _LOGGER.error(
-                "Checksum error, got %s, expected %s",
+                "Checksum error, got 0x%s, expected 0x%s",
                 hex(data[IDX_V20_CHECKSUM] & 0xFF),
                 hex(checksum & 0xFF),
             )
@@ -342,7 +335,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         if (data[IDX_V20_FINAL] & 4) == 4:
             divider = 100.0
         weight = ((data[IDX_V20_WEIGHT_MSB] << 8) + data[IDX_V20_WEIGHT_LSB]) / divider
-        _LOGGER.debug("weight: %f", weight)
+        _LOGGER.debug("Weight: %.2f kg", weight)
 
         # Reading the impedance
         impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
@@ -382,7 +375,6 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         msb = data[IDX_VC0_WEIGHT_MSB]
         lsb = data[IDX_VC0_WEIGHT_LSB]
-        _LOGGER.debug("manufacturer_data: %s", data.hex())
         match data[IDX_VC0_BODY_PROPERTIES] >> 3 & 0x3:
             case 0:  # kg
                 weight = (msb << 8 | lsb) / 100.0
@@ -393,7 +385,10 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             case 3:  # st:lb
                 weight = msb * 14 + lsb / 10.0
                 unit_of_measurement = UnitOfMass.POUNDS
-        _LOGGER.debug("weight: %f", weight)
+        _LOGGER.debug(
+            "Weight: %.2f %s", weight, unit_of_measurement
+        )
+
         self.update_sensor(
             OKOKScaleSensor.WEIGHT,
             unit_of_measurement,
@@ -406,14 +401,13 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
     def _process_manufacturer_data_vf0(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
         if len(data) != 18:
+            _LOGGER.error("Data length error, got %d, expected 18", len(data))
             return False
-
-        _LOGGER.debug("Manufacturer Data: %s", data.hex())
 
         # Reading the weight
         # ToDo use unpack
         weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
-        _LOGGER.debug("weight: %f", weight)
+        _LOGGER.debug("Weight: %.1f kg", weight)
 
         self.update_sensor(
             OKOKScaleSensor.WEIGHT, UnitOfMass.KILOGRAMS, weight, None, "Weight"
