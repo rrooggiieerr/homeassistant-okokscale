@@ -50,6 +50,7 @@ MANUFACTURER_DATA_ID_VF0 = 0xF0FF  # 16-bit little endian "header" 0xff 0xf0
 IDX_V10_WEIGHT_MSB = 3
 IDX_V10_WEIGHT_LSB = 2
 
+IDX_V11_FINAL = 1
 IDX_V11_WEIGHT_MSB = 3
 IDX_V11_WEIGHT_LSB = 4
 IDX_V11_BODY_PROPERTIES = 9
@@ -232,6 +233,13 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             data = manufacturer_data[MANUFACTURER_DATA_ID_V11]
             _LOGGER.debug("manufacturer_data: %s", data.hex())
             if data is None or len(data) != IDX_V11_CHECKSUM + 6 + 1:
+                return
+
+            if (data[IDX_V11_FINAL] & 1) == 0:
+                _LOGGER.debug(
+                    "Data is not final, got %s, expected 0x00",
+                    hex(data[IDX_V20_FINAL] & 1),
+                )
                 return
 
             checksum = (
