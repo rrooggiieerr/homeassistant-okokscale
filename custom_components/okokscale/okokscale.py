@@ -13,8 +13,7 @@ from bleak_retry_connector import BleakClientWithServiceCache, establish_connect
 from bluetooth_data_tools import human_readable_name
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
-from homeassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT, UnitOfMass
-from sensor_state_data import SensorDeviceClass, SensorUpdate, Units
+from sensor_state_data import SensorUpdate
 from sensor_state_data.enum import StrEnum
 from sensor_state_data.library import SensorLibrary
 
