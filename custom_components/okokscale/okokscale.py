@@ -207,12 +207,13 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             battery_char = client.services.get_characteristic(
                 CHARACTERISTIC_BATTERY_LEVEL
             )
-            battery_payload = await client.read_gatt_char(battery_char)
+            if battery_char:
+                battery_payload = await client.read_gatt_char(battery_char)
 
-            self.update_predefined_sensor(
-                SensorLibrary.BATTERY__PERCENTAGE,
-                battery_payload[0],
-            )
+                self.update_predefined_sensor(
+                    SensorLibrary.BATTERY__PERCENTAGE,
+                    battery_payload[0],
+                )
 
             self.process_manufacturer_data(advertisement_data.manufacturer_data)
         finally:
