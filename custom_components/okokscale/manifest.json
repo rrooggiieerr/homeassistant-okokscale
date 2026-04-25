@@ -12,7 +12,8 @@
     },
     {
     	"manufacturer_id": 8394
-    }
+    },
+	{ "local_name": "80:F4:16:*" }
   ],
   "codeowners": [
     "@rrooggiieerr"
