@@ -462,6 +462,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 payload = await client.read_gatt_char(gatt_char)
                 _LOGGER.debug("client.services %s: %s", gatt_char, payload.decode())
                 _LOGGER.debug("client.services %s: 0x%s", gatt_char, payload.hex())
-            except Exception as ex:
-                if isinstance(ex, (UnicodeDecodeError)):
-                    _LOGGER.debug("client.services %s: 0x%s", gatt_char, payload.hex())
+            except UnicodeDecodeError:
+                _LOGGER.debug("client.services %s: 0x%s", gatt_char, payload.hex())
+            except Exception:
+                pass
