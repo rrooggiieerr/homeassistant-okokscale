@@ -376,7 +376,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         if not final:
             _LOGGER.debug("Data is not final")
-            return
+            # return
 
         msb = data[IDX_VC0_WEIGHT_MSB]
         lsb = data[IDX_VC0_WEIGHT_LSB]
