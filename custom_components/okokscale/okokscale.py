@@ -369,6 +369,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
             if (data[IDX_VC0_FINAL] & 1) != 0:
                 data = _data
+                final = True
             elif not final:
                 data = _data
 
