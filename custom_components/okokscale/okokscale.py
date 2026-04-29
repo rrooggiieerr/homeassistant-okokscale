@@ -358,7 +358,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
     def _process_manufacturer_data_vc0(self, manufacturer_data):
         data = None
         final = False
-        for key, _data in manufacturer_data:
+        for key, _data in manufacturer_data.items():
             # Run through the whole list of values so we get the final reading
             if (key & 0xFF) != MANUFACTURER_DATA_ID_VC0:
                 continue
