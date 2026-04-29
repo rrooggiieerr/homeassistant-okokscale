@@ -31,7 +31,9 @@ CHARACTERISTIC_MODEL_NUMBER = (
 # "00002a27-0000-1000-8000-00805f9b34fb" #(Handle: 19): Hardware Revision String
 # "0000fff1-0000-1000-8000-00805f9b34fb" #(Handle: 22): Vendor specific
 # "0000fff2-0000-1000-8000-00805f9b34fb" #(Handle: 25): Vendor specific
-# "00002a9c-0000-1000-8000-00805f9b34fb" #(Handle: 28): Body Composition Measurement
+CHARACTERISTIC_BODY_COMPOSITION = (
+    "00002a9c-0000-1000-8000-00805f9b34fb"  # (Handle: 28): Body Composition Measurement
+)
 # "0000fa9c-0000-1000-8000-00805f9b34fb" #(Handle: 31): Vendor specific
 CHARACTERISTIC_BATTERY_LEVEL = (
     "00002a19-0000-1000-8000-00805f9b34fb"  # (Handle: 35): Battery Level
@@ -94,6 +96,8 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
     _client = None
     _expected_disconnect = False
 
+    supports_impedance = False
+
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
         manufacturer_data_key_lsbs = [
@@ -136,7 +140,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         This is called every time we get a service_info for a device. It means the
         device is working and online.
         """
-        if last_poll is None:
+        if last_poll is None or self.supports_impedance:
             return True
         return last_poll > UPDATE_INTERVAL_SECONDS
 
@@ -186,20 +190,41 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
             # Trying to figure out how this body composition payload works
             body_composition_char = client.services.get_characteristic(
-                "00002a9c-0000-1000-8000-00805f9b34fb"
+                CHARACTERISTIC_BODY_COMPOSITION
             )
             if body_composition_char:
                 body_composition_payload = await client.read_gatt_char(
                     body_composition_char
                 )
                 _LOGGER.debug(
-                    "body_composition_payload: 0x%s", body_composition_payload.hex()
+                    "Body Composition Payload: 0x%s", body_composition_payload.hex()
                 )
-                _LOGGER.debug(
-                    "body_composition_payload: %s %s",
-                    hex(body_composition_payload[11]),
-                    body_composition_payload[11],
+
+                control_bytes = (
+                    body_composition_payload[1] << 8
+                ) + body_composition_payload[0]
+                partial = (control_bytes & 1024) > 0
+                in_pounds = (control_bytes & 256) > 0
+                finished = (control_bytes & 128) > 0
+                in_jin = (control_bytes & 64) > 0
+                weight_stabilized = (control_bytes & 32) > 0
+                impedance_stabilized = (control_bytes & 2) > 0
+
+                weight = (
+                    (body_composition_payload[12] << 8) + body_composition_payload[11]
+                ) / 10
+                _LOGGER.debug("Weight: %.2f kg", weight)
+
+                impedance = (
+                    body_composition_payload[10] << 8
+                ) + body_composition_payload[9]
+                _LOGGER.debug("Impedance: %d Ω", impedance)
+
+                self.update_predefined_sensor(
+                    SensorLibrary.MASS__MASS_KILOGRAMS, weight, "weight"
                 )
+
+                self.update_predefined_sensor(SensorLibrary.IMPEDANCE__OHM, impedance)
 
             # Battery percentage always returns 0 on my device
             battery_char = client.services.get_characteristic(
@@ -329,9 +354,10 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         _LOGGER.debug("Weight: %.2f kg", weight)
 
         # Reading the impedance
-        impedance = (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[
-            IDX_V20_IMPEDANCE_LSB
-        ] / 10.0
+        impedance = (
+            (data[IDX_V20_IMPEDANCE_MSB] << 8) + data[IDX_V20_IMPEDANCE_LSB]
+        ) / 10.0
+        _LOGGER.debug("Impedance: %.1f Ω", impedance)
 
         self.update_predefined_sensor(SensorLibrary.MASS__MASS_KILOGRAMS, weight)
 
