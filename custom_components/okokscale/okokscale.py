@@ -88,6 +88,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
+        if _LOGGER.isEnabledFor(logging.DEBUG):
+            self.log_service_info(service_info)
+
         manufacturer_data_key_lsbs = [
             key & 0xFF for key in service_info.manufacturer_data
         ]
@@ -99,15 +102,12 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             or MANUFACTURER_DATA_ID_VF0 in service_info.manufacturer_data
             or MANUFACTURER_DATA_ID_VC0 in manufacturer_data_key_lsbs
         ):
-            _LOGGER.debug(
+            _LOGGER.info(
                 "Manufacturer data not found for %s; ids=%s",
                 service_info.address,
                 list(service_info.manufacturer_data.keys()),
             )
             return
-
-        if _LOGGER.isEnabledFor(logging.DEBUG):
-            self.log_service_info(service_info)
 
         self.set_device_manufacturer("OKOK")
         self.set_device_type("OKOK Scale")
