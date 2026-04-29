@@ -366,17 +366,18 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 continue
             if _data[IDX_VC0_WEIGHT_MSB] == 0 and _data[IDX_VC0_WEIGHT_LSB] == 0:
                 continue
-            data = _data
+
             if (data[IDX_VC0_FINAL] & 1) != 0:
-                final = True
-                break
+                data = _data
+            elif not final:
+                data = _data
 
         if data is None:
             return
 
         if not final:
             _LOGGER.debug("Data is not final")
-            return
+            # return
 
         msb = data[IDX_VC0_WEIGHT_MSB]
         lsb = data[IDX_VC0_WEIGHT_LSB]
