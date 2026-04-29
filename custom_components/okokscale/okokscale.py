@@ -239,6 +239,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                     battery_payload[0],
                 )
 
+            self.log_manufacturer_data(advertisement_data.manufacturer_data)
             self.process_manufacturer_data(advertisement_data.manufacturer_data)
         finally:
             await self.disconnect()
@@ -424,18 +425,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         _LOGGER.debug("Device Address: %s", service_info.address)
         _LOGGER.debug("Device RSSI: %s", service_info.rssi)
 
-        manufacturer_data = service_info.manufacturer_data
-        for manufacturer_id in manufacturer_data:
-            data = manufacturer_data[manufacturer_id]
-            _LOGGER.debug("Manufacturer Identifier: %s", hex(manufacturer_id))
-            _LOGGER.debug("Manufacturer Data Length: %s", len(data))
-            try:
-                _LOGGER.debug("Manufacturer Data: %s", data.decode())
-                _LOGGER.debug("Manufacturer Data: 0x%s", data.hex())
-            except UnicodeDecodeError:
-                _LOGGER.debug("Manufacturer Data: 0x%s", data.hex())
-            except Exception:
-                pass
+        self.log_manufacturer_data(service_info.manufacturer_data)
 
         service_data = service_info.service_data
         for service_id in service_data:
@@ -449,6 +439,19 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 pass
 
         _LOGGER.debug("Service UUIDs: %s", service_info.service_uuids)
+
+    def log_manufacturer_data(self, manufacturer_data):
+        for manufacturer_id in manufacturer_data:
+            data = manufacturer_data[manufacturer_id]
+            _LOGGER.debug("Manufacturer Identifier: %s", hex(manufacturer_id))
+            _LOGGER.debug("Manufacturer Data Length: %s", len(data))
+            try:
+                _LOGGER.debug("Manufacturer Data: %s", data.decode())
+                _LOGGER.debug("Manufacturer Data: 0x%s", data.hex())
+            except UnicodeDecodeError:
+                _LOGGER.debug("Manufacturer Data: 0x%s", data.hex())
+            except Exception:
+                pass
 
     async def log_client(self, client):
         # Log characteristics for debugging
