@@ -66,6 +66,7 @@ IDX_V20_CHECKSUM = 12
 IDX_V26_WEIGHT_MSB = 3
 IDX_V26_WEIGHT_LSB = 2
 
+IDX_VC0_FINAL = 6
 IDX_VC0_WEIGHT_MSB = 0
 IDX_VC0_WEIGHT_LSB = 1
 IDX_VC0_BODY_PROPERTIES = 6
@@ -356,6 +357,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
     def _process_manufacturer_data_vc0(self, manufacturer_data):
         data = None
+        final = False
         for key, _data in manufacturer_data.items():
             # Run through the whole list of values so we get the final reading
             if (key & 0xFF) != MANUFACTURER_DATA_ID_VC0:
@@ -365,9 +367,16 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             if _data[IDX_VC0_WEIGHT_MSB] == 0 and _data[IDX_VC0_WEIGHT_LSB] == 0:
                 continue
             data = _data
+            if (data[IDX_VC0_FINAL] & 1) == 1:
+                final = True
+                break
 
         if data is None:
             return
+
+        if not final:
+            _LOGGER.debug("Data is not final")
+            # return
 
         msb = data[IDX_VC0_WEIGHT_MSB]
         lsb = data[IDX_VC0_WEIGHT_LSB]
