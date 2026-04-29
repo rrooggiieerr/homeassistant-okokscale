@@ -188,11 +188,12 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             if _LOGGER.isEnabledFor(logging.DEBUG):
                 await self.log_client(client)
 
-            # Trying to figure out how this body composition payload works
             body_composition_char = client.services.get_characteristic(
                 CHARACTERISTIC_BODY_COMPOSITION
             )
             if body_composition_char:
+                self.supports_impedance = True
+
                 body_composition_payload = await client.read_gatt_char(
                     body_composition_char
                 )
