@@ -13,9 +13,7 @@ from bleak_retry_connector import BleakClientWithServiceCache, establish_connect
 from bluetooth_data_tools import human_readable_name
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
-from sensor_state_data import SensorUpdate
-from sensor_state_data.enum import StrEnum
-from sensor_state_data.library import SensorLibrary
+from sensor_state_data import SensorDeviceClass, SensorLibrary, SensorUpdate, Units
 
 UPDATE_INTERVAL_SECONDS = 60 * 60 * 24  # 1 day
 
@@ -75,16 +73,6 @@ IDX_VC0_BODY_PROPERTIES = 6
 
 IDX_VF0_WEIGHT_MSB = 3
 IDX_VF0_WEIGHT_LSB = 2
-
-
-class OKOKScaleSensor(StrEnum):
-    # pylint: disable=too-few-public-methods
-    """The different sensors de OKOK Scale provides."""
-
-    WEIGHT = "weight"
-    IMPEDANCE = "impedance"
-    SIGNAL_STRENGTH = "signal_strength"
-    BATTERY_PERCENT = "battery_percent"
 
 
 class OKOKScaleBluetoothDeviceData(BluetoothData):
@@ -325,7 +313,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             "Weight: %.2f %s", weight, base_description.native_unit_of_measurement
         )
 
-        self.update_predefined_sensor(base_description, weight)
+        self.update_predefined_sensor(base_description, weight, "weight")
 
     def _process_manufacturer_data_v20(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
@@ -361,7 +349,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         ) / 10.0
         _LOGGER.debug("Impedance: %.1f Ω", impedance)
 
-        self.update_predefined_sensor(SensorLibrary.MASS__MASS_KILOGRAMS, weight)
+        self.update_predefined_sensor(
+            SensorLibrary.MASS__MASS_KILOGRAMS, weight, "weight"
+        )
 
         self.update_predefined_sensor(SensorLibrary.IMPEDANCE__OHM, impedance)
 
@@ -405,7 +395,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             "Weight: %.2f %s", weight, base_description.native_unit_of_measurement
         )
 
-        self.update_predefined_sensor(base_description, weight)
+        self.update_predefined_sensor(base_description, weight, "weight")
 
     def _process_manufacturer_data_vf0(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
@@ -418,7 +408,9 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
         _LOGGER.debug("Weight: %.1f kg", weight)
 
-        self.update_predefined_sensor(SensorLibrary.MASS__MASS_KILOGRAMS, weight)
+        self.update_predefined_sensor(
+            SensorLibrary.MASS__MASS_KILOGRAMS, weight, "weight"
+        )
 
     def log_service_info(self, service_info: BluetoothServiceInfo):
         _LOGGER.debug("Device Name: %s", service_info.name)
