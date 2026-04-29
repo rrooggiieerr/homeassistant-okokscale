@@ -33,6 +33,7 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     f"weight_{Units.MASS_KILOGRAMS}": SensorEntityDescription(
         key="weight",
         device_class=SensorDeviceClass.WEIGHT,
+        icon="mdi:scale-bathroom",
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
@@ -40,6 +41,7 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     f"weight_{Units.MASS_POUNDS}": SensorEntityDescription(
         key="weight",
         device_class=SensorDeviceClass.WEIGHT,
+        icon="mdi:scale-bathroom",
         native_unit_of_measurement=UnitOfMass.POUNDS,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
@@ -47,23 +49,24 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH: SensorEntityDescription(
         key=OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH,
         device_class=SensorDeviceClass.SIGNAL_STRENGTH,
-        native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
-        state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_enabled_default=False,
+        native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     OKOKScaleSensorDeviceClass.BATTERY: SensorEntityDescription(
         key=f"{OKOKScaleSensorDeviceClass.BATTERY}_percent",
         device_class=SensorDeviceClass.BATTERY,
+        entity_category=EntityCategory.DIAGNOSTIC,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     OKOKScaleSensorDeviceClass.IMPEDANCE: SensorEntityDescription(
         key=OKOKScaleSensorDeviceClass.IMPEDANCE,
+        icon="mdi:omega",
+        translation_key=OKOKScaleSensorDeviceClass.IMPEDANCE,
         native_unit_of_measurement="Ω",
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensorDeviceClass.IMPEDANCE,
     ),
 }
 
