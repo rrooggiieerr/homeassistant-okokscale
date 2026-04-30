@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from homeassistant.components.bluetooth import (
     BluetoothScanningMode,
@@ -15,7 +16,8 @@ from homeassistant.components.bluetooth.active_update_processor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
-from homeassistant.core import CoreState, HomeAssistant
+from homeassistant.core import CoreState, HomeAssistant, callback
+from homeassistant.helpers import entity_registry
 
 from .okokscale import OKOKScaleBluetoothDeviceData
 
@@ -90,3 +92,27 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
+
+async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+    if config_entry.version == 1 and config_entry.minor_version < 2:
+
+        @callback
+        def migrate_unique_id(
+            entity_entry: entity_registry.RegistryEntry,
+        ) -> dict[str, Any]:
+            """Migrate the unique ID to a new format."""
+            unique_id = entity_entry.unique_id
+            if unique_id.endswith("-battery"):
+                unique_id += "_percent"
+            elif unique_id.endswith("-weight"):
+                unique_id = unique_id[:-7] + "-mass"
+            return {"new_unique_id": unique_id}
+
+        await entity_registry.async_migrate_entries(
+            hass, config_entry.entry_id, migrate_unique_id
+        )
+
+        hass.config_entries.async_update_entry(config_entry, version=1, minor_version=2)
+
+    return True
