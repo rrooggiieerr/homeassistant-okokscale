@@ -6,10 +6,12 @@ from homeassistant import config_entries
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
     PassiveBluetoothDataUpdate,
+    PassiveBluetoothEntityKey,
     PassiveBluetoothProcessorCoordinator,
     PassiveBluetoothProcessorEntity,
 )
 from homeassistant.components.sensor import (
+    EntityDescription,
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
@@ -30,7 +32,7 @@ from .okokscale import SensorDeviceClass as OKOKScaleSensorDeviceClass
 from .okokscale import SensorUpdate, Units
 
 SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
-    f"weight_{Units.MASS_KILOGRAMS}": SensorEntityDescription(
+    (OKOKScaleSensorDeviceClass.MASS, Units.MASS_KILOGRAMS): SensorEntityDescription(
         key="weight",
         device_class=SensorDeviceClass.WEIGHT,
         icon="mdi:scale-bathroom",
@@ -38,7 +40,7 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
     ),
-    f"weight_{Units.MASS_POUNDS}": SensorEntityDescription(
+    (OKOKScaleSensorDeviceClass.MASS, Units.MASS_POUNDS): SensorEntityDescription(
         key="weight",
         device_class=SensorDeviceClass.WEIGHT,
         icon="mdi:scale-bathroom",
@@ -46,7 +48,10 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
     ),
-    OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH: SensorEntityDescription(
+    (
+        OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH,
+        Units.SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+    ): SensorEntityDescription(
         key=OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH,
         device_class=SensorDeviceClass.SIGNAL_STRENGTH,
         entity_category=EntityCategory.DIAGNOSTIC,
@@ -54,14 +59,14 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
         native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
         state_class=SensorStateClass.MEASUREMENT,
     ),
-    OKOKScaleSensorDeviceClass.BATTERY: SensorEntityDescription(
+    (OKOKScaleSensorDeviceClass.BATTERY, Units.PERCENTAGE): SensorEntityDescription(
         key=f"{OKOKScaleSensorDeviceClass.BATTERY}_percent",
         device_class=SensorDeviceClass.BATTERY,
         entity_category=EntityCategory.DIAGNOSTIC,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
     ),
-    OKOKScaleSensorDeviceClass.IMPEDANCE: SensorEntityDescription(
+    (OKOKScaleSensorDeviceClass.IMPEDANCE, Units.OHM): SensorEntityDescription(
         key=OKOKScaleSensorDeviceClass.IMPEDANCE,
         icon="mdi:omega",
         translation_key=OKOKScaleSensorDeviceClass.IMPEDANCE,
@@ -75,17 +80,13 @@ def sensor_update_to_bluetooth_data_update(
     sensor_update: SensorUpdate,
 ) -> PassiveBluetoothDataUpdate:
     """Convert a sensor update to a bluetooth data update."""
-    entity_descriptions = {}
-    for device_key, sensor_description in sensor_update.entity_descriptions.items():
-        if sensor_description.device_class == OKOKScaleSensorDeviceClass.MASS:
-            description = SENSOR_DESCRIPTIONS.get(
-                f"{device_key.key}_{sensor_description.native_unit_of_measurement}"
-            )
-        else:
-            description = SENSOR_DESCRIPTIONS.get(device_key.key)
-        if description:
-            entity_key = device_key_to_bluetooth_entity_key(device_key)
-            entity_descriptions[entity_key] = description
+    entity_descriptions: dict[PassiveBluetoothEntityKey, EntityDescription] = {
+        device_key_to_bluetooth_entity_key(device_key): SENSOR_DESCRIPTIONS[
+            (description.device_class, description.native_unit_of_measurement)
+        ]
+        for device_key, description in sensor_update.entity_descriptions.items()
+        if description.device_class
+    }
 
     return PassiveBluetoothDataUpdate(
         devices={
@@ -100,6 +101,17 @@ def sensor_update_to_bluetooth_data_update(
         entity_names={
             device_key_to_bluetooth_entity_key(device_key): sensor_values.name
             for device_key, sensor_values in sensor_update.entity_values.items()
+            # Add names where the entity description has neither a translation_key nor
+            # a device_class
+            if (
+                description := entity_descriptions.get(
+                    device_key_to_bluetooth_entity_key(device_key)
+                )
+            )
+            is None
+            or (
+                description.translation_key is None and description.device_class is None
+            )
         },
     )
 

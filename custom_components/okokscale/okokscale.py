@@ -210,7 +210,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                 _LOGGER.debug("Impedance: %d Ω", impedance)
 
                 self.update_predefined_sensor(
-                    SensorLibrary.MASS__MASS_KILOGRAMS, weight, "weight"
+                    SensorLibrary.MASS__MASS_KILOGRAMS, weight
                 )
 
                 self.update_predefined_sensor(SensorLibrary.IMPEDANCE__OHM, impedance)
@@ -313,7 +313,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             "Weight: %.2f %s", weight, base_description.native_unit_of_measurement
         )
 
-        self.update_predefined_sensor(base_description, weight, "weight")
+        self.update_predefined_sensor(base_description, weight)
 
     def _process_manufacturer_data_v20(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_V20]
@@ -349,9 +349,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         ) / 10.0
         _LOGGER.debug("Impedance: %.1f Ω", impedance)
 
-        self.update_predefined_sensor(
-            SensorLibrary.MASS__MASS_KILOGRAMS, weight, "weight"
-        )
+        self.update_predefined_sensor(SensorLibrary.MASS__MASS_KILOGRAMS, weight)
 
         self.update_predefined_sensor(SensorLibrary.IMPEDANCE__OHM, impedance)
 
@@ -367,7 +365,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             if _data[IDX_VC0_WEIGHT_MSB] == 0 and _data[IDX_VC0_WEIGHT_LSB] == 0:
                 continue
 
-            if (data[IDX_VC0_FINAL] & 1) != 0:
+            if (data[IDX_VC0_FINAL] & 1) == 1:
                 data = _data
                 final = True
             elif not final:
@@ -397,7 +395,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             "Weight: %.2f %s", weight, base_description.native_unit_of_measurement
         )
 
-        self.update_predefined_sensor(base_description, weight, "weight")
+        self.update_predefined_sensor(base_description, weight)
 
     def _process_manufacturer_data_vf0(self, manufacturer_data):
         data = manufacturer_data[MANUFACTURER_DATA_ID_VF0]
@@ -410,9 +408,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
         weight = ((data[IDX_VF0_WEIGHT_MSB] << 8) + data[IDX_VF0_WEIGHT_LSB]) / 10.0
         _LOGGER.debug("Weight: %.1f kg", weight)
 
-        self.update_predefined_sensor(
-            SensorLibrary.MASS__MASS_KILOGRAMS, weight, "weight"
-        )
+        self.update_predefined_sensor(SensorLibrary.MASS__MASS_KILOGRAMS, weight)
 
     def log_service_info(self, service_info: BluetoothServiceInfo):
         _LOGGER.debug("Device Name: %s", service_info.name)
