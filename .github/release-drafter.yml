@@ -5,9 +5,6 @@ template: |
 
   $CHANGES
   
-  ## New Contributors
-  
-  
   **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 
   ## Contribution and appreciation
