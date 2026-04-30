@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "อุปกรณ์ได้รับการกำหนดค่าแล้ว",
+      "already_in_progress": "อยู่ระหว่างขั้นตอนการกำหนดค่าแล้ว",
+      "no_devices_found": "ไม่พบอุปกรณ์",
+      "not_supported": "ไม่รองรับอุปกรณ์"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "คุณต้องการตั้งค่า {name} หรือไม่?"
+      },
+      "user": {
+        "data": {
+          "address": "อุปกรณ์"
+        },
+        "description": "เลือกอุปกรณ์ที่จะตั้งค่า"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "ความต้านทาน"
+      }
+    }
+  }
+}

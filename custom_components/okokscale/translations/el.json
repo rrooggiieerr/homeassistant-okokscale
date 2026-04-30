@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Η συσκευή έχει ήδη διαμορφωθεί",
+      "already_in_progress": "Η ροή διαμόρφωσης είναι ήδη σε εξέλιξη",
+      "no_devices_found": "Δεν βρέθηκαν συσκευές",
+      "not_supported": "Η συσκευή δεν υποστηρίζεται"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Θέλετε να ρυθμίσετε το {name};"
+      },
+      "user": {
+        "data": {
+          "address": "Συσκευή"
+        },
+        "description": "Επιλέξτε μια συσκευή για ρύθμιση"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Αντίσταση"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "ഉപകരണം ഇതിനകം കോൺഫിഗർ ചെയ്തിട്ടുണ്ട്",
+      "already_in_progress": "കോൺഫിഗറേഷൻ ഫ്ലോ ഇതിനകം പുരോഗമിക്കുകയാണ്",
+      "no_devices_found": "ഉപകരണങ്ങളൊന്നും കണ്ടെത്തിയില്ല",
+      "not_supported": "ഉപകരണം പിന്തുണയ്ക്കുന്നില്ല"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "നിങ്ങൾക്ക് {name} സജ്ജീകരിക്കണോ?"
+      },
+      "user": {
+        "data": {
+          "address": "ഉപകരണം"
+        },
+        "description": "സജ്ജീകരിക്കാൻ ഒരു ഉപകരണം തിരഞ്ഞെടുക്കുക"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "പ്രതിരോധം"
+      }
+    }
+  }
+}

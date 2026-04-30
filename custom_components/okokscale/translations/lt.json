@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Įrenginys jau sukonfigūruotas",
+      "already_in_progress": "Konfigūracijos procesas jau vyksta",
+      "no_devices_found": "Nerasta jokių įrenginių",
+      "not_supported": "Įrenginys nepalaikomas"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Ar norite nustatyti {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Įrenginys"
+        },
+        "description": "Pasirinkite įrenginį, kurį norite nustatyti"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Varža"
+      }
+    }
+  }
+}

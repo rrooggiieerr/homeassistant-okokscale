@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "デバイスはすでに構成されています",
+      "already_in_progress": "構成フローはすでに進行中です",
+      "no_devices_found": "デバイスが見つかりません",
+      "not_supported": "サポートされていないデバイス"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "{name}をセットアップしますか?"
+      },
+      "user": {
+        "data": {
+          "address": "デバイス"
+        },
+        "description": "セットアップするデバイスを選択してください"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "インピーダンス"
+      }
+    }
+  }
+}

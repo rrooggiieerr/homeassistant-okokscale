@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Zařízení je již nakonfigurováno",
+      "already_in_progress": "Tok konfigurace již probíhá",
+      "no_devices_found": "Nebyla nalezena žádná zařízení",
+      "not_supported": "Zařízení není podporováno"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Chcete nastavit {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Zařízení"
+        },
+        "description": "Vyberte zařízení, které chcete nastavit"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedance"
+      }
+    }
+  }
+}

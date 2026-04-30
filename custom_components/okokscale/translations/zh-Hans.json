@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "设备已配置",
+      "already_in_progress": "配置流程已经在进行中",
+      "no_devices_found": "未找到设备",
+      "not_supported": "设备不支持"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "您想设置{name}吗？"
+      },
+      "user": {
+        "data": {
+          "address": "设备"
+        },
+        "description": "选择要设置的设备"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "阻抗"
+      }
+    }
+  }
+}

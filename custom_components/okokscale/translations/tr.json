@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Cihaz zaten yapılandırılmış",
+      "already_in_progress": "Yapılandırma akışı zaten devam ediyor",
+      "no_devices_found": "Hiçbir cihaz bulunamadı",
+      "not_supported": "Cihaz desteklenmiyor"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "{name}'i kurmak istiyor musunuz?"
+      },
+      "user": {
+        "data": {
+          "address": "Cihaz"
+        },
+        "description": "Kurulacak cihazı seçin"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Empedans"
+      }
+    }
+  }
+}

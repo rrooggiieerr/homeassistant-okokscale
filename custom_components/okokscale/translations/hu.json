@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Az eszköz már konfigurálva van",
+      "already_in_progress": "A konfigurációs folyamat már folyamatban van",
+      "no_devices_found": "Nem találhatók eszközök",
+      "not_supported": "Az eszköz nem támogatott"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Beállítja a következőt: {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Eszköz"
+        },
+        "description": "Válassza ki a beállítani kívánt eszközt"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedancia"
+      }
+    }
+  }
+}

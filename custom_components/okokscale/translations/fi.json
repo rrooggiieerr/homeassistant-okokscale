@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Laite on jo määritetty",
+      "already_in_progress": "Määritysprosessi on jo käynnissä",
+      "no_devices_found": "Laitteita ei löytynyt",
+      "not_supported": "Laitetta ei tueta"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Haluatko määrittää {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Laite"
+        },
+        "description": "Valitse määritettävä laite"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedanssi"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Tæki er þegar stillt",
+      "already_in_progress": "Stillingarflæði er þegar í gangi",
+      "no_devices_found": "Engin tæki fundust",
+      "not_supported": "Tæki ekki stutt"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Viltu setja upp {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Tæki"
+        },
+        "description": "Veldu tæki til að setja upp"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Viðnám"
+      }
+    }
+  }
+}

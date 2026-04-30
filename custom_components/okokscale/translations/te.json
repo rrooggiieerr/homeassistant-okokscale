@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "పరికరం ఇప్పటికే కాన్ఫిగర్ చేయబడింది",
+      "already_in_progress": "కాన్ఫిగరేషన్ ఫ్లో ఇప్పటికే ప్రోగ్రెస్‌లో ఉంది",
+      "no_devices_found": "పరికరాలు ఏవీ కనుగొనబడలేదు",
+      "not_supported": "పరికరానికి మద్దతు లేదు"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "మీరు {name}ని సెటప్ చేయాలనుకుంటున్నారా?"
+      },
+      "user": {
+        "data": {
+          "address": "పరికరం"
+        },
+        "description": "సెటప్ చేయడానికి పరికరాన్ని ఎంచుకోండి"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "ఇంపెడెన్స్"
+      }
+    }
+  }
+}
