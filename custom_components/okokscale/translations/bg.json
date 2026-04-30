@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Устройството вече е конфигурирано",
+      "already_in_progress": "Конфигурационният поток вече е в ход",
+      "no_devices_found": "Няма намерени устройства",
+      "not_supported": "Устройството не се поддържа"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Искате ли да настроите {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "устройство"
+        },
+        "description": "Изберете устройство за настройка"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Импеданс"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "ڈیوائس پہلے ہی کنفیگر ہے۔",
+      "already_in_progress": "کنفیگریشن فلو پہلے سے ہی جاری ہے۔",
+      "no_devices_found": "کوئی آلات نہیں ملے",
+      "not_supported": "آلہ تعاون یافتہ نہیں ہے۔"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "کیا آپ {name} کو ترتیب دینا چاہتے ہیں؟"
+      },
+      "user": {
+        "data": {
+          "address": "ڈیوائس"
+        },
+        "description": "سیٹ اپ کرنے کے لیے ایک آلہ منتخب کریں۔"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "رکاوٹ"
+      }
+    }
+  }
+}

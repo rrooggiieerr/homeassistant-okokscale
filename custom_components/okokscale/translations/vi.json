@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Thiết bị đã được định cấu hình",
+      "already_in_progress": "Luồng cấu hình đang được tiến hành",
+      "no_devices_found": "Không tìm thấy thiết bị nào",
+      "not_supported": "Thiết bị không được hỗ trợ"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Bạn có muốn thiết lập {name} không?"
+      },
+      "user": {
+        "data": {
+          "address": "Thiết bị"
+        },
+        "description": "Chọn một thiết bị để thiết lập"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Trở kháng"
+      }
+    }
+  }
+}

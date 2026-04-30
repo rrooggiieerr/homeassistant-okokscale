@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "המכשיר כבר מוגדר",
+      "already_in_progress": "זרימת התצורה כבר מתבצעת",
+      "no_devices_found": "לא נמצאו מכשירים",
+      "not_supported": "מכשיר לא נתמך"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "האם אתה רוצה להגדיר את {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "הֶתקֵן"
+        },
+        "description": "בחר מכשיר להגדרה"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "עַכָּבָּה"
+      }
+    }
+  }
+}

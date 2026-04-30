@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "ডিভাইস ইতিমধ্যে কনফিগার করা আছে",
+      "already_in_progress": "কনফিগারেশন প্রবাহ ইতিমধ্যেই চলছে",
+      "no_devices_found": "কোনো ডিভাইস পাওয়া যায়নি",
+      "not_supported": "ডিভাইস সমর্থিত নয়"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "আপনি কি {name} সেট আপ করতে চান?"
+      },
+      "user": {
+        "data": {
+          "address": "ডিভাইস"
+        },
+        "description": "সেট আপ করার জন্য একটি ডিভাইস চয়ন করুন৷"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "প্রতিবন্ধকতা"
+      }
+    }
+  }
+}

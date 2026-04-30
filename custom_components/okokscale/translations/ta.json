@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "சாதனம் ஏற்கனவே உள்ளமைக்கப்பட்டுள்ளது",
+      "already_in_progress": "உள்ளமைவு ஓட்டம் ஏற்கனவே செயலில் உள்ளது",
+      "no_devices_found": "சாதனங்கள் எதுவும் இல்லை",
+      "not_supported": "சாதனம் ஆதரிக்கப்படவில்லை"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "{name}ஐ அமைக்க விரும்புகிறீர்களா?"
+      },
+      "user": {
+        "data": {
+          "address": "சாதனம்"
+        },
+        "description": "அமைக்க ஒரு சாதனத்தைத் தேர்ந்தெடுக்கவும்"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "மின்மறுப்பு"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Tá an gléas cumraithe cheana féin",
+      "already_in_progress": "Tá sreabhadh cumraíochta ar siúl cheana féin",
+      "no_devices_found": "Níor aimsíodh aon ghléas",
+      "not_supported": "Ní thacaítear leis an ngléas"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Ar mhaith leat {name} a shocrú?"
+      },
+      "user": {
+        "data": {
+          "address": "Gléas"
+        },
+        "description": "Roghnaigh gléas le socrú"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedance"
+      }
+    }
+  }
+}

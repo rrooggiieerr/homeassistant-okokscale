@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "O dispositivo xa está configurado",
+      "already_in_progress": "O fluxo de configuración xa está en curso",
+      "no_devices_found": "Non se atopou ningún dispositivo",
+      "not_supported": "O dispositivo non é compatible"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Queres configurar {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Dispositivo"
+        },
+        "description": "Escolle un dispositivo para configurar"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedancia"
+      }
+    }
+  }
+}

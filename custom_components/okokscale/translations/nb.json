@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Enheten er allerede konfigurert",
+      "already_in_progress": "Konfigurasjonsflyten er allerede i gang",
+      "no_devices_found": "Ingen enheter funnet",
+      "not_supported": "Enheten støttes ikke"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Vil du sette opp {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Enhet"
+        },
+        "description": "Velg en enhet du vil konfigurere"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedans"
+      }
+    }
+  }
+}

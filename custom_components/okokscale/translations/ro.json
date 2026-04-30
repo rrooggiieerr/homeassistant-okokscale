@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Dispozitivul este deja configurat",
+      "already_in_progress": "Fluxul de configurare este deja în curs",
+      "no_devices_found": "Nu s-au găsit dispozitive",
+      "not_supported": "Dispozitivul nu este acceptat"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Doriți să configurați {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Dispozitiv"
+        },
+        "description": "Alegeți un dispozitiv de configurat"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedanta"
+      }
+    }
+  }
+}

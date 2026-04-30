@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "La aparato jam estas agordita",
+      "already_in_progress": "Fluo de agordo jam okazas",
+      "no_devices_found": "Neniuj aparatoj trovitaj",
+      "not_supported": "Aparato ne subtenata"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Ĉu vi volas agordi {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Aparato"
+        },
+        "description": "Elektu aparaton por agordi"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedanco"
+      }
+    }
+  }
+}

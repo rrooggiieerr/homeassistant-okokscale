@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Naprava je že konfigurirana",
+      "already_in_progress": "Potek konfiguracije je že v teku",
+      "no_devices_found": "Najdena ni bila nobena naprava",
+      "not_supported": "Naprava ni podprta"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Ali želite nastaviti {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Naprava"
+        },
+        "description": "Izberite napravo za nastavitev"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedanca"
+      }
+    }
+  }
+}
