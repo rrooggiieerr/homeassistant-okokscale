@@ -76,4 +76,4 @@ exclude-labels:
   - 'skip-changelog'
 
 exclude-contributors:
-  - 'dependabot[bot]'
+  - 'dependabot'
