@@ -21,14 +21,8 @@
     },
 	"entity": {
 		"sensor": {
-			"weight" : {
-				"name": "Gewicht"
-			},
-			"signal_strength" : {
-				"name": "Signal Strength"
-			},
-			"battery_percent" : {
-				"name": "Battery Percent"
+			"impedance" : {
+				"name": "Weerstand"
 			}
 		}
     }

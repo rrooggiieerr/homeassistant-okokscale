@@ -66,26 +66,30 @@ Home Assistant is restarted. If your scale is not detected it's not supported by
 
 ## Contribution and appreciation
 
-You can contribute to this integration, or show your appreciation, in the following ways.
+Do you enjoy using this Home Assistant integration? You can contribute or show your appreciation,
+in the following ways.
 
 ### Contribute your language
 
-If you would like to use this Home Assistant integration in your own language you can provide a
-translation file as found in the `custom_components/okokscale/translations` directory. Create a
-pull request (preferred) or issue with the file attached.
+This integration comes with language support for most languages supported by Home Assistant. The
+language files are generated using Google Translate and may contain errors. If you spot a
+translation error you are welcome to suggest improvements.
+
+You can find the translation files in the `custom_components/okokscale/translations` directory. Create a
+pull request (preferred) or issue with your improvements.
 
 More on translating custom integrations can be found
 [here](https://developers.home-assistant.io/docs/internationalization/custom_integration/).
 
 ### Star this integration
 
-Help other Home Assistant and NAD users find this integration by starring this GitHub page. Click
-**⭐ Star** on the top right of the GitHub page.
+Help other Home Assistant and OKOK Scale users find this integration by starring this GitHub page.
+ Click **⭐ Star** on the top right of the GitHub page.
 
 ## Support my work
 
-Do you enjoy using this Home Assistant integration? Then consider supporting my work using one of
-the following platforms, your donation is greatly appreciated and keeps me motivated:
+Please consider supporting my work through one of the following platforms, your contribution is
+greatly appreciated and keeps me motivated:
 
 [![GitHub Sponsors][github-shield]][github]
 [![PayPal][paypal-shield]][paypal]
@@ -95,7 +99,7 @@ the following platforms, your donation is greatly appreciated and keeps me motiv
 ### Home Assistant support
 
 [Let me answer your Home Assistant questions](https://buymeacoffee.com/rrooggiieerr/e/447353). During
-a 1 hour Q&A session I help you solve your Home Assistant related issues with.
+a 1 hour Q&A session I help you solve your Home Assistant related issues.
 
 What can be done in one hour:
 - Home Assistant walktrough, I explain you where is what in the Home Assistant UI
@@ -108,10 +112,10 @@ What takes more time:
 - Depending on the severity I might be able to help you with recovering your crashed Home Assistant
 - Support for Home Assistant Integration developers
 
-## Hire me
+### Hire me
 
 If you would like to have a Home Assistant integration developed for your product or are in need
-for a freelance Python developer for your project please contact me, you can find my email address
+of a freelance Python developer for your project please contact me, you can find my email address
 on [my GitHub profile](https://github.com/rrooggiieerr).
 
 [python-shield]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54

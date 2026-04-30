@@ -6,10 +6,12 @@ from homeassistant import config_entries
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
     PassiveBluetoothDataUpdate,
+    PassiveBluetoothEntityKey,
     PassiveBluetoothProcessorCoordinator,
     PassiveBluetoothProcessorEntity,
 )
 from homeassistant.components.sensor import (
+    EntityDescription,
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
@@ -18,6 +20,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     PERCENTAGE,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+    EntityCategory,
     UnitOfMass,
 )
 from homeassistant.core import HomeAssistant
@@ -25,45 +28,50 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
 from .device import device_key_to_bluetooth_entity_key
-from .okokscale import OKOKScaleSensor, SensorUpdate
+from .okokscale import SensorDeviceClass as OKOKScaleSensorDeviceClass
+from .okokscale import SensorUpdate, Units
 
 SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
-    f"{OKOKScaleSensor.WEIGHT}_{UnitOfMass.KILOGRAMS}": SensorEntityDescription(
-        key=OKOKScaleSensor.WEIGHT,
+    (OKOKScaleSensorDeviceClass.MASS, Units.MASS_KILOGRAMS): SensorEntityDescription(
+        key="weight",
         device_class=SensorDeviceClass.WEIGHT,
+        icon="mdi:scale-bathroom",
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.WEIGHT,
         suggested_display_precision=1,
     ),
-    f"{OKOKScaleSensor.WEIGHT}_{UnitOfMass.POUNDS}": SensorEntityDescription(
-        key=OKOKScaleSensor.WEIGHT,
+    (OKOKScaleSensorDeviceClass.MASS, Units.MASS_POUNDS): SensorEntityDescription(
+        key="weight",
         device_class=SensorDeviceClass.WEIGHT,
+        icon="mdi:scale-bathroom",
         native_unit_of_measurement=UnitOfMass.POUNDS,
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.WEIGHT,
         suggested_display_precision=1,
     ),
-    OKOKScaleSensor.SIGNAL_STRENGTH: SensorEntityDescription(
-        key=OKOKScaleSensor.SIGNAL_STRENGTH,
+    (
+        OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH,
+        Units.SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+    ): SensorEntityDescription(
+        key=OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH,
         device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
         native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_registry_enabled_default=False,
-        translation_key=OKOKScaleSensor.SIGNAL_STRENGTH,
     ),
-    OKOKScaleSensor.BATTERY_PERCENT: SensorEntityDescription(
-        key=OKOKScaleSensor.BATTERY_PERCENT,
+    (OKOKScaleSensorDeviceClass.BATTERY, Units.PERCENTAGE): SensorEntityDescription(
+        key=f"{OKOKScaleSensorDeviceClass.BATTERY}_percent",
         device_class=SensorDeviceClass.BATTERY,
+        entity_category=EntityCategory.DIAGNOSTIC,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.BATTERY_PERCENT,
     ),
-    OKOKScaleSensor.IMPEDANCE: SensorEntityDescription(
-        key=OKOKScaleSensor.IMPEDANCE,
+    (OKOKScaleSensorDeviceClass.IMPEDANCE, Units.OHM): SensorEntityDescription(
+        key=OKOKScaleSensorDeviceClass.IMPEDANCE,
+        icon="mdi:omega",
+        translation_key=OKOKScaleSensorDeviceClass.IMPEDANCE,
         native_unit_of_measurement="Ω",
         state_class=SensorStateClass.MEASUREMENT,
-        translation_key=OKOKScaleSensor.IMPEDANCE,
     ),
 }
 
@@ -72,18 +80,13 @@ def sensor_update_to_bluetooth_data_update(
     sensor_update: SensorUpdate,
 ) -> PassiveBluetoothDataUpdate:
     """Convert a sensor update to a bluetooth data update."""
-    entity_descriptions = {}
-    for device_key in sensor_update.entity_descriptions:
-        sensor_description = sensor_update.entity_descriptions[device_key]
-        if isinstance(sensor_description.native_unit_of_measurement, UnitOfMass):
-            description = SENSOR_DESCRIPTIONS.get(
-                f"{device_key.key}_{sensor_description.native_unit_of_measurement}"
-            )
-        else:
-            description = SENSOR_DESCRIPTIONS.get(device_key.key)
-        if description:
-            entity_key = device_key_to_bluetooth_entity_key(device_key)
-            entity_descriptions[entity_key] = description
+    entity_descriptions: dict[PassiveBluetoothEntityKey, EntityDescription] = {
+        device_key_to_bluetooth_entity_key(device_key): SENSOR_DESCRIPTIONS[
+            (description.device_class, description.native_unit_of_measurement)
+        ]
+        for device_key, description in sensor_update.entity_descriptions.items()
+        if description.device_class
+    }
 
     return PassiveBluetoothDataUpdate(
         devices={
@@ -98,6 +101,17 @@ def sensor_update_to_bluetooth_data_update(
         entity_names={
             device_key_to_bluetooth_entity_key(device_key): sensor_values.name
             for device_key, sensor_values in sensor_update.entity_values.items()
+            # Add names where the entity description has neither a translation_key nor
+            # a device_class
+            if (
+                description := entity_descriptions.get(
+                    device_key_to_bluetooth_entity_key(device_key)
+                )
+            )
+            is None
+            or (
+                description.translation_key is None and description.device_class is None
+            )
         },
     )
 
@@ -115,18 +129,37 @@ async def async_setup_entry(
             OKOKScaleBluetoothSensorEntity, async_add_entities
         )
     )
-    entry.async_on_unload(coordinator.async_register_processor(processor))
+    entry.async_on_unload(
+        coordinator.async_register_processor(processor, SensorEntityDescription)
+    )
 
 
 class OKOKScaleBluetoothSensorEntity(
     PassiveBluetoothProcessorEntity[
-        PassiveBluetoothDataProcessor[str | int | None, SensorUpdate]
+        PassiveBluetoothDataProcessor[str | float | None, SensorUpdate]
     ],
     SensorEntity,
 ):
     """Representation of an OKOK Scale sensor."""
 
     @property
-    def native_value(self) -> str | int | None:
+    def native_value(self) -> str | float | None:
         """Return the native value."""
         return self.processor.entity_data.get(self.entity_key)
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available.
+
+        The sensor is only created when the device is seen.
+
+        Since these are sleepy devices which stop broadcasting
+        when not in use, we can't rely on the last update time
+        so once we have seen the device we always return True.
+        """
+        return True
+
+    @property
+    def assumed_state(self) -> bool:
+        """Return True if the device is no longer broadcasting."""
+        return not self.processor.available
