@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Mae'r ddyfais eisoes wedi'i ffurfweddu",
+      "already_in_progress": "Mae llif cyfluniad eisoes ar y gweill",
+      "no_devices_found": "Heb ganfod dyfeisiau",
+      "not_supported": "Dyfais heb ei chefnogi"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Ydych chi am sefydlu {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Dyfais"
+        },
+        "description": "Dewiswch ddyfais i'w sefydlu"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "rhwystriant"
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+template: |
+  ## What’s Changed
+
+  $CHANGES
+  
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+  ## Contribution and appreciation
+
+  Do you enjoy using this Home Assistant integration? You can contribute or show your appreciation, in the following ways.
+
+  ### Contribute your language
+
+  You're invited to improve the translation for your language. See the instructions in the [Readme](https://github.com/$OWNER/$REPOSITORY/blob/main/README.md) on how to contribute translations.
+
+  ### Star this integration
+
+  Help other Home Assistant and OKOK Scale users find this integration by starring the [GitHub page of this integration](https://github.com/$OWNER/$REPOSITORY). Click **⭐ Star** on the top right of the GitHub page.
+
+  ### Support my work
+
+  Please consider supporting my work through one of the following platforms, your contribution is greatly appreciated and keeps me motivated:
+
+  [![GitHub Sponsors][github-shield]][github] [![PayPal][paypal-shield]][paypal] [![BuyMeCoffee][buymecoffee-shield]][buymecoffee] [![Patreon][patreon-shield]][patreon]
+
+  ### Home Assistant support
+
+  [Let me answer your Home Assistant questions](https://buymeacoffee.com/rrooggiieerr/e/447353). During a 1 hour Q&A session I help you solve your Home Assistant related issues.
+
+  ### Hire me
+
+  If you would like to have a Home Assistant integration developed for your product or are in need of a freelance Python developer for your project please contact me, you can find my email address on [my GitHub profile](https://github.com/$OWNER).
+
+  [paypal]: https://paypal.me/seekingtheedge
+  [paypal-shield]: https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white
+  [buymecoffee]: https://www.buymeacoffee.com/rrooggiieerr
+  [buymecoffee-shield]: https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black
+  [github]: https://github.com/sponsors/rrooggiieerr
+  [github-shield]: https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA
+  [patreon]: https://www.patreon.com/seekingtheedge/creators
+  [patreon-shield]: https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white
+categories:
+  - title: 'Breaking'
+    label: 'type: breaking'
+  - title: 'New'
+    label: 'type: feature'
+  - title: 'Bug Fixes'
+    label: 'type: bug'
+  - title: 'Maintenance'
+    label: 'type: maintenance'
+  - title: 'Documentation'
+    label: 'type: docs'
+  - title: 'Other changes'
+  - title: 'Dependency Updates'
+    label: 'type: dependencies'
+    collapse-after: 5
+
+version-resolver:
+  major:
+    labels:
+      - 'type: breaking'
+  minor:
+    labels:
+      - 'type: feature'
+  patch:
+    labels:
+      - 'type: bug'
+      - 'type: maintenance'
+      - 'type: docs'
+      - 'type: dependencies'
+      - 'type: security'
+  
+exclude-labels:
+  - 'skip-changelog'
+
+exclude-contributors:
+  - 'dependabot'
+  - 'imgbot'

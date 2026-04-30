@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Gerät ist bereits konfiguriert",
+      "already_in_progress": "Der Konfigurationsablauf ist bereits im Gange",
+      "no_devices_found": "Keine Geräte gefunden",
+      "not_supported": "Gerät wird nicht unterstützt"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Möchten Sie {name} einrichten?"
+      },
+      "user": {
+        "data": {
+          "address": "Gerät"
+        },
+        "description": "Wählen Sie ein Gerät zum Einrichten aus"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedanz"
+      }
+    }
+  }
+}

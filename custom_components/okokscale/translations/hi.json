@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "डिवाइस पहले से ही कॉन्फ़िगर किया गया है",
+      "already_in_progress": "कॉन्फ़िगरेशन प्रवाह पहले से ही प्रगति पर है",
+      "no_devices_found": "कोई यंत्र नहीं मिले",
+      "not_supported": "उपकरण समर्थित नहीं"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "क्या आप {name} सेट अप करना चाहते हैं?"
+      },
+      "user": {
+        "data": {
+          "address": "उपकरण"
+        },
+        "description": "सेट अप करने के लिए एक उपकरण चुनें"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "मुक़ाबला"
+      }
+    }
+  }
+}

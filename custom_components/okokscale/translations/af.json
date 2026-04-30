@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Toestel is reeds opgestel",
+      "already_in_progress": "Konfigurasievloei is reeds aan die gang",
+      "no_devices_found": "Geen toestelle gevind nie",
+      "not_supported": "Toestel word nie ondersteun nie"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Wil jy {name} opstel?"
+      },
+      "user": {
+        "data": {
+          "address": "Toestel"
+        },
+        "description": "Kies 'n toestel om op te stel"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedansie"
+      }
+    }
+  }
+}

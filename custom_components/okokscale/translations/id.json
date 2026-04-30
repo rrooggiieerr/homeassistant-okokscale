@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Perangkat sudah dikonfigurasi",
+      "already_in_progress": "Alur konfigurasi sedang berlangsung",
+      "no_devices_found": "Tidak ada perangkat yang ditemukan",
+      "not_supported": "Perangkat tidak didukung"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Apakah Anda ingin menyiapkan {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Perangkat"
+        },
+        "description": "Pilih perangkat yang akan dikonfigurasi"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedansi"
+      }
+    }
+  }
+}

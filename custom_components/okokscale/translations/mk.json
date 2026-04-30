@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Уредот е веќе конфигуриран",
+      "already_in_progress": "Текот на конфигурацијата е веќе во тек",
+      "no_devices_found": "Не се пронајдени уреди",
+      "not_supported": "Уредот не е поддржан"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Дали сакате да го поставите {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Уред"
+        },
+        "description": "Изберете уред за поставување"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Импеданса"
+      }
+    }
+  }
+}

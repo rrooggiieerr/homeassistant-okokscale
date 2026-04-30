@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Apparaat is al konfigurearre",
+      "already_in_progress": "Konfiguraasjestream is al dwaande",
+      "no_devices_found": "Gjin apparaten fûn",
+      "not_supported": "Apparaat net stipe"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Wolle jo {name} ynstelle?"
+      },
+      "user": {
+        "data": {
+          "address": "Apparaat"
+        },
+        "description": "Kies in apparaat om yn te stellen"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedânsje"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Ierīce jau ir konfigurēta",
+      "already_in_progress": "Konfigurācijas plūsma jau notiek",
+      "no_devices_found": "Netika atrasta neviena ierīce",
+      "not_supported": "Ierīce netiek atbalstīta"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Vai vēlaties iestatīt {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "Ierīce"
+        },
+        "description": "Izvēlieties iestatāmo ierīci"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedance"
+      }
+    }
+  }
+}

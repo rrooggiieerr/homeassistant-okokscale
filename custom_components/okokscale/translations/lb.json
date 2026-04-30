@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Den Apparat ass scho konfiguréiert",
+      "already_in_progress": "Konfiguratiounsfloss ass schonn amgaang",
+      "no_devices_found": "Keng Apparater fonnt",
+      "not_supported": "Apparat net ënnerstëtzt"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Wëllt Dir {name} astellen?"
+      },
+      "user": {
+        "data": {
+          "address": "Apparat"
+        },
+        "description": "Wielt en Apparat fir opzestellen"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedanz"
+      }
+    }
+  }
+}

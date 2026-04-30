@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "მოწყობილობა უკვე კონფიგურირებულია",
+      "already_in_progress": "კონფიგურაციის ნაკადი უკვე მიმდინარეობს",
+      "no_devices_found": "მოწყობილობები ვერ მოიძებნა",
+      "not_supported": "მოწყობილობა არ არის მხარდაჭერილი"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "გსურთ დააყენოთ {name}?"
+      },
+      "user": {
+        "data": {
+          "address": "მოწყობილობა"
+        },
+        "description": "აირჩიეთ მოწყობილობა დასაყენებლად"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "წინაღობა"
+      }
+    }
+  }
+}

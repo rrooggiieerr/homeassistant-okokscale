@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "تم تكوين الجهاز بالفعل",
+      "already_in_progress": "تدفق التكوين قيد التقدم بالفعل",
+      "no_devices_found": "لم يتم العثور على أي أجهزة",
+      "not_supported": "الجهاز غير مدعوم"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "هل تريد إعداد {name}؟"
+      },
+      "user": {
+        "data": {
+          "address": "جهاز"
+        },
+        "description": "اختر جهازًا لإعداده"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "مقاومة"
+      }
+    }
+  }
+}

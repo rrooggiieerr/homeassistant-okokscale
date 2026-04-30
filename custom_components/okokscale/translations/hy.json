@@ -1,0 +1,29 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Սարքն արդեն կազմաձևված է",
+      "already_in_progress": "Կազմաձևման հոսքն արդեն ընթացքի մեջ է",
+      "no_devices_found": "Սարքեր չեն գտնվել",
+      "not_supported": "Սարքը չի աջակցվում"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Ցանկանու՞մ եք կարգավորել {name}-ը:"
+      },
+      "user": {
+        "data": {
+          "address": "Սարք"
+        },
+        "description": "Ընտրեք սարքը կարգավորելու համար"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Դիմադրություն"
+      }
+    }
+  }
+}
