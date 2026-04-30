@@ -77,5 +77,6 @@ version-resolver:
   
 exclude-labels:
   - 'skip-changelog'
-  - '[ImgBot]'
-  - 'Bump '
+
+exclude-contributors:
+  - 'dependabot[bot]'
