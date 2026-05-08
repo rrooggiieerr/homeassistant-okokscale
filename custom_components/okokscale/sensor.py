@@ -1,7 +1,5 @@
 """Support for OKOK Scale sensors."""
 
-from __future__ import annotations
-
 from homeassistant import config_entries
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,

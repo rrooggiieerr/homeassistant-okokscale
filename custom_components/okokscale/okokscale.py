@@ -4,8 +4,6 @@ Talks to the OKOK Scale.
 This file needs to become a library once we have everything working
 """
 
-from __future__ import annotations
-
 import logging
 
 from bleak import AdvertisementData, BleakClient, BLEDevice
