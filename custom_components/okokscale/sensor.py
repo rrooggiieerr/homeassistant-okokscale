@@ -9,7 +9,6 @@ from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothProcessorEntity,
 )
 from homeassistant.components.sensor import (
-    EntityDescription,
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
@@ -22,6 +21,7 @@ from homeassistant.const import (
     UnitOfMass,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
