@@ -109,11 +109,11 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         self.set_device_manufacturer("OKOK")
         self.set_device_type("OKOK Scale")
-        name = human_readable_name(
+        self.name = human_readable_name(
             "OKOK Scale", service_info.name, service_info.address
         )
-        self.set_device_name(name)
-        self.set_title(name)
+        self.set_device_name(self.name)
+        self.set_title(self.name)
 
         self.process_manufacturer_data(service_info.manufacturer_data)
 
