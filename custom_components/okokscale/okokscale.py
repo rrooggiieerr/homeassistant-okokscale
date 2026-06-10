@@ -364,7 +364,7 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
             if _data[IDX_VC0_WEIGHT_MSB] == 0 and _data[IDX_VC0_WEIGHT_LSB] == 0:
                 continue
 
-            if (data[IDX_VC0_FINAL] & 1) == 1:
+            if (_data[IDX_VC0_FINAL] & 1) == 1:
                 data = _data
                 final = True
             elif not final:
