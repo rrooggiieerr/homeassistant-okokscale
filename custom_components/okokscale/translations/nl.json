@@ -1,29 +1,29 @@
 {
-    "config": {
-        "abort": {
-            "already_configured": "Device is already configured",
-            "already_in_progress": "Configuration flow is already in progress",
-            "no_devices_found": "No devices found",
-            "not_supported": "Device not supported"
-        },
-        "flow_title": "{name}",
-        "step": {
-            "bluetooth_confirm": {
-                "description": "Do you want to set up {name}?"
-            },
-            "user": {
-                "data": {
-                    "address": "Device"
-                },
-                "description": "Choose a device to set up"
-            }
-        }
+  "config": {
+    "abort": {
+      "already_configured": "Apparaat is al geconfigureerd",
+      "already_in_progress": "De configuratie is momenteel al bezig",
+      "no_devices_found": "Geen apparaten gevonden",
+      "not_supported": "Apparaat niet ondersteund"
     },
-	"entity": {
-		"sensor": {
-			"impedance" : {
-				"name": "Weerstand"
-			}
-		}
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "description": "Wil je {name} instellen?"
+      },
+      "user": {
+        "data": {
+          "address": "Apparaat"
+        },
+        "description": "Kies een apparaat om in te stellen"
+      }
     }
+  },
+  "entity": {
+    "sensor": {
+      "impedance": {
+        "name": "Impedantie"
+      }
+    }
+  }
 }

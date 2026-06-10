@@ -1,7 +1,5 @@
 """Support for OKOK Scale sensors."""
 
-from __future__ import annotations
-
 from homeassistant import config_entries
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
@@ -11,7 +9,6 @@ from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothProcessorEntity,
 )
 from homeassistant.components.sensor import (
-    EntityDescription,
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
@@ -24,12 +21,16 @@ from homeassistant.const import (
     UnitOfMass,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
 from .device import device_key_to_bluetooth_entity_key
 from .okokscale import SensorDeviceClass as OKOKScaleSensorDeviceClass
 from .okokscale import SensorUpdate, Units
+
+# Coordinator is used to centralize the data updates
+PARALLEL_UPDATES = 0
 
 SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     (OKOKScaleSensorDeviceClass.MASS, Units.MASS_KILOGRAMS): SensorEntityDescription(

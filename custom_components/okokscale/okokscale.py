@@ -4,8 +4,6 @@ Talks to the OKOK Scale.
 This file needs to become a library once we have everything working
 """
 
-from __future__ import annotations
-
 import logging
 
 from bleak import AdvertisementData, BleakClient, BLEDevice
@@ -111,11 +109,11 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
 
         self.set_device_manufacturer("OKOK")
         self.set_device_type("OKOK Scale")
-        name = human_readable_name(
+        self.name = human_readable_name(
             "OKOK Scale", service_info.name, service_info.address
         )
-        self.set_device_name(name)
-        self.set_title(name)
+        self.set_device_name(self.name)
+        self.set_title(self.name)
 
         self.process_manufacturer_data(service_info.manufacturer_data)
 
@@ -227,7 +225,8 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                     battery_payload[0],
                 )
 
-            self.log_manufacturer_data(advertisement_data.manufacturer_data)
+            if _LOGGER.isEnabledFor(logging.DEBUG):
+                self.log_manufacturer_data(advertisement_data.manufacturer_data)
             self.process_manufacturer_data(advertisement_data.manufacturer_data)
         finally:
             await self.disconnect()

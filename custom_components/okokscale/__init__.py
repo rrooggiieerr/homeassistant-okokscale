@@ -1,7 +1,5 @@
 """The OKOK Scale integration."""
 
-from __future__ import annotations
-
 import logging
 from typing import Any
 
@@ -12,7 +10,6 @@ from homeassistant.components.bluetooth import (
 )
 from homeassistant.components.bluetooth.active_update_processor import (
     ActiveBluetoothProcessorCoordinator,
-    PassiveBluetoothProcessorCoordinator,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -66,8 +63,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 f"No connectable device found for {service_info.device.address}"
             )
 
-        advertisement_data = service_info.advertisement
-        return await data.async_poll(connectable_device, advertisement_data)
+        return await data.async_poll(connectable_device, service_info.advertisement)
 
     coordinator = ActiveBluetoothProcessorCoordinator(
         hass,
@@ -77,6 +73,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         update_method=data.update,
         needs_poll_method=_needs_poll,
         poll_method=_async_poll,
+        # We will take advertisements from non-connectable devices
+        # since we will trade the BLEDevice for a connectable one
+        # if we need to poll it
         connectable=True,
     )
 
