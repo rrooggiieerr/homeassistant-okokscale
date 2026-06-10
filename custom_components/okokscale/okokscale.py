@@ -225,7 +225,8 @@ class OKOKScaleBluetoothDeviceData(BluetoothData):
                     battery_payload[0],
                 )
 
-            self.log_manufacturer_data(advertisement_data.manufacturer_data)
+            if _LOGGER.isEnabledFor(logging.DEBUG):
+                self.log_manufacturer_data(advertisement_data.manufacturer_data)
             self.process_manufacturer_data(advertisement_data.manufacturer_data)
         finally:
             await self.disconnect()
