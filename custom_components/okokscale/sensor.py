@@ -29,6 +29,9 @@ from .device import device_key_to_bluetooth_entity_key
 from .okokscale import SensorDeviceClass as OKOKScaleSensorDeviceClass
 from .okokscale import SensorUpdate, Units
 
+# Coordinator is used to centralize the data updates
+PARALLEL_UPDATES = 0
+
 SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     (OKOKScaleSensorDeviceClass.MASS, Units.MASS_KILOGRAMS): SensorEntityDescription(
         key="weight",
