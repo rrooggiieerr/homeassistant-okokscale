@@ -63,8 +63,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 f"No connectable device found for {service_info.device.address}"
             )
 
-        advertisement_data = service_info.advertisement
-        return await data.async_poll(connectable_device, advertisement_data)
+        return await data.async_poll(connectable_device, service_info.advertisement)
 
     coordinator = ActiveBluetoothProcessorCoordinator(
         hass,
