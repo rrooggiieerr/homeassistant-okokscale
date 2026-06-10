@@ -30,5 +30,5 @@
   "requirements": [
   	"bluetooth_sensor_state_data==1.9.0"
   ],
-  "version": "0.0.3"
+  "version": "0.0.5"
 }
