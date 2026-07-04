@@ -12,7 +12,7 @@ from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_ADDRESS
 
 from .const import DOMAIN
-from .okokscale import OKOKScaleBluetoothDeviceData as DeviceData
+from okokscale.parser import OKOKScaleBluetoothDeviceData as DeviceData
 
 _LOGGER = logging.getLogger(__name__)
 

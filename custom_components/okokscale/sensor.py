@@ -26,8 +26,8 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
 from .device import device_key_to_bluetooth_entity_key
-from .okokscale import SensorDeviceClass as OKOKScaleSensorDeviceClass
-from .okokscale import SensorUpdate, Units
+from okokscale.parser import SensorDeviceClass as OKOKScaleSensorDeviceClass
+from okokscale.parser import SensorUpdate, Units
 
 # Coordinator is used to centralize the data updates
 PARALLEL_UPDATES = 0
