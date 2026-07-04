@@ -15,8 +15,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import CoreState, HomeAssistant, callback
 from homeassistant.helpers import entity_registry
-
-from .okokscale import OKOKScaleBluetoothDeviceData
+from okokscale.parser import OKOKScaleBluetoothDeviceData
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
