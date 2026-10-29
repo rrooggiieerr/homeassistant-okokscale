@@ -24,9 +24,6 @@
       "local_name": "78:66:A5:*"
     }
   ],
-  "codeowners": [
-    "@rrooggiieerr"
-  ],
   "categories": ["health_wellbeing"],
   "codeowners": ["@rrooggiieerr"],
   "config_flow": true,
