@@ -1,6 +1,13 @@
 """Support for OKOK Scale sensors."""
 
-from homeassistant import config_entries
+from typing import Any, override
+
+from okokscale import (
+    SensorDeviceClass as OKOKScaleSensorDeviceClass,
+    SensorUpdate,
+    Units,
+)
+
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
     PassiveBluetoothDataUpdate,
@@ -24,30 +31,28 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.sensor import sensor_device_info_to_hass_device_info
-from okokscale.parser import SensorDeviceClass as OKOKScaleSensorDeviceClass
-from okokscale.parser import SensorUpdate, Units
 
+from . import OKOKScaleConfigEntry
 from .device import device_key_to_bluetooth_entity_key
 
-# Coordinator is used to centralize the data updates
 PARALLEL_UPDATES = 0
 
-SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
+SENSOR_DESCRIPTIONS = {
     (OKOKScaleSensorDeviceClass.MASS, Units.MASS_KILOGRAMS): SensorEntityDescription(
         key="weight",
         device_class=SensorDeviceClass.WEIGHT,
-        icon="mdi:scale-bathroom",
         native_unit_of_measurement=UnitOfMass.KILOGRAMS,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
+        translation_key="weight",
     ),
     (OKOKScaleSensorDeviceClass.MASS, Units.MASS_POUNDS): SensorEntityDescription(
         key="weight",
         device_class=SensorDeviceClass.WEIGHT,
-        icon="mdi:scale-bathroom",
         native_unit_of_measurement=UnitOfMass.POUNDS,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
+        translation_key="weight",
     ),
     (
         OKOKScaleSensorDeviceClass.SIGNAL_STRENGTH,
@@ -69,24 +74,23 @@ SENSOR_DESCRIPTIONS: dict[str, SensorEntityDescription] = {
     ),
     (OKOKScaleSensorDeviceClass.IMPEDANCE, Units.OHM): SensorEntityDescription(
         key=OKOKScaleSensorDeviceClass.IMPEDANCE,
-        icon="mdi:omega",
-        translation_key=OKOKScaleSensorDeviceClass.IMPEDANCE,
         native_unit_of_measurement="Ω",
         state_class=SensorStateClass.MEASUREMENT,
+        translation_key="impedance",
     ),
 }
 
 
 def sensor_update_to_bluetooth_data_update(
     sensor_update: SensorUpdate,
-) -> PassiveBluetoothDataUpdate:
+) -> PassiveBluetoothDataUpdate[Any]:
     """Convert a sensor update to a bluetooth data update."""
     entity_descriptions: dict[PassiveBluetoothEntityKey, EntityDescription] = {
         device_key_to_bluetooth_entity_key(device_key): SENSOR_DESCRIPTIONS[
             (description.device_class, description.native_unit_of_measurement)
         ]
         for device_key, description in sensor_update.entity_descriptions.items()
-        if description.device_class
+        if description.device_class and description.native_unit_of_measurement
     }
 
     return PassiveBluetoothDataUpdate(
@@ -99,31 +103,16 @@ def sensor_update_to_bluetooth_data_update(
             device_key_to_bluetooth_entity_key(device_key): sensor_values.native_value
             for device_key, sensor_values in sensor_update.entity_values.items()
         },
-        entity_names={
-            device_key_to_bluetooth_entity_key(device_key): sensor_values.name
-            for device_key, sensor_values in sensor_update.entity_values.items()
-            # Add names where the entity description has neither a translation_key nor
-            # a device_class
-            if (
-                description := entity_descriptions.get(
-                    device_key_to_bluetooth_entity_key(device_key)
-                )
-            )
-            is None
-            or (
-                description.translation_key is None and description.device_class is None
-            )
-        },
     )
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: config_entries.ConfigEntry,
+    entry: OKOKScaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the OKOK Scale sensors."""
-    coordinator: PassiveBluetoothProcessorCoordinator = entry.runtime_data
+    coordinator: PassiveBluetoothProcessorCoordinator[Any] = entry.runtime_data
     processor = PassiveBluetoothDataProcessor(sensor_update_to_bluetooth_data_update)
     entry.async_on_unload(
         processor.async_add_entities_listener(
@@ -137,18 +126,20 @@ async def async_setup_entry(
 
 class OKOKScaleBluetoothSensorEntity(
     PassiveBluetoothProcessorEntity[
-        PassiveBluetoothDataProcessor[str | float | None, SensorUpdate]
+        PassiveBluetoothDataProcessor[float | int | str | None, SensorUpdate]
     ],
     SensorEntity,
 ):
     """Representation of an OKOK Scale sensor."""
 
     @property
-    def native_value(self) -> str | float | None:
+    @override
+    def native_value(self) -> float | int | str | None:
         """Return the native value."""
         return self.processor.entity_data.get(self.entity_key)
 
     @property
+    @override
     def available(self) -> bool:
         """Return True if entity is available.
 
@@ -161,6 +152,7 @@ class OKOKScaleBluetoothSensorEntity(
         return True
 
     @property
+    @override
     def assumed_state(self) -> bool:
         """Return True if the device is no longer broadcasting."""
         return not self.processor.available

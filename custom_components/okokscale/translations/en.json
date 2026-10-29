@@ -2,7 +2,6 @@
     "config": {
         "abort": {
             "already_configured": "Device is already configured",
-            "already_in_progress": "Configuration flow is already in progress",
             "no_devices_found": "No devices found",
             "not_supported": "Device not supported"
         },
@@ -15,15 +14,23 @@
                 "data": {
                     "address": "Device"
                 },
+                "data_description": {
+                    "address": "Select the OKOK Scale you want to set up"
+                },
                 "description": "Choose a device to set up"
             }
         }
     },
-	"entity": {
-		"sensor": {
-			"impedance" : {
-				"name": "Impedance"
-			}
-		}
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Impedance"
+            }
+        }
+    },
+    "exceptions": {
+        "no_connectable_device": {
+            "message": "No connectable Bluetooth adapter is in range of {address}."
+        }
     }
 }

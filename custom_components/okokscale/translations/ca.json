@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "El dispositiu ja està configurat",
-      "already_in_progress": "El flux de configuració ja està en curs",
-      "no_devices_found": "No s'ha trobat cap dispositiu",
-      "not_supported": "El dispositiu no és compatible"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Voleu configurar {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Dispositiu"
+    "config": {
+        "abort": {
+            "already_configured": "El dispositiu ja està configurat",
+            "already_in_progress": "El flux de configuració ja està en curs",
+            "no_devices_found": "No s' ha trobat cap dispositiu",
+            "not_supported": "El dispositiu no està implementat"
         },
-        "description": "Trieu un dispositiu per configurar"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Voleu establir {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Dispositiu"
+                },
+                "description": "Escolliu un dispositiu per establir"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Impedància"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Impedància"
-      }
-    }
-  }
 }

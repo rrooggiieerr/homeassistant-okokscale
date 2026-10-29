@@ -1,16 +1,17 @@
 """Config flow for OKOK Scale integration."""
 
 import logging
-from typing import Any
+from typing import Any, override
 
-import voluptuous as vol
+from okokscale.parser import OKOKScaleBluetoothDeviceData as DeviceData
+import probatio
+
 from homeassistant.components.bluetooth import (
     BluetoothServiceInfoBleak,
     async_discovered_service_info,
 )
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_ADDRESS
-from okokscale.parser import OKOKScaleBluetoothDeviceData as DeviceData
 
 from .const import DOMAIN
 
@@ -29,6 +30,7 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         self._discovered_device: DeviceData | None = None
         self._discovered_devices: dict[str, str] = {}
 
+    @override
     async def async_step_bluetooth(
         self, discovery_info: BluetoothServiceInfoBleak
     ) -> ConfigFlowResult:
@@ -61,7 +63,6 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             return self.async_create_entry(title=title, data={})
 
-        self._set_confirm_only()
         placeholders = {"name": title}
         self.context["title_placeholders"] = placeholders
         return self.async_show_form(
@@ -69,6 +70,7 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
             description_placeholders=self.context["title_placeholders"],
         )
 
+    @override
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
@@ -97,7 +99,7 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema(
-                {vol.Required(CONF_ADDRESS): vol.In(self._discovered_devices)}
+            data_schema=probatio.Schema(
+                {probatio.Required(CONF_ADDRESS): probatio.In(self._discovered_devices)}
             ),
         )

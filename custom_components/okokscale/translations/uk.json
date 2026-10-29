@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Пристрій уже налаштовано",
-      "already_in_progress": "Конфігурація вже триває",
-      "no_devices_found": "Пристроїв не знайдено",
-      "not_supported": "Пристрій не підтримується"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Ви хочете налаштувати {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "пристрій"
+    "config": {
+        "abort": {
+            "already_configured": "Пристрої вже налаштовані",
+            "already_in_progress": "Накопичувальний потік вже триває",
+            "no_devices_found": "Не знайдено пристроїв",
+            "not_supported": "Пристрій не підтримується"
         },
-        "description": "Виберіть пристрій для налаштування"
-      }
+        "flow_title": "{name} {name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Ви хочете налаштувати {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Пристрої"
+                },
+                "description": "Виберіть пристрій для установки"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Проксимус"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Імпеданс"
-      }
-    }
-  }
 }
