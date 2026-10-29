@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Gailua dagoeneko konfiguratuta dago",
-      "already_in_progress": "Konfigurazio-fluxua abian da dagoeneko",
-      "no_devices_found": "Ez da gailurik aurkitu",
-      "not_supported": "Gailua ez da onartzen"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "{name} konfiguratu nahi duzu?"
-      },
-      "user": {
-        "data": {
-          "address": "Gailua"
+    "config": {
+        "abort": {
+            "already_configured": "Gailua dagoeneko konfiguratuta dago",
+            "already_in_progress": "Konfigurazio-fluxua jadanik martxan dago",
+            "no_devices_found": "Ez da gailurik aurkitu",
+            "not_supported": "Gailua ez dago onartuta"
         },
-        "description": "Aukeratu konfiguratzeko gailu bat"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "{name} konfiguratu nahi duzu?"
+            },
+            "user": {
+                "data": {
+                    "address": "Gailua"
+                },
+                "description": "Aukeratu gailua konfiguratzeko"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Inpedantzia"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Inpedantzia"
-      }
-    }
-  }
 }

@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Cihaz zaten yapılandırılmış",
-      "already_in_progress": "Yapılandırma akışı zaten devam ediyor",
-      "no_devices_found": "Hiçbir cihaz bulunamadı",
-      "not_supported": "Cihaz desteklenmiyor"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "{name}'i kurmak istiyor musunuz?"
-      },
-      "user": {
-        "data": {
-          "address": "Cihaz"
+    "config": {
+        "abort": {
+            "already_configured": "Cihaz zaten yapılandırılmıştır",
+            "already_in_progress": "Yapı akışı zaten ilerleme aşamasındadır",
+            "no_devices_found": "Hiçbir cihaz bulunamadı",
+            "not_supported": "Cihaz desteklenmedi"
         },
-        "description": "Kurulacak cihazı seçin"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "{name} kurmak mı istiyorsunuz?"
+            },
+            "user": {
+                "data": {
+                    "address": "Cihaz"
+                },
+                "description": "kurmak için bir cihaz seçin"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Empedans"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Empedans"
-      }
-    }
-  }
 }

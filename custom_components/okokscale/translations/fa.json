@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "دستگاه قبلاً پیکربندی شده است",
-      "already_in_progress": "جریان پیکربندی در حال حاضر در حال انجام است",
-      "no_devices_found": "دستگاهی پیدا نشد",
-      "not_supported": "دستگاه پشتیبانی نمی شود"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "آیا می خواهید {name} را راه اندازی کنید؟"
-      },
-      "user": {
-        "data": {
-          "address": "دستگاه"
+    "config": {
+        "abort": {
+            "already_configured": "دستگاه در حال حاضر پیکربندی شده",
+            "already_in_progress": "جریان پیکربندی در حال حاضر در پیشرفت است",
+            "no_devices_found": "هیچ دستگاهی پیدا نشد",
+            "not_supported": "دستگاه پشتیبانی نشده"
         },
-        "description": "دستگاهی را برای تنظیم انتخاب کنید"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "آیا می خواهید {name} را راه اندازی کنید؟"
+            },
+            "user": {
+                "data": {
+                    "address": "دستگاه"
+                },
+                "description": "انتخاب یک دستگاه برای تنظیم"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "سوء استفاده"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "امپدانس"
-      }
-    }
-  }
 }

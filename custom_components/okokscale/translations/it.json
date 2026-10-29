@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Il dispositivo è già configurato",
-      "already_in_progress": "Il flusso di configurazione è già in corso",
-      "no_devices_found": "Nessun dispositivo trovato",
-      "not_supported": "Dispositivo non supportato"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Vuoi configurare {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Dispositivo"
+    "config": {
+        "abort": {
+            "already_configured": "Il dispositivo è già configurato",
+            "already_in_progress": "Il flusso di configurazione è già in corso",
+            "no_devices_found": "Nessun dispositivo trovato",
+            "not_supported": "Dispositivo non supportato"
         },
-        "description": "Scegli un dispositivo da configurare"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Vuoi impostare {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Dispositivo"
+                },
+                "description": "Scegliere un dispositivo per impostare"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Impedenza"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Impedenza"
-      }
-    }
-  }
 }

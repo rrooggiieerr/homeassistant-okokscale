@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Enheten är redan konfigurerad",
-      "already_in_progress": "Konfigurationsflödet pågår redan",
-      "no_devices_found": "Inga enheter hittades",
-      "not_supported": "Enheten stöds inte"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Vill du konfigurera {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Anordning"
+    "config": {
+        "abort": {
+            "already_configured": "Enhet är redan konfigurerad",
+            "already_in_progress": "Konfigurationsflödet pågår redan",
+            "no_devices_found": "Inga enheter hittades",
+            "not_supported": "Enhet som inte stöds"
         },
-        "description": "Välj en enhet att konfigurera"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Vill du ställa in {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Enhet"
+                },
+                "description": "Välj en enhet för att ställa in"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Impedans"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Impedans"
-      }
-    }
-  }
 }

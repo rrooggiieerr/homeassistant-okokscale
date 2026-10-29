@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "تم تكوين الجهاز بالفعل",
-      "already_in_progress": "تدفق التكوين قيد التقدم بالفعل",
-      "no_devices_found": "لم يتم العثور على أي أجهزة",
-      "not_supported": "الجهاز غير مدعوم"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "هل تريد إعداد {name}؟"
-      },
-      "user": {
-        "data": {
-          "address": "جهاز"
+    "config": {
+        "abort": {
+            "already_configured": "الجهاز تم تشكيله بالفعل",
+            "already_in_progress": "تدفق الإتحاد جار بالفعل",
+            "no_devices_found": "لا توجد أجهزة",
+            "not_supported": "الأجهزة غير المدعومة"
         },
-        "description": "اختر جهازًا لإعداده"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "هل تريد أن تجهز {name}؟"
+            },
+            "user": {
+                "data": {
+                    "address": "الجهاز"
+                },
+                "description": "اختر جهازاً ليجهز"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "إعاقة"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "مقاومة"
-      }
-    }
-  }
 }
