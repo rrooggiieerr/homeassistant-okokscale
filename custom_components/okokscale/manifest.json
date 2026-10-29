@@ -18,7 +18,14 @@
     {
       "connectable": false,
       "local_name": "80:F4:16:*"
+    },
+    {
+      "connectable": false,
+      "local_name": "78:66:A5:*"
     }
+  ],
+  "codeowners": [
+    "@rrooggiieerr"
   ],
   "categories": ["health_wellbeing"],
   "codeowners": ["@rrooggiieerr"],
