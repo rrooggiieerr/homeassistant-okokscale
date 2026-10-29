@@ -33,7 +33,6 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "bluetooth_sensor_state_data==1.9.0",
     "okokscale>=0.0.4"
 ]
 
