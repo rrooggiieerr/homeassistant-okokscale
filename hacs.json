@@ -1,4 +1,4 @@
 {
-	"name": "OKOK Scale",
-	"render_readme": true
+  "name": "OKOK Scale",
+  "homeassistant": "2026.10.0"
 }

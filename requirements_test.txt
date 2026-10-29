@@ -1,0 +1,6 @@
+codespell
+mypy
+pytest-homeassistant-custom-component
+pylint
+pylint-per-file-ignores
+pre-commit
