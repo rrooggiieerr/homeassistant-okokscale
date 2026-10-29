@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Pajisja është konfiguruar tashmë",
-      "already_in_progress": "Rrjedha e konfigurimit është tashmë në progres",
-      "no_devices_found": "Nuk u gjet asnjë pajisje",
-      "not_supported": "Pajisja nuk mbështetet"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Dëshiron të konfigurosh {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Pajisja"
+    "config": {
+        "abort": {
+            "already_configured": "Dispozitivi është konfiguruar tashmë",
+            "already_in_progress": "Intervali i konfigurimit është tashmë në progres",
+            "no_devices_found": "Nuk u gjet asnjë mjet",
+            "not_supported": "Dispozitivi nuk suportohet"
         },
-        "description": "Zgjidhni një pajisje për të konfiguruar"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Dëshiron të vendosësh {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Dispozitivi"
+                },
+                "description": "Zgjidh një dispozitiv për tu konfiguruar"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Të këqijat"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Impedanca"
-      }
-    }
-  }
 }

@@ -1,20 +1,23 @@
 name: Check Python code format
 
-on: [push]
+# yamllint disable-line rule:truthy
+on:
+  push:
+  pull_request:
 
 jobs:
-  linter_name:
-    name: runner / isort & black formatter
+  pre-commit:
+    name: Check code format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Check files using the isort import sorter
-        uses: isort/isort-action@v1
+      - name: Set up Python
+        uses: actions/setup-python@v7
         with:
-          configuration: "--profile black --check-only"
-          requirements-files: "requirements.txt"
-      - name: Check files using the black formatter
-        uses: psf/black@stable
-        with:
-          options: "--check"
-          src: "."
+          python-version: "3.14"
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+        env:
+          # mypy and pylint need the project's dependencies installed
+          SKIP: mypy,pylint
+          RUFF_OUTPUT_FORMAT: github

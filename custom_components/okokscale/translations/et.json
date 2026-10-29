@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Seade on juba konfigureeritud",
-      "already_in_progress": "Konfiguratsioonivoog on juba pooleli",
-      "no_devices_found": "Ühtegi seadet ei leitud",
-      "not_supported": "Seadet ei toetata"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Kas soovite seadistada kasutaja {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Seade"
+    "config": {
+        "abort": {
+            "already_configured": "Seade on juba seadistatud",
+            "already_in_progress": "Seadistuste voog on juba töös",
+            "no_devices_found": "Seadmeid ei leitud",
+            "not_supported": "Seade ei ole toetatud"
         },
-        "description": "Valige seadistatav seade"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Kas seadistada {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Seadme"
+                },
+                "description": "Seadistatava seadme valimine"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Impedants"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Takistus"
-      }
-    }
-  }
 }

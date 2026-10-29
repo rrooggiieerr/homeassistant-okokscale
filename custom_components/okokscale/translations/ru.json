@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Устройство уже настроено",
-      "already_in_progress": "Процесс настройки уже выполняется",
-      "no_devices_found": "Устройства не найдены",
-      "not_supported": "Устройство не поддерживается"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Вы хотите настроить {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Устройство"
+    "config": {
+        "abort": {
+            "already_configured": "Устройство уже настроено",
+            "already_in_progress": "Конфигурационный поток уже идет",
+            "no_devices_found": "Никаких устройств не найдено",
+            "not_supported": "Устройство не поддерживается"
         },
-        "description": "Выберите устройство для настройки"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Вы хотите установить {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Устройство"
+                },
+                "description": "Выберите устройство для настройки"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Импотенция"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Импеданс"
-      }
-    }
-  }
 }

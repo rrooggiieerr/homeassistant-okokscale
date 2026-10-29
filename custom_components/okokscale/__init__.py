@@ -3,6 +3,8 @@
 import logging
 from typing import Any
 
+from okokscale.parser import OKOKScaleBluetoothDeviceData, SensorUpdate
+
 from homeassistant.components.bluetooth import (
     BluetoothScanningMode,
     BluetoothServiceInfoBleak,
@@ -14,15 +16,19 @@ from homeassistant.components.bluetooth.active_update_processor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import CoreState, HomeAssistant, callback
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry
-from okokscale.parser import OKOKScaleBluetoothDeviceData
+
+from .const import DOMAIN
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 _LOGGER = logging.getLogger(__name__)
 
+type OKOKScaleConfigEntry = ConfigEntry[ActiveBluetoothProcessorCoordinator[Any]]
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+
+async def async_setup_entry(hass: HomeAssistant, entry: OKOKScaleConfigEntry) -> None:
     """Set up OKOK Scale device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -35,7 +41,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         # Only poll if hass is running, we need to poll,
         # and we actually have a way to connect to the device
         return (
-            hass.state == CoreState.running
+            hass.state is CoreState.running
             and data.poll_needed(service_info, last_poll)
             and bool(
                 async_ble_device_from_address(
@@ -44,11 +50,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             )
         )
 
-    async def _async_poll(service_info: BluetoothServiceInfoBleak):
+    async def _async_poll(service_info: BluetoothServiceInfoBleak) -> SensorUpdate:
         # BluetoothServiceInfoBleak is defined in HA, otherwise would just pass it
         # directly to the OKOK Scale code
         # Make sure the device we have is one that we can connect with
-        # in case its coming from a passive scanner
+        # in case it's coming from a passive scanner
         if service_info.connectable:
             connectable_device = service_info.device
         elif device := async_ble_device_from_address(
@@ -58,8 +64,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         else:
             # We have no bluetooth controller that is in range of
             # the device to poll it
-            raise RuntimeError(
-                f"No connectable device found for {service_info.device.address}"
+            raise HomeAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="no_connectable_device",
+                translation_placeholders={"address": service_info.device.address},
             )
 
         return await data.async_poll(connectable_device, service_info.advertisement)
@@ -75,24 +83,22 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         # We will take advertisements from non-connectable devices
         # since we will trade the BLEDevice for a connectable one
         # if we need to poll it
-        connectable=True,
+        connectable=False,
     )
 
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    entry.async_on_unload(
-        coordinator.async_start()
-    )  # Only start after all platforms have had a chance to subscribe
-
-    return True
+    # Only start after all platforms have had a chance to subscribe
+    entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: OKOKScaleConfigEntry) -> None:
     """Unload a config entry."""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+    """Migrate config entry to latest version."""
     if config_entry.version == 1 and config_entry.minor_version < 2:
 
         @callback

@@ -1,29 +1,29 @@
 {
-  "config": {
-    "abort": {
-      "already_configured": "Įrenginys jau sukonfigūruotas",
-      "already_in_progress": "Konfigūracijos procesas jau vyksta",
-      "no_devices_found": "Nerasta jokių įrenginių",
-      "not_supported": "Įrenginys nepalaikomas"
-    },
-    "flow_title": "{name}",
-    "step": {
-      "bluetooth_confirm": {
-        "description": "Ar norite nustatyti {name}?"
-      },
-      "user": {
-        "data": {
-          "address": "Įrenginys"
+    "config": {
+        "abort": {
+            "already_configured": "Įrenginys jau sukonfigūruotas",
+            "already_in_progress": "Konfigūracijos srautas jau vyksta",
+            "no_devices_found": "Įrenginių nerasta",
+            "not_supported": "Įrenginys nepalaikomas"
         },
-        "description": "Pasirinkite įrenginį, kurį norite nustatyti"
-      }
+        "flow_title": "{name}",
+        "step": {
+            "bluetooth_confirm": {
+                "description": "Ar norite sukurti {name}?"
+            },
+            "user": {
+                "data": {
+                    "address": "Įrenginys"
+                },
+                "description": "Pasirinkite įrenginį, kuris bus sukurtas"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "impedance": {
+                "name": "Impedansas"
+            }
+        }
     }
-  },
-  "entity": {
-    "sensor": {
-      "impedance": {
-        "name": "Varža"
-      }
-    }
-  }
 }

@@ -1,20 +1,79 @@
 name: Release Drafter
 
+# yamllint disable-line rule:truthy
 on:
   push:
     branches:
       - main
-      - master
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 # Permissions for default token (secrets.GITHUB_TOKEN)
 permissions:
   contents: write
-  pull-requests: read
+  pull-requests: write
 
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v7
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Read version from manifest
+        id: manifest
+        run: |
+          name=$(jq -r .name custom_components/*/manifest.json)
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          version=$(jq -r .version custom_components/*/manifest.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$version" =~ [a-z] ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+          if git rev-parse -q --verify "refs/tags/$version" >/dev/null; then
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "released=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: release-drafter/release-drafter@v7.10.0
+        if: steps.manifest.outputs.released == 'false'
         with:
           config-name: release-drafter.yml # the default, loads '.github/release-drafter.yml'
+          version: ${{ steps.manifest.outputs.version }}
+          tag: ${{ steps.manifest.outputs.version }}
+          name: ${{ steps.manifest.outputs.version }}
+          prerelease: ${{ steps.manifest.outputs.prerelease }}
+          footer: |
+
+            ## Contributing and supporting this project
+
+            Are you enjoying this Home Assistant integration? There are several ways you can contribute to the project, help other users, or support my work.
+
+            ### Contribute a translation
+
+            Would you like to use this integration in your own language? See the instructions in [the GitHub repository](https://github.com/${{ github.repository }}#contribute-a-translation) on how to contribute translations.
+
+            ### Star this integration
+
+            Help other Home Assistant and ${{ steps.manifest.outputs.name }} users discover this integration by starring the GitHub repository. Just click **⭐ Star** on the top right of [this page](https://github.com/${{ github.repository }}).
+
+            ### Support my work
+
+            I’ve put a lot of time and effort into developing and maintaining this integration. If you find it useful, please consider supporting its continued development by [sponsoring me on GitHub][github] or [buying me a coffee ☕️][buymecoffee].
+
+            [![GitHub Sponsors][github-shield]][github] [![BuyMeCoffee][buymecoffee-shield]][buymecoffee]
+
+            ### Home Assistant support
+
+            Need some hands-on help with Home Assistant? [Book a one-hour Q&A session](https://buymeacoffee.com/rrooggiieerr/e/447353) and I'll help you solve your Home Assistant-related questions.
+
+            ### Hire me
+
+            Would you like a Home Assistant integration developed for your product, or do you need an experienced Python developer for your project? I'm available for freelance development work. You can find my contact details on [my GitHub profile](https://github.com/rrooggiieerr).
+
+            [buymecoffee]: https://www.buymeacoffee.com/rrooggiieerr
+            [buymecoffee-shield]: https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black
+            [github]: https://github.com/sponsors/rrooggiieerr
+            [github-shield]: https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=%23EA4AAA
