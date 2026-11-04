@@ -2,6 +2,7 @@
     "config": {
         "abort": {
             "already_configured": "Device is already configured",
+            "migrated_to_core": "OKOK Scales are supported by Home Assistant Core now. Add your scale with the built-in OKOK Scale integration instead.",
             "no_devices_found": "No devices found",
             "not_supported": "Device not supported"
         },
@@ -31,6 +32,22 @@
     "exceptions": {
         "no_connectable_device": {
             "message": "No connectable Bluetooth adapter is in range of {address}."
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} could not be moved to the built-in OKOK Scale integration. Check the logs for details."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK Scales are supported by Home Assistant Core now. Select **Submit** to move {name}, with its device and entities, to the built-in OKOK Scale integration. Afterwards you can remove the OKOK Scale custom integration.",
+                        "title": "Move {name} to the built-in OKOK Scale integration"
+                    }
+                }
+            },
+            "title": "Move {name} to the built-in OKOK Scale integration"
         }
     }
 }

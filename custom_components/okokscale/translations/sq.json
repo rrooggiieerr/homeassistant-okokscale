@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Dispozitivi është konfiguruar tashmë",
             "already_in_progress": "Intervali i konfigurimit është tashmë në progres",
+            "migrated_to_core": "Peshoret OKOK tani mbështeten nga Home Assistant. Në vend të kësaj, shtoni peshoren tuaj me integrimin e brendshëm OKOK Scale.",
             "no_devices_found": "Nuk u gjet asnjë mjet",
             "not_supported": "Dispozitivi nuk suportohet"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Të këqijat"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} nuk mund të zhvendosej te integrimi i brendshëm OKOK Scale. Kontrolloni regjistrat për detaje."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Peshoret OKOK tani mbështeten nga Home Assistant. Konfirmoni për të zhvendosur {name}, së bashku me pajisjen dhe entitetet e saj, te integrimi i brendshëm OKOK Scale. Më pas mund ta hiqni integrimin e personalizuar OKOK Scale.",
+                        "title": "Zhvendos {name} te integrimi i brendshëm OKOK Scale"
+                    }
+                }
+            },
+            "title": "Zhvendos {name} te integrimi i brendshëm OKOK Scale"
         }
     }
 }

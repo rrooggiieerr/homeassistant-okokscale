@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Laite on jo määritetty",
             "already_in_progress": "Asetukset ovat jo käynnissä",
+            "migrated_to_core": "Home Assistant tukee nyt OKOK-vaakoja. Lisää vaakasi sen sijaan sisäänrakennetulla OKOK Scale -integraatiolla.",
             "no_devices_found": "Laitteita ei löytynyt",
             "not_supported": "Laitetta ei tueta"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedanssi"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Kohdetta {name} ei voitu siirtää sisäänrakennettuun OKOK Scale -integraatioon. Katso lisätietoja lokeista."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant tukee nyt OKOK-vaakoja. Vahvista siirtääksesi {name} laitteineen ja entiteetteineen sisäänrakennettuun OKOK Scale -integraatioon. Sen jälkeen voit poistaa mukautetun OKOK Scale -integraation.",
+                        "title": "Siirrä {name} sisäänrakennettuun OKOK Scale -integraatioon"
+                    }
+                }
+            },
+            "title": "Siirrä {name} sisäänrakennettuun OKOK Scale -integraatioon"
         }
     }
 }

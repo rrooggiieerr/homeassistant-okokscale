@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Az eszköz már be van állítva",
             "already_in_progress": "A konfigurációs áramlás már folyamatban van",
+            "migrated_to_core": "A Home Assistant mostantól támogatja az OKOK mérlegeket. Inkább a beépített OKOK Scale integrációval add hozzá a mérlegedet.",
             "no_devices_found": "Nem található eszköz",
             "not_supported": "Nem támogatott eszköz"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedancia"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "A(z) {name} nem helyezhető át a beépített OKOK Scale integrációba. A részletekért nézd meg a naplókat."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "A Home Assistant mostantól támogatja az OKOK mérlegeket. Erősítsd meg a(z) {name} áthelyezését az eszközével és entitásaival együtt a beépített OKOK Scale integrációba. Ezután eltávolíthatod az egyéni OKOK Scale integrációt.",
+                        "title": "{name} áthelyezése a beépített OKOK Scale integrációba"
+                    }
+                }
+            },
+            "title": "{name} áthelyezése a beépített OKOK Scale integrációba"
         }
     }
 }

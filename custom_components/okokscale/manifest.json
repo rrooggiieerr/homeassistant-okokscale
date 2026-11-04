@@ -27,6 +27,7 @@
   "categories": ["health_wellbeing"],
   "codeowners": ["@rrooggiieerr"],
   "config_flow": true,
+  "connectivity": ["bluetooth"],
   "dependencies": ["bluetooth_adapters"],
   "documentation": "https://github.com/rrooggiieerr/homeassistant-okokscale",
   "integration_type": "device",

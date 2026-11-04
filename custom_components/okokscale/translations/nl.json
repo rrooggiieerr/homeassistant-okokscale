@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Apparaat is al geconfigureerd",
             "already_in_progress": "Configuratiestroom is al aan de gang",
+            "migrated_to_core": "OKOK-weegschalen worden nu ondersteund door Home Assistant. Voeg uw weegschaal in plaats daarvan toe met de ingebouwde OKOK Scale-integratie.",
             "no_devices_found": "Geen apparaten gevonden",
             "not_supported": "Apparaat wordt niet ondersteund"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedantie"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} kon niet naar de ingebouwde OKOK Scale-integratie worden verplaatst. Bekijk de logboeken voor details."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-weegschalen worden nu ondersteund door Home Assistant. Bevestig om {name}, met het apparaat en de entiteiten, naar de ingebouwde OKOK Scale-integratie te verplaatsen. Daarna kunt u de aangepaste OKOK Scale-integratie verwijderen.",
+                        "title": "{name} verplaatsen naar de ingebouwde OKOK Scale-integratie"
+                    }
+                }
+            },
+            "title": "{name} verplaatsen naar de ingebouwde OKOK Scale-integratie"
         }
     }
 }

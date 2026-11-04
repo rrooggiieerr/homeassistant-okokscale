@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Gerät ist bereits konfiguriert",
             "already_in_progress": "Der Konfigurationsablauf ist bereits im Gange",
+            "migrated_to_core": "OKOK-Waage wärde jetzt vo Home Assistant understützt. Füeg dini Waag statt dem mit de iibaute OKOK Scale-Integration dezue.",
             "no_devices_found": "Keine Geräte gefunden",
             "not_supported": "Gerät wird nicht unterstützt"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedanz"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} het nöd i di iibaut OKOK Scale-Integration verschobe wärde chöne. Lueg i de Protokoll für Details."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-Waage wärde jetzt vo Home Assistant understützt. Bestätig, zum {name} mit Grät und Entitäte i di iibaut OKOK Scale-Integration z verschiebe. Dänn chasch di benutzerdefiniert OKOK Scale-Integration entferne.",
+                        "title": "{name} i di iibaut OKOK Scale-Integration verschiebe"
+                    }
+                }
+            },
+            "title": "{name} i di iibaut OKOK Scale-Integration verschiebe"
         }
     }
 }

@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Le périphérique est déjà configuré",
             "already_in_progress": "Le flux de configuration est déjà en cours",
+            "migrated_to_core": "Les balances OKOK sont désormais prises en charge par Home Assistant. Ajoutez plutôt votre balance avec l'intégration OKOK Scale intégrée.",
             "no_devices_found": "Aucun dispositif trouvé",
             "not_supported": "Périphérique non pris en charge"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impédance"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Impossible de déplacer {name} vers l'intégration OKOK Scale intégrée. Consultez les journaux pour plus de détails."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Les balances OKOK sont désormais prises en charge par Home Assistant. Confirmez pour déplacer {name}, avec son appareil et ses entités, vers l'intégration OKOK Scale intégrée. Vous pourrez ensuite supprimer l'intégration personnalisée OKOK Scale.",
+                        "title": "Déplacer {name} vers l'intégration OKOK Scale intégrée"
+                    }
+                }
+            },
+            "title": "Déplacer {name} vers l'intégration OKOK Scale intégrée"
         }
     }
 }

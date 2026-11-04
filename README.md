@@ -7,14 +7,20 @@
 [![Home Assistant][homeassistant-shield]][homeassistant]
 [![HACS][hacs-shield]][hacs]  
 [![Github Sponsors][github-shield]][github]
-[![PayPal][paypal-shield]][paypal]
 [![BuyMeCoffee][buymecoffee-shield]][buymecoffee]
-[![Patreon][patreon-shield]][patreon]
 
 ## Introduction
 
 Home Assistant integration to read Bluetooth scales which can be used with the *OKOK international*
 app and identify themselves on Bluetooth as *Chipsea-BLE*.
+
+> [!IMPORTANT]
+> As of Home Assistant 2026.11 the OKOK Scale integration is part of Home Assistant Core, see the
+> [OKOK Scale integration documentation](https://www.home-assistant.io/integrations/okok_scale/).
+>
+> If you use this custom integration in Home Assistant 2026.11 or later, Home Assistant will show a
+> repair issue to move your scales to the built-in integration. Afterwards you can remove this
+> custom integration from the Marketplace.
 
 ## Features
 
@@ -23,7 +29,7 @@ app and identify themselves on Bluetooth as *Chipsea-BLE*.
 
 ## Hardware
 
-## Supported scales
+### Supported scales
 
 The following scale is known to work:
 
@@ -33,6 +39,10 @@ Please let me know if your scale works with this Home Assistant integration so I
 improve the overview of supported scales.
 
 ## Installation
+
+> [!NOTE]
+> This custom integration is only needed for Home Assistant versions older than 2026.11. As of
+> 2026.11 use the built-in [OKOK Scale integration](https://www.home-assistant.io/integrations/okok_scale/).
 
 ### HACS
 
@@ -61,62 +71,47 @@ Or follow these instructions:
 
 ## Adding a new OKOK Scale
 
-New OKOK Scale devices will automatically be detected after the integration has been installed and
-Home Assistant is restarted. If your scale is not detected it's not supported by this integration.
-
-## Contribution and appreciation
-
-Do you enjoy using this Home Assistant integration? You can contribute or show your appreciation,
-in the following ways.
-
-### Contribute your language
-
-This integration comes with language support for most languages supported by Home Assistant. The
-language files are generated using Google Translate and may contain errors. If you spot a
-translation error you are welcome to suggest improvements.
-
-You can find the translation files in the `custom_components/okokscale/translations` directory. Create a
-pull request (preferred) or issue with your improvements.
-
-More on translating custom integrations can be found
-[here](https://developers.home-assistant.io/docs/internationalization/custom_integration/).
-
-### Star this integration
-
-Help other Home Assistant and OKOK Scale users find this integration by starring this GitHub page.
- Click **⭐ Star** on the top right of the GitHub page.
+> [!NOTE]
+> As of Home Assistant 2026.11 new OKOK Scales are detected by the built-in
+> [OKOK Scale integration](https://www.home-assistant.io/integrations/okok_scale/). This custom
+> integration no longer adds them. On older Home Assistant versions this custom integration detects
+> new OKOK Scales automatically. If your scale is not detected it's not supported.
 
 ## Support my work
 
-Please consider supporting my work through one of the following platforms, your contribution is
-greatly appreciated and keeps me motivated:
+I'm putting a lot of time and effort into developing and maintaining this and other integrations.
+If you find it useful, please consider supporting its continued development by
+[sponsoring me on GitHub][github] or [buying me a coffee ☕️][buymecoffee].
+
+Your support is greatly appreciated and helps keep me motivated to continue developing and
+maintaining integrations!
 
 [![GitHub Sponsors][github-shield]][github]
-[![PayPal][paypal-shield]][paypal]
 [![BuyMeCoffee][buymecoffee-shield]][buymecoffee]
-[![Patreon][patreon-shield]][patreon]
 
 ### Home Assistant support
 
-[Let me answer your Home Assistant questions](https://buymeacoffee.com/rrooggiieerr/e/447353). During
-a 1 hour Q&A session I help you solve your Home Assistant related issues.
+Need some hands-on help with Home Assistant? [Book a one-hour Q&A session](https://buymeacoffee.com/rrooggiieerr/e/447353)
+and I'll help you solve your Home Assistant-related questions.
 
-What can be done in one hour:
-- Home Assistant walktrough, I explain you where is what in the Home Assistant UI
-- Install and configure a Home Assistant integration
-- Explain and create scenes
-- Explain and create a simple automations
-- Install a ZHA quirk, to make your unsupported Zigbee device work in Home Assistant
+Examples of what we can cover in one hour:
+- Home Assistant walkthrough, I'll explain where to find things in the Home Assistant UI
+- Installing and configuring a Home Assistant integration
+- Explaining and creating scenes
+- Explaining and creating a simple automation
+- Install a ZHA quirk to make an unsupported Zigbee device work with Home Assistant
 
-What takes more time:
-- Depending on the severity I might be able to help you with recovering your crashed Home Assistant
-- Support for Home Assistant Integration developers
+For more complex issues, such as recovering a crashed Home Assistant installation or providing
+support for Home Assistant integration developers, I may be able to help as well. These requests
+can require more than one hour and may need to be arranged separately.
 
 ### Hire me
 
-If you would like to have a Home Assistant integration developed for your product or are in need
-of a freelance Python developer for your project please contact me, you can find my email address
-on [my GitHub profile](https://github.com/rrooggiieerr).
+Would you like a Home Assistant integration developed for your product, or do you need an
+experienced Python developer for your project?
+
+I'm available for freelance development work. You can find my contact details on
+[my GitHub profile](https://github.com/rrooggiieerr).
 
 [python-shield]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
 [releases]: https://github.com/rrooggiieerr/homeassistant-okokscale/releases
@@ -129,11 +124,7 @@ on [my GitHub profile](https://github.com/rrooggiieerr).
 [homeassistant-shield]: https://img.shields.io/badge/home%20assistant-%2341BDF5.svg?style=for-the-badge&logo=home-assistant&logoColor=white
 [hacs]: https://hacs.xyz/
 [hacs-shield]: https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge
-[paypal]: https://paypal.me/seekingtheedge
-[paypal-shield]: https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white
 [buymecoffee]: https://www.buymeacoffee.com/rrooggiieerr
 [buymecoffee-shield]: https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black
 [github]: https://github.com/sponsors/rrooggiieerr
-[github-shield]: https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA
-[patreon]: https://www.patreon.com/seekingtheedge/creators
-[patreon-shield]: https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white
+[github-shield]: https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=%23EA4AAA

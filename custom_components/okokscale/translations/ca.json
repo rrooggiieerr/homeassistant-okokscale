@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "El dispositiu ja està configurat",
             "already_in_progress": "El flux de configuració ja està en curs",
+            "migrated_to_core": "Ara Home Assistant és compatible amb les bàscules OKOK. Afegeix la teva bàscula amb la integració incorporada OKOK Scale.",
             "no_devices_found": "No s' ha trobat cap dispositiu",
             "not_supported": "El dispositiu no està implementat"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedància"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "No s'ha pogut moure {name} a la integració incorporada OKOK Scale. Consulta els registres per a més detalls."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Ara Home Assistant és compatible amb les bàscules OKOK. Confirma per moure {name}, amb el seu dispositiu i entitats, a la integració incorporada OKOK Scale. Després pots eliminar la integració personalitzada OKOK Scale.",
+                        "title": "Mou {name} a la integració incorporada OKOK Scale"
+                    }
+                }
+            },
+            "title": "Mou {name} a la integració incorporada OKOK Scale"
         }
     }
 }

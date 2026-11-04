@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "デバイスは既に設定されています",
             "already_in_progress": "設定フローは既に進行中です",
+            "migrated_to_core": "OKOK 体重計は Home Assistant で標準サポートされるようになりました。代わりに組み込みの OKOK Scale 統合で体重計を追加してください。",
             "no_devices_found": "デバイスが見つかりません",
             "not_supported": "デバイスがサポートされていない"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "インピーダンス"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} を組み込みの OKOK Scale 統合に移行できませんでした。詳細はログを確認してください。"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK 体重計は Home Assistant で標準サポートされるようになりました。確認すると、{name} をデバイスとエンティティごと組み込みの OKOK Scale 統合に移行します。その後、OKOK Scale カスタム統合を削除できます。",
+                        "title": "{name} を組み込みの OKOK Scale 統合に移行"
+                    }
+                }
+            },
+            "title": "{name} を組み込みの OKOK Scale 統合に移行"
         }
     }
 }

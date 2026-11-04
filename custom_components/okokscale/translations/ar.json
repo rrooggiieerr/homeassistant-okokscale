@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "الجهاز تم تشكيله بالفعل",
             "already_in_progress": "تدفق الإتحاد جار بالفعل",
+            "migrated_to_core": "أصبحت موازين OKOK مدعومة الآن في Home Assistant. أضف ميزانك باستخدام تكامل OKOK Scale المدمج بدلاً من ذلك.",
             "no_devices_found": "لا توجد أجهزة",
             "not_supported": "الأجهزة غير المدعومة"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "إعاقة"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "تعذّر نقل {name} إلى تكامل OKOK Scale المدمج. تحقق من السجلات لمعرفة التفاصيل."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "أصبحت موازين OKOK مدعومة الآن في Home Assistant. أكّد لنقل {name} مع جهازه وكياناته إلى تكامل OKOK Scale المدمج. بعد ذلك يمكنك إزالة التكامل المخصص OKOK Scale.",
+                        "title": "نقل {name} إلى تكامل OKOK Scale المدمج"
+                    }
+                }
+            },
+            "title": "نقل {name} إلى تكامل OKOK Scale المدمج"
         }
     }
 }

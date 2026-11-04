@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "设备已配置",
             "already_in_progress": "配置流程已经在进行中",
+            "migrated_to_core": "Home Assistant 现已支持 OKOK 体重秤。请改用内置的 OKOK Scale 集成添加您的体重秤。",
             "no_devices_found": "未找到设备",
             "not_supported": "不支持设备"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "障碍"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "无法将 {name} 迁移到内置的 OKOK Scale 集成。请查看日志了解详情。"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant 现已支持 OKOK 体重秤。确认后，{name} 及其设备和实体将迁移到内置的 OKOK Scale 集成。之后您可以移除 OKOK Scale 自定义集成。",
+                        "title": "将 {name} 迁移到内置的 OKOK Scale 集成"
+                    }
+                }
+            },
+            "title": "将 {name} 迁移到内置的 OKOK Scale 集成"
         }
     }
 }

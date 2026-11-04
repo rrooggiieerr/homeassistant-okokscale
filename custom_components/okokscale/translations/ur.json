@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "ڈیوائس پہلے سے موجود ہے",
             "already_in_progress": "پہلے ہی سے ترقی پزیر ہے۔",
+            "migrated_to_core": "OKOK ترازو اب Home Assistant میں معاون ہیں۔ اس کے بجائے بلٹ اِن OKOK Scale انٹیگریشن کے ذریعے اپنا ترازو شامل کریں۔",
             "no_devices_found": "کوئی ڈیوائس دستیاب نہیں ہے",
             "not_supported": "ڈیوائس کی مدد نہیں کی گئی"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "رنگ"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} کو بلٹ اِن OKOK Scale انٹیگریشن میں منتقل نہیں کیا جا سکا۔ تفصیلات کے لیے لاگز دیکھیں۔"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK ترازو اب Home Assistant میں معاون ہیں۔ {name} کو اس کے آلے اور اینٹیٹیز سمیت بلٹ اِن OKOK Scale انٹیگریشن میں منتقل کرنے کے لیے تصدیق کریں۔ اس کے بعد آپ OKOK Scale کسٹم انٹیگریشن ہٹا سکتے ہیں۔",
+                        "title": "{name} کو بلٹ اِن OKOK Scale انٹیگریشن میں منتقل کریں"
+                    }
+                }
+            },
+            "title": "{name} کو بلٹ اِن OKOK Scale انٹیگریشن میں منتقل کریں"
         }
     }
 }

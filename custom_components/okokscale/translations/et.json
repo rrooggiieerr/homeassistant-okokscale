@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Seade on juba seadistatud",
             "already_in_progress": "Seadistuste voog on juba töös",
+            "migrated_to_core": "Home Assistant toetab nüüd OKOK kaale. Lisa oma kaal hoopis sisseehitatud OKOK Scale'i sidumise kaudu.",
             "no_devices_found": "Seadmeid ei leitud",
             "not_supported": "Seade ei ole toetatud"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedants"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} teisaldamine sisseehitatud OKOK Scale'i sidumisse ebaõnnestus. Üksikasjad leiad logidest."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant toetab nüüd OKOK kaale. Kinnita, et teisaldada {name} koos seadme ja olemitega sisseehitatud OKOK Scale'i sidumisse. Seejärel saad kohandatud OKOK Scale'i sidumise eemaldada.",
+                        "title": "Teisalda {name} sisseehitatud OKOK Scale'i sidumisse"
+                    }
+                }
+            },
+            "title": "Teisalda {name} sisseehitatud OKOK Scale'i sidumisse"
         }
     }
 }

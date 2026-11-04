@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Cihaz zaten yapılandırılmıştır",
             "already_in_progress": "Yapı akışı zaten ilerleme aşamasındadır",
+            "migrated_to_core": "OKOK tartılar artık Home Assistant tarafından destekleniyor. Bunun yerine tartınızı yerleşik OKOK Scale entegrasyonuyla ekleyin.",
             "no_devices_found": "Hiçbir cihaz bulunamadı",
             "not_supported": "Cihaz desteklenmedi"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Empedans"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} yerleşik OKOK Scale entegrasyonuna taşınamadı. Ayrıntılar için günlükleri kontrol edin."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK tartılar artık Home Assistant tarafından destekleniyor. {name} öğesini, cihazı ve varlıklarıyla birlikte yerleşik OKOK Scale entegrasyonuna taşımak için onaylayın. Ardından OKOK Scale özel entegrasyonunu kaldırabilirsiniz.",
+                        "title": "{name} öğesini yerleşik OKOK Scale entegrasyonuna taşı"
+                    }
+                }
+            },
+            "title": "{name} öğesini yerleşik OKOK Scale entegrasyonuna taşı"
         }
     }
 }

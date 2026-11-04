@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Urządzenie jest już skonfigurowane",
             "already_in_progress": "Przepływ konfiguracji jest już w toku",
+            "migrated_to_core": "Wagi OKOK są teraz obsługiwane przez Home Assistant. Zamiast tego dodaj swoją wagę za pomocą wbudowanej integracji OKOK Scale.",
             "no_devices_found": "Nie znaleziono urządzeń",
             "not_supported": "Urządzenie nie jest obsługiwane"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedancja"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Nie udało się przenieść {name} do wbudowanej integracji OKOK Scale. Sprawdź logi, aby uzyskać szczegóły."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Wagi OKOK są teraz obsługiwane przez Home Assistant. Potwierdź, aby przenieść {name} wraz z urządzeniem i encjami do wbudowanej integracji OKOK Scale. Następnie możesz usunąć niestandardową integrację OKOK Scale.",
+                        "title": "Przenieś {name} do wbudowanej integracji OKOK Scale"
+                    }
+                }
+            },
+            "title": "Przenieś {name} do wbudowanej integracji OKOK Scale"
         }
     }
 }

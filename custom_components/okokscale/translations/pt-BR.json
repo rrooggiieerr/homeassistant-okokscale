@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "O dispositivo já está configurado",
             "already_in_progress": "O fluxo de configuração já está em andamento",
+            "migrated_to_core": "As balanças OKOK agora são suportadas pelo Home Assistant. Adicione sua balança com a integração nativa OKOK Scale.",
             "no_devices_found": "Nenhum dispositivo encontrado",
             "not_supported": "Dispositivo não suportado"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedância"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Não foi possível mover {name} para a integração nativa OKOK Scale. Verifique os logs para mais detalhes."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "As balanças OKOK agora são suportadas pelo Home Assistant. Confirme para mover {name}, com seu dispositivo e entidades, para a integração nativa OKOK Scale. Depois você pode remover a integração personalizada OKOK Scale.",
+                        "title": "Mover {name} para a integração nativa OKOK Scale"
+                    }
+                }
+            },
+            "title": "Mover {name} para a integração nativa OKOK Scale"
         }
     }
 }

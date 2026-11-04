@@ -3,7 +3,7 @@
 import logging
 from typing import Any, override
 
-from okokscale.parser import OKOKScaleBluetoothDeviceData as DeviceData
+from okokscale import OKOKScaleBluetoothDeviceData as DeviceData
 import probatio
 
 from homeassistant.components.bluetooth import (
@@ -14,6 +14,7 @@ from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_ADDRESS
 
 from .const import DOMAIN
+from .migration import is_supported_by_core
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -35,6 +36,10 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         self, discovery_info: BluetoothServiceInfoBleak
     ) -> ConfigFlowResult:
         """Handle the bluetooth discovery step."""
+        if is_supported_by_core():
+            # Core discovers the scale itself
+            return self.async_abort(reason="migrated_to_core")
+
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
 
@@ -75,6 +80,9 @@ class OKOKScaleConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle the user step to pick discovered device."""
+        if is_supported_by_core():
+            return self.async_abort(reason="migrated_to_core")
+
         if user_input is not None:
             address = user_input[CONF_ADDRESS]
             await self.async_set_unique_id(address, raise_on_progress=False)

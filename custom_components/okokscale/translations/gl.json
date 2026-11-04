@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "O dispositivo xa está configurado",
             "already_in_progress": "O fluxo de configuración xa está en marcha",
+            "migrated_to_core": "Home Assistant xa é compatible coas básculas OKOK. Engade a túa báscula coa integración OKOK Scale incorporada.",
             "no_devices_found": "Ningún dispositivo encontrado",
             "not_supported": "Dispositivo non soportado"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedancia"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Non foi posible mover {name} á integración OKOK Scale incorporada. Consulta os rexistros para máis detalles."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant xa é compatible coas básculas OKOK. Confirma para mover {name}, co seu dispositivo e entidades, á integración OKOK Scale incorporada. Despois podes eliminar a integración personalizada OKOK Scale.",
+                        "title": "Mover {name} á integración OKOK Scale incorporada"
+                    }
+                }
+            },
+            "title": "Mover {name} á integración OKOK Scale incorporada"
         }
     }
 }

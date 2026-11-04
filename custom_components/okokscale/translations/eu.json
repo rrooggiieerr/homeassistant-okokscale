@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Gailua dagoeneko konfiguratuta dago",
             "already_in_progress": "Konfigurazio-fluxua jadanik martxan dago",
+            "migrated_to_core": "Home Assistantek OKOK balantzak onartzen ditu orain. Gehitu zure balantza OKOK Scale integrazio barneratuaren bidez.",
             "no_devices_found": "Ez da gailurik aurkitu",
             "not_supported": "Gailua ez dago onartuta"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Inpedantzia"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Ezin izan da {name} OKOK Scale integrazio barneratura eraman. Begiratu erregistroak xehetasunetarako."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistantek OKOK balantzak onartzen ditu orain. Berretsi {name}, bere gailu eta entitateekin, OKOK Scale integrazio barneratura eramateko. Ondoren, OKOK Scale integrazio pertsonalizatua kendu dezakezu.",
+                        "title": "Eraman {name} OKOK Scale integrazio barneratura"
+                    }
+                }
+            },
+            "title": "Eraman {name} OKOK Scale integrazio barneratura"
         }
     }
 }

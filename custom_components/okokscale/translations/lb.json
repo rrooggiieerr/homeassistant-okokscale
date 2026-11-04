@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Den Apparat ass scho konfiguréiert",
             "already_in_progress": "Konfiguratiounsfloss ass schonn amgaang",
+            "migrated_to_core": "OKOK-Waage ginn elo vun Home Assistant ënnerstëtzt. Füügt Är Waag amplaz mat der agebauter OKOK Scale-Integratioun derbäi.",
             "no_devices_found": "Keng Apparater fonnt",
             "not_supported": "Apparat net ënnerstëtzt"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedanz"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} konnt net an déi agebaute OKOK Scale-Integratioun geréckelt ginn. Kuckt d'Logbicher fir Detailer."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-Waage ginn elo vun Home Assistant ënnerstëtzt. Confirméiert, fir {name} mat Apparat an Entitéiten an déi agebaute OKOK Scale-Integratioun ze réckelen. Duerno kënnt Dir déi personaliséiert OKOK Scale-Integratioun ewechhuelen.",
+                        "title": "{name} an déi agebaute OKOK Scale-Integratioun réckelen"
+                    }
+                }
+            },
+            "title": "{name} an déi agebaute OKOK Scale-Integratioun réckelen"
         }
     }
 }

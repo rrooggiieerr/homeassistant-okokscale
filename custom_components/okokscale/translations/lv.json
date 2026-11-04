@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Ierīce jau ir konfigurēta",
             "already_in_progress": "Konfigurācijas plūsma jau notiek",
+            "migrated_to_core": "Home Assistant tagad atbalsta OKOK svarus. Tā vietā pievienojiet savus svarus, izmantojot iebūvēto OKOK Scale integrāciju.",
             "no_devices_found": "Ierīces nav atrastas",
             "not_supported": "Ierīce nav atbalstīta"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Pretestība"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Neizdevās pārvietot {name} uz iebūvēto OKOK Scale integrāciju. Sīkāku informāciju skatiet žurnālos."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant tagad atbalsta OKOK svarus. Apstipriniet, lai pārvietotu {name} kopā ar ierīci un entītijām uz iebūvēto OKOK Scale integrāciju. Pēc tam varat noņemt pielāgoto OKOK Scale integrāciju.",
+                        "title": "Pārvietot {name} uz iebūvēto OKOK Scale integrāciju"
+                    }
+                }
+            },
+            "title": "Pārvietot {name} uz iebūvēto OKOK Scale integrāciju"
         }
     }
 }
