@@ -36,5 +36,5 @@
   "loggers": ["okokscale"],
   "quality_scale": "platinum",
   "requirements": ["okokscale>=0.0.5"],
-  "version": "0.0.6"
+  "version": "0.0.7"
 }
