@@ -34,6 +34,6 @@
   "issue_tracker": "https://github.com/rrooggiieerr/homeassistant-okokscale/issues",
   "loggers": ["okokscale"],
   "quality_scale": "platinum",
-  "requirements": ["okokscale<=0.0.4"],
+  "requirements": ["okokscale>=0.0.5"],
   "version": "0.0.6"
 }

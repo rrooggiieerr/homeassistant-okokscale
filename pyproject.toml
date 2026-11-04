@@ -33,7 +33,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "okokscale>=0.0.4"
+    "okokscale>=0.0.5"
 ]
 
 [project.urls]
