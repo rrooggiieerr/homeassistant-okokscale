@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Toestel is reeds opgestel",
             "already_in_progress": "Konfigurasievloei is reeds aan die gang",
+            "migrated_to_core": "OKOK-skale word nou deur Home Assistant ondersteun. Voeg jou skaal eerder by met die ingeboude OKOK Scale-integrasie.",
             "no_devices_found": "Geen toestelle gevind nie",
             "not_supported": "Toestel word nie ondersteun nie"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedansie"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} kon nie na die ingeboude OKOK Scale-integrasie geskuif word nie. Gaan die logboeke na vir besonderhede."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-skale word nou deur Home Assistant ondersteun. Bevestig om {name}, met sy toestel en entiteite, na die ingeboude OKOK Scale-integrasie te skuif. Daarna kan jy die pasgemaakte OKOK Scale-integrasie verwyder.",
+                        "title": "Skuif {name} na die ingeboude OKOK Scale-integrasie"
+                    }
+                }
+            },
+            "title": "Skuif {name} na die ingeboude OKOK Scale-integrasie"
         }
     }
 }

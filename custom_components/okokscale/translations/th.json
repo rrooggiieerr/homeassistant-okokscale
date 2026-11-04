@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "ปรับแต่งอุปกรณ์เรียบร้อยแล้ว",
             "already_in_progress": "กําลังเริ่มการไหลของการปรับแต่ง",
+            "migrated_to_core": "ตอนนี้ Home Assistant รองรับเครื่องชั่ง OKOK แล้ว โปรดเพิ่มเครื่องชั่งของคุณด้วยการผสานรวม OKOK Scale ในตัวแทน",
             "no_devices_found": "ไม่พบอุปกรณ์ใด ๆ",
             "not_supported": "ยังไม่รองรับอุปกรณ์"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "ความทึบแสง"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "ไม่สามารถย้าย {name} ไปยังการผสานรวม OKOK Scale ในตัวได้ ตรวจสอบบันทึกเพื่อดูรายละเอียด"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "ตอนนี้ Home Assistant รองรับเครื่องชั่ง OKOK แล้ว ยืนยันเพื่อย้าย {name} พร้อมอุปกรณ์และเอนทิตีไปยังการผสานรวม OKOK Scale ในตัว หลังจากนั้นคุณสามารถลบการผสานรวมแบบกำหนดเอง OKOK Scale ได้",
+                        "title": "ย้าย {name} ไปยังการผสานรวม OKOK Scale ในตัว"
+                    }
+                }
+            },
+            "title": "ย้าย {name} ไปยังการผสานรวม OKOK Scale ในตัว"
         }
     }
 }

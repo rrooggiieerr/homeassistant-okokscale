@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Устройство уже настроено",
             "already_in_progress": "Конфигурационный поток уже идет",
+            "migrated_to_core": "Весы OKOK теперь поддерживаются Home Assistant. Добавьте свои весы с помощью встроенной интеграции OKOK Scale.",
             "no_devices_found": "Никаких устройств не найдено",
             "not_supported": "Устройство не поддерживается"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Импотенция"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Не удалось перенести {name} во встроенную интеграцию OKOK Scale. Подробности смотрите в журналах."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Весы OKOK теперь поддерживаются Home Assistant. Подтвердите, чтобы перенести {name} вместе с устройством и объектами во встроенную интеграцию OKOK Scale. После этого можно удалить пользовательскую интеграцию OKOK Scale.",
+                        "title": "Перенести {name} во встроенную интеграцию OKOK Scale"
+                    }
+                }
+            },
+            "title": "Перенести {name} во встроенную интеграцию OKOK Scale"
         }
     }
 }

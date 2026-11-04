@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Perangkat telah dikonfigurasi",
             "already_in_progress": "Aliran konfigurasi sedang berlangsung",
+            "migrated_to_core": "Timbangan OKOK kini didukung oleh Home Assistant. Tambahkan timbangan Anda dengan integrasi bawaan OKOK Scale sebagai gantinya.",
             "no_devices_found": "Tak ditemukan perangkat",
             "not_supported": "Perangkat tidak didukung"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Imppedansi"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} tidak dapat dipindahkan ke integrasi bawaan OKOK Scale. Periksa log untuk detailnya."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Timbangan OKOK kini didukung oleh Home Assistant. Konfirmasi untuk memindahkan {name}, beserta perangkat dan entitasnya, ke integrasi bawaan OKOK Scale. Setelah itu Anda dapat menghapus integrasi kustom OKOK Scale.",
+                        "title": "Pindahkan {name} ke integrasi bawaan OKOK Scale"
+                    }
+                }
+            },
+            "title": "Pindahkan {name} ke integrasi bawaan OKOK Scale"
         }
     }
 }

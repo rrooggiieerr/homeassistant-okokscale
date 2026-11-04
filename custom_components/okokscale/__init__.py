@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-from okokscale.parser import OKOKScaleBluetoothDeviceData, SensorUpdate
+from okokscale import OKOKScaleBluetoothDeviceData, SensorUpdate
 
 from homeassistant.components.bluetooth import (
     BluetoothScanningMode,
@@ -17,9 +17,10 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import CoreState, HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
-from homeassistant.helpers import entity_registry
+from homeassistant.helpers import entity_registry, issue_registry
 
 from .const import DOMAIN
+from .migration import is_supported_by_core
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -32,6 +33,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: OKOKScaleConfigEntry) ->
     """Set up OKOK Scale device from a config entry."""
     address = entry.unique_id
     assert address is not None
+
+    if is_supported_by_core():
+        # Ask the user to move the scale to the Core integration
+        issue_registry.async_create_issue(
+            hass,
+            DOMAIN,
+            _migrate_issue_id(entry),
+            data={"entry_id": entry.entry_id},
+            is_fixable=True,
+            severity=issue_registry.IssueSeverity.WARNING,
+            translation_key="migrate_to_core",
+            translation_placeholders={"name": entry.title},
+        )
 
     data = OKOKScaleBluetoothDeviceData()
 
@@ -95,6 +109,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: OKOKScaleConfigEntry) ->
 async def async_unload_entry(hass: HomeAssistant, entry: OKOKScaleConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
+
+async def async_remove_entry(hass: HomeAssistant, entry: OKOKScaleConfigEntry) -> None:
+    """Remove the repair issue of a removed config entry."""
+    issue_registry.async_delete_issue(hass, DOMAIN, _migrate_issue_id(entry))
+
+
+def _migrate_issue_id(entry: ConfigEntry) -> str:
+    """Return the ID of the issue to migrate a config entry to Core."""
+    return f"migrate_to_core_{entry.entry_id}"
 
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:

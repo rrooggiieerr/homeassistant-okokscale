@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Սարքն արդեն կազմաձևված է",
             "already_in_progress": "Կազմաձևման հոսքն արդեն ընթացքի մեջ է",
+            "migrated_to_core": "OKOK կշեռքներն այժմ աջակցվում են Home Assistant-ի կողմից։ Փոխարենը ավելացրեք ձեր կշեռքը ներկառուցված OKOK Scale ինտեգրման միջոցով։",
             "no_devices_found": "Սարքեր չեն գտնվել",
             "not_supported": "Սարքը չի աջակցվում"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Դիմադրություն"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Չհաջողվեց {name}-ը տեղափոխել ներկառուցված OKOK Scale ինտեգրում։ Մանրամասների համար ստուգեք մատյանները։"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK կշեռքներն այժմ աջակցվում են Home Assistant-ի կողմից։ Հաստատեք՝ {name}-ը իր սարքով և էություններով ներկառուցված OKOK Scale ինտեգրում տեղափոխելու համար։ Դրանից հետո կարող եք հեռացնել OKOK Scale հատուկ ինտեգրումը։",
+                        "title": "Տեղափոխել {name}-ը ներկառուցված OKOK Scale ինտեգրում"
+                    }
+                }
+            },
+            "title": "Տեղափոխել {name}-ը ներկառուցված OKOK Scale ինտեգրում"
         }
     }
 }

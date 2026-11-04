@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Mae'r ddyfais eisoes wedi'i ffurfweddu",
             "already_in_progress": "Mae llif cyfluniad eisoes ar y gweill",
+            "migrated_to_core": "Mae Home Assistant bellach yn cefnogi clorianau OKOK. Ychwanegwch eich clorian gyda'r integreiddiad OKOK Scale adeiledig yn lle hynny.",
             "no_devices_found": "Heb ganfod dyfeisiau",
             "not_supported": "Dyfais heb ei chefnogi"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "rhwystriant"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Nid oedd modd symud {name} i'r integreiddiad OKOK Scale adeiledig. Gwiriwch y logiau am fanylion."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Mae Home Assistant bellach yn cefnogi clorianau OKOK. Cadarnhewch i symud {name}, gyda'i ddyfais a'i endidau, i'r integreiddiad OKOK Scale adeiledig. Wedyn gallwch dynnu'r integreiddiad personol OKOK Scale.",
+                        "title": "Symud {name} i'r integreiddiad OKOK Scale adeiledig"
+                    }
+                }
+            },
+            "title": "Symud {name} i'r integreiddiad OKOK Scale adeiledig"
         }
     }
 }

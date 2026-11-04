@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Enheten er allerede konfigurert",
             "already_in_progress": "Konfigurasjonsstrøm er allerede i gang",
+            "migrated_to_core": "OKOK-vekter støttes nå av Home Assistant. Legg heller til vekten din med den innebygde OKOK Scale-integrasjonen.",
             "no_devices_found": "Ingen enheter funnet",
             "not_supported": "Enheten er ikke støttet"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedans"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} kunne ikke flyttes til den innebygde OKOK Scale-integrasjonen. Sjekk loggene for detaljer."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-vekter støttes nå av Home Assistant. Bekreft for å flytte {name}, med enheten og entitetene, til den innebygde OKOK Scale-integrasjonen. Etterpå kan du fjerne den egendefinerte OKOK Scale-integrasjonen.",
+                        "title": "Flytt {name} til den innebygde OKOK Scale-integrasjonen"
+                    }
+                }
+            },
+            "title": "Flytt {name} til den innebygde OKOK Scale-integrasjonen"
         }
     }
 }

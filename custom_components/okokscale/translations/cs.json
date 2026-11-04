@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Zařízení je již nakonfigurováno",
             "already_in_progress": "Konfigurační tok již probíhá",
+            "migrated_to_core": "Váhy OKOK jsou nyní podporovány přímo v Home Assistant. Přidejte svou váhu raději pomocí vestavěné integrace OKOK Scale.",
             "no_devices_found": "Nenalezena žádná zařízení",
             "not_supported": "Zařízení není podporováno"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedance"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} se nepodařilo přesunout do vestavěné integrace OKOK Scale. Podrobnosti najdete v protokolech."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Váhy OKOK jsou nyní podporovány přímo v Home Assistant. Potvrďte přesun {name} včetně zařízení a entit do vestavěné integrace OKOK Scale. Poté můžete vlastní integraci OKOK Scale odebrat.",
+                        "title": "Přesunout {name} do vestavěné integrace OKOK Scale"
+                    }
+                }
+            },
+            "title": "Přesunout {name} do vestavěné integrace OKOK Scale"
         }
     }
 }

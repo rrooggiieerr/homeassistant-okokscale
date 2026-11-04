@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Apparaat is al konfigurearre",
             "already_in_progress": "Konfiguraasjestream is al dwaande",
+            "migrated_to_core": "OKOK-weegskalen wurde no stipe troch Home Assistant. Foegje jo weegskaal ynstee ta mei de ynboude OKOK Scale-yntegraasje.",
             "no_devices_found": "Gjin apparaten fûn",
             "not_supported": "Apparaat net stipe"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedânsje"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} koe net nei de ynboude OKOK Scale-yntegraasje ferpleatst wurde. Kontrolearje de logs foar details."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-weegskalen wurde no stipe troch Home Assistant. Befêstigje om {name}, mei it apparaat en de entiteiten, nei de ynboude OKOK Scale-yntegraasje te ferpleatsen. Dêrnei kinne jo de oanpaste OKOK Scale-yntegraasje fuortsmite.",
+                        "title": "{name} ferpleatse nei de ynboude OKOK Scale-yntegraasje"
+                    }
+                }
+            },
+            "title": "{name} ferpleatse nei de ynboude OKOK Scale-yntegraasje"
         }
     }
 }

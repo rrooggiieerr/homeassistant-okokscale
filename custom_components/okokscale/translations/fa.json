@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "دستگاه در حال حاضر پیکربندی شده",
             "already_in_progress": "جریان پیکربندی در حال حاضر در پیشرفت است",
+            "migrated_to_core": "ترازوهای OKOK اکنون توسط Home Assistant پشتیبانی می‌شوند. به‌جای آن، ترازوی خود را با یکپارچه‌سازی داخلی OKOK Scale اضافه کنید.",
             "no_devices_found": "هیچ دستگاهی پیدا نشد",
             "not_supported": "دستگاه پشتیبانی نشده"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "سوء استفاده"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "انتقال {name} به یکپارچه‌سازی داخلی OKOK Scale ممکن نبود. برای جزئیات، گزارش‌ها را بررسی کنید."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "ترازوهای OKOK اکنون توسط Home Assistant پشتیبانی می‌شوند. برای انتقال {name} همراه با دستگاه و موجودیت‌هایش به یکپارچه‌سازی داخلی OKOK Scale تأیید کنید. پس از آن می‌توانید یکپارچه‌سازی سفارشی OKOK Scale را حذف کنید.",
+                        "title": "انتقال {name} به یکپارچه‌سازی داخلی OKOK Scale"
+                    }
+                }
+            },
+            "title": "انتقال {name} به یکپارچه‌سازی داخلی OKOK Scale"
         }
     }
 }

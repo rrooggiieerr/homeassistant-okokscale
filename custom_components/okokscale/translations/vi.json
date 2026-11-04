@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Thiết bị đã cấu hình",
             "already_in_progress": "Name",
+            "migrated_to_core": "Cân OKOK hiện đã được Home Assistant hỗ trợ. Thay vào đó, hãy thêm cân của bạn bằng tích hợp OKOK Scale có sẵn.",
             "no_devices_found": "Thiết bị",
             "not_supported": "Thiết bị không được hỗ trợ"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Comment"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Không thể chuyển {name} sang tích hợp OKOK Scale có sẵn. Kiểm tra nhật ký để biết chi tiết."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Cân OKOK hiện đã được Home Assistant hỗ trợ. Xác nhận để chuyển {name}, cùng với thiết bị và các thực thể của nó, sang tích hợp OKOK Scale có sẵn. Sau đó bạn có thể gỡ bỏ tích hợp tùy chỉnh OKOK Scale.",
+                        "title": "Chuyển {name} sang tích hợp OKOK Scale có sẵn"
+                    }
+                }
+            },
+            "title": "Chuyển {name} sang tích hợp OKOK Scale có sẵn"
         }
     }
 }

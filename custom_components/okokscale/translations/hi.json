@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "डिवाइस पहले से ही कॉन्फ़िगर किया गया है",
             "already_in_progress": "कॉन्फ़िगरेशन प्रवाह पहले से ही प्रगति में है",
+            "migrated_to_core": "OKOK स्केल अब Home Assistant द्वारा समर्थित हैं। इसके बजाय अंतर्निहित OKOK Scale इंटीग्रेशन से अपना स्केल जोड़ें।",
             "no_devices_found": "कोई उपकरण नहीं मिला",
             "not_supported": "डिवाइस समर्थित नहीं है"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "प्रतिबाधा"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} को अंतर्निहित OKOK Scale इंटीग्रेशन में नहीं ले जाया जा सका। विवरण के लिए लॉग देखें।"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK स्केल अब Home Assistant द्वारा समर्थित हैं। {name} को उसके डिवाइस और एंटिटी सहित अंतर्निहित OKOK Scale इंटीग्रेशन में ले जाने के लिए पुष्टि करें। इसके बाद आप OKOK Scale कस्टम इंटीग्रेशन हटा सकते हैं।",
+                        "title": "{name} को अंतर्निहित OKOK Scale इंटीग्रेशन में ले जाएँ"
+                    }
+                }
+            },
+            "title": "{name} को अंतर्निहित OKOK Scale इंटीग्रेशन में ले जाएँ"
         }
     }
 }

@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Enhet är redan konfigurerad",
             "already_in_progress": "Konfigurationsflödet pågår redan",
+            "migrated_to_core": "OKOK-vågar stöds nu av Home Assistant. Lägg i stället till din våg med den inbyggda OKOK Scale-integrationen.",
             "no_devices_found": "Inga enheter hittades",
             "not_supported": "Enhet som inte stöds"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedans"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} kunde inte flyttas till den inbyggda OKOK Scale-integrationen. Kontrollera loggarna för detaljer."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-vågar stöds nu av Home Assistant. Bekräfta för att flytta {name}, med dess enhet och entiteter, till den inbyggda OKOK Scale-integrationen. Därefter kan du ta bort den anpassade OKOK Scale-integrationen.",
+                        "title": "Flytta {name} till den inbyggda OKOK Scale-integrationen"
+                    }
+                }
+            },
+            "title": "Flytta {name} till den inbyggda OKOK Scale-integrationen"
         }
     }
 }

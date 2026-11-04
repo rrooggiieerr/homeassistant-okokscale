@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Įrenginys jau sukonfigūruotas",
             "already_in_progress": "Konfigūracijos srautas jau vyksta",
+            "migrated_to_core": "Home Assistant dabar palaiko OKOK svarstykles. Vietoj to pridėkite savo svarstykles naudodami integruotą OKOK Scale integraciją.",
             "no_devices_found": "Įrenginių nerasta",
             "not_supported": "Įrenginys nepalaikomas"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedansas"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "Nepavyko perkelti {name} į integruotą OKOK Scale integraciją. Išsamią informaciją rasite žurnaluose."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant dabar palaiko OKOK svarstykles. Patvirtinkite, kad perkeltumėte {name} kartu su įrenginiu ir objektais į integruotą OKOK Scale integraciją. Po to galėsite pašalinti pasirinktinę OKOK Scale integraciją.",
+                        "title": "Perkelti {name} į integruotą OKOK Scale integraciją"
+                    }
+                }
+            },
+            "title": "Perkelti {name} į integruotą OKOK Scale integraciją"
         }
     }
 }

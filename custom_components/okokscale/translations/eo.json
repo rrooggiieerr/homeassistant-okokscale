@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Device jam estas formita",
             "already_in_progress": "Konfiguraciofluo jam estas en progreso",
+            "migrated_to_core": "OKOK-pesiloj nun estas subtenataj de Home Assistant. Anstataŭe aldonu vian pesilon per la enkonstruita integriĝo OKOK Scale.",
             "no_devices_found": "Neniuj aparatoj trovis",
             "not_supported": "Device ne apogis"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Imponado"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} ne povis esti movita al la enkonstruita integriĝo OKOK Scale. Kontrolu la protokolojn por detaloj."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK-pesiloj nun estas subtenataj de Home Assistant. Konfirmu por movi {name}, kun ĝia aparato kaj entoj, al la enkonstruita integriĝo OKOK Scale. Poste vi povas forigi la propran integriĝon OKOK Scale.",
+                        "title": "Movi {name} al la enkonstruita integriĝo OKOK Scale"
+                    }
+                }
+            },
+            "title": "Movi {name} al la enkonstruita integriĝo OKOK Scale"
         }
     }
 }

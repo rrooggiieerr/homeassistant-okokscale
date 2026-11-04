@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "Uređaj je već konfiguriran",
             "already_in_progress": "Tijek konfiguracije je već u tijeku",
+            "migrated_to_core": "Home Assistant sada podržava OKOK vage. Umjesto toga dodajte svoju vagu putem ugrađene integracije OKOK Scale.",
             "no_devices_found": "Nema pronađenih uređaja",
             "not_supported": "Uređaj nije podržan"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "Impedancija"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name} nije moguće premjestiti u ugrađenu integraciju OKOK Scale. Provjerite zapisnike za pojedinosti."
+                },
+                "step": {
+                    "confirm": {
+                        "description": "Home Assistant sada podržava OKOK vage. Potvrdite za premještanje {name}, zajedno s uređajem i entitetima, u ugrađenu integraciju OKOK Scale. Nakon toga možete ukloniti prilagođenu integraciju OKOK Scale.",
+                        "title": "Premjesti {name} u ugrađenu integraciju OKOK Scale"
+                    }
+                }
+            },
+            "title": "Premjesti {name} u ugrađenu integraciju OKOK Scale"
         }
     }
 }

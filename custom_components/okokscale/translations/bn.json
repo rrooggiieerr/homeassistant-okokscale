@@ -3,6 +3,7 @@
         "abort": {
             "already_configured": "ডিভাইস পূর্বে কনফিগার করা হয়েছে",
             "already_in_progress": "কনফিগারেশন বর্তমানে চলছে",
+            "migrated_to_core": "OKOK স্কেল এখন Home Assistant দ্বারা সমর্থিত। এর পরিবর্তে বিল্ট-ইন OKOK Scale ইন্টিগ্রেশন দিয়ে আপনার স্কেল যোগ করুন।",
             "no_devices_found": "কোনো ডিভাইস পাওয়া যায়নি",
             "not_supported": "ডিভাইস সমর্থিত নয়"
         },
@@ -24,6 +25,22 @@
             "impedance": {
                 "name": "প্রভাবিত"
             }
+        }
+    },
+    "issues": {
+        "migrate_to_core": {
+            "fix_flow": {
+                "abort": {
+                    "migration_failed": "{name}-কে বিল্ট-ইন OKOK Scale ইন্টিগ্রেশনে সরানো যায়নি। বিস্তারিত জানতে লগ দেখুন।"
+                },
+                "step": {
+                    "confirm": {
+                        "description": "OKOK স্কেল এখন Home Assistant দ্বারা সমর্থিত। {name}-কে এর ডিভাইস ও এনটিটিসহ বিল্ট-ইন OKOK Scale ইন্টিগ্রেশনে সরাতে নিশ্চিত করুন। এরপর আপনি OKOK Scale কাস্টম ইন্টিগ্রেশনটি সরিয়ে ফেলতে পারেন।",
+                        "title": "{name} বিল্ট-ইন OKOK Scale ইন্টিগ্রেশনে সরান"
+                    }
+                }
+            },
+            "title": "{name} বিল্ট-ইন OKOK Scale ইন্টিগ্রেশনে সরান"
         }
     }
 }
