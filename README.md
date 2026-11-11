@@ -3,9 +3,8 @@
 ![Python][python-shield]
 [![GitHub Release][releases-shield]][releases]
 [![Licence][license-shield]][license]
-[![Maintainer][maintainer-shield]][maintainer]
-[![Home Assistant][homeassistant-shield]][homeassistant]
-[![HACS][hacs-shield]][hacs]  
+[![Maintainer][maintainer-shield]][maintainer]  
+[![Home Assistant][homeassistant-shield]][homeassistant]  
 [![Github Sponsors][github-shield]][github]
 [![BuyMeCoffee][buymecoffee-shield]][buymecoffee]
 
@@ -43,25 +42,6 @@ improve the overview of supported scales.
 > [!NOTE]
 > This custom integration is only needed for Home Assistant versions older than 2026.11. As of
 > 2026.11 use the built-in [OKOK Scale integration](https://www.home-assistant.io/integrations/okok_scale/).
-
-### HACS
-
-The recommended way to install this Home Assistant integration is by using [HACS][hacs].
-Click the following button to open the integration directly on the HACS integration page.
-
-[![Install OKOK Scale from HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=rrooggiieerr&repository=homeassistant-okokscale&category=integration)
-
-Or follow these instructions:
-
-- Go to your **HACS** view in Home Assistant and then to **Integrations**
-- Open the **Custom repositories** menu
-- Add this repository URL to the **Custom repositories** and select
-**Integration** as the **Category**
-- Click **Add**
-- Close the **Custom repositories** menu
-- Select **+ Explore & download repositories** and search for *OKOK Scale*
-- Select **Download**
-- Restart Home Assistant
 
 ### Manually
 
@@ -122,8 +102,6 @@ I'm available for freelance development work. You can find my contact details on
 [maintainer-shield]: https://img.shields.io/badge/MAINTAINER-%40rrooggiieerr-41BDF5?style=for-the-badge
 [homeassistant]: https://www.home-assistant.io/
 [homeassistant-shield]: https://img.shields.io/badge/home%20assistant-%2341BDF5.svg?style=for-the-badge&logo=home-assistant&logoColor=white
-[hacs]: https://hacs.xyz/
-[hacs-shield]: https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge
 [buymecoffee]: https://www.buymeacoffee.com/rrooggiieerr
 [buymecoffee-shield]: https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black
 [github]: https://github.com/sponsors/rrooggiieerr
