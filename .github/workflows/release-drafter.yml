@@ -37,7 +37,7 @@ jobs:
           else
             echo "released=false" >> "$GITHUB_OUTPUT"
           fi
-      - uses: release-drafter/release-drafter@v7.10.0
+      - uses: release-drafter/release-drafter@v7.11.0
         if: steps.manifest.outputs.released == 'false'
         with:
           config-name: release-drafter.yml # the default, loads '.github/release-drafter.yml'
